@@ -1,4 +1,4 @@
-# Able
+# ABLE
 iOS app for CS371L to connect people that can help one another.
 
 
@@ -9,5 +9,5 @@ This will build the __Able.xcworkspace__ with the most updated dependencies from
 2. __IMPORTANT!__ Work in the __Able.xcworkspace__ workspace not __Able.xcodeproj__. The first one is the one with the Pods and dependencies 
 
 
-## TODO
+## To Do
 Will consider removing Able.xcodeproj from GitHub and leaving just Able.xcworkspace to avoid confusion.
