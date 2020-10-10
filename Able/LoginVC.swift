@@ -6,25 +6,46 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginVC: UIViewController {
 
+    @IBOutlet weak var usernameField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var displayError: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = .blue
-
-        // Do any additional setup after loading the view.
+        displayError.textColor = .red
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    //login with Firebase
+    @IBAction func loginButton(_ sender: Any) {
+        let email = usernameField.text!
+        let password = passwordField.text!
+        Auth.auth().signIn(withEmail: email, password: password) { [self] (authResult, error) in
+            if let error = error as NSError? {
+                displayMessage(text: "Error: \(error.localizedDescription)", color: .red)
+            } else {
+                displayMessage(text: "Login Successful", color: .black)
+                goHomeScreen()
+            }
+        }
     }
-    */
+    
+    // helper function to display login error messages
+    func displayMessage(text: String, color: UIColor){
+        self.displayError.textColor = color
+        self.displayError.text = text
+    }
+    
+    // go to home screen after successful login
+    func goHomeScreen(){
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "HomePageVC")
+        nextViewController.modalPresentationStyle = .fullScreen
+        self.present(nextViewController, animated:true, completion:nil)
+    }
+    
 
 }
