@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A37D7CA253104DC00B94D82 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A37D7C9253104DC00B94D82 /* GoogleService-Info.plist */; };
+		0A37D7FD2531295400B94D82 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A37D7FC2531295400B94D82 /* SignupViewController.swift */; };
 		0A983B9C2530EFF900F45A5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A983B9B2530EFF900F45A5F /* AppDelegate.swift */; };
 		0A983B9E2530EFF900F45A5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A983B9D2530EFF900F45A5F /* SceneDelegate.swift */; };
 		0A983BA02530EFF900F45A5F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A983B9F2530EFF900F45A5F /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		0A37D7C9253104DC00B94D82 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0A37D7D92531071000B94D82 /* Able.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Able.entitlements; sourceTree = "<group>"; };
+		0A37D7FC2531295400B94D82 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		0A983B982530EFF900F45A5F /* Able.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Able.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A983B9B2530EFF900F45A5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A983B9D2530EFF900F45A5F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +49,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A37D7FF25312B3D00B94D82 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0A983B9F2530EFF900F45A5F /* ViewController.swift */,
+				0A37D7FC2531295400B94D82 /* SignupViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		0A37D80725312CC600B94D82 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				0A983BA12530EFF900F45A5F /* Main.storyboard */,
+				0A983BA92530EFFA00F45A5F /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		0A37D80925312CDF00B94D82 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0A37D80725312CC600B94D82 /* Storyboards */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0A37D80A25312CF200B94D82 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				0A983B9D2530EFF900F45A5F /* SceneDelegate.swift */,
+				0A983B9B2530EFF900F45A5F /* AppDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		0A37D80B25312D1900B94D82 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				0A37D7D92531071000B94D82 /* Able.entitlements */,
+				0A983BA42530EFF900F45A5F /* Able.xcdatamodeld */,
+				0A37D7C9253104DC00B94D82 /* GoogleService-Info.plist */,
+				0A983BAC2530EFFA00F45A5F /* Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
 		0A983B8F2530EFF900F45A5F = {
 			isa = PBXGroup;
 			children = (
@@ -68,16 +116,11 @@
 		0A983B9A2530EFF900F45A5F /* Able */ = {
 			isa = PBXGroup;
 			children = (
-				0A37D7D92531071000B94D82 /* Able.entitlements */,
-				0A983B9B2530EFF900F45A5F /* AppDelegate.swift */,
-				0A983B9D2530EFF900F45A5F /* SceneDelegate.swift */,
-				0A983B9F2530EFF900F45A5F /* ViewController.swift */,
-				0A983BA12530EFF900F45A5F /* Main.storyboard */,
+				0A37D80A25312CF200B94D82 /* Delegates */,
+				0A37D80925312CDF00B94D82 /* Views */,
+				0A37D7FF25312B3D00B94D82 /* Controllers */,
 				0A983BA72530EFFA00F45A5F /* Assets.xcassets */,
-				0A983BA92530EFFA00F45A5F /* LaunchScreen.storyboard */,
-				0A37D7C9253104DC00B94D82 /* GoogleService-Info.plist */,
-				0A983BAC2530EFFA00F45A5F /* Info.plist */,
-				0A983BA42530EFF900F45A5F /* Able.xcdatamodeld */,
+				0A37D80B25312D1900B94D82 /* SupportingFiles */,
 			);
 			path = Able;
 			sourceTree = "<group>";
@@ -216,6 +259,7 @@
 			files = (
 				0A983BA02530EFF900F45A5F /* ViewController.swift in Sources */,
 				0A983BA62530EFF900F45A5F /* Able.xcdatamodeld in Sources */,
+				0A37D7FD2531295400B94D82 /* SignupViewController.swift in Sources */,
 				0A983B9C2530EFF900F45A5F /* AppDelegate.swift in Sources */,
 				0A983B9E2530EFF900F45A5F /* SceneDelegate.swift in Sources */,
 			);
@@ -368,7 +412,7 @@
 				CODE_SIGN_ENTITLEMENTS = Able/Able.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HPDMDSXL86;
-				INFOPLIST_FILE = Able/Info.plist;
+				INFOPLIST_FILE = Able/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -389,7 +433,7 @@
 				CODE_SIGN_ENTITLEMENTS = Able/Able.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HPDMDSXL86;
-				INFOPLIST_FILE = Able/Info.plist;
+				INFOPLIST_FILE = Able/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
