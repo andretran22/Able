@@ -249,6 +249,22 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2IM-1e-Rea">
+                                <rect key="frame" x="137" y="572" width="100" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Google Sign In"/>
+                                <connections>
+                                    <action selector="googleSignInPressed:" destination="OXR-9D-u0H" eventType="touchUpInside" id="UsG-r4-cGR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W4Z-Pu-u2M">
+                                <rect key="frame" x="128" y="534" width="118" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Facebook Sign In"/>
+                                <connections>
+                                    <action selector="facebookButtonAction:" destination="OXR-9D-u0H" eventType="touchUpInside" id="qR4-9f-dxU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="l8k-CJ-JP0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
