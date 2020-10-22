@@ -7,6 +7,8 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
+
 
 class SignupVC: UIViewController {
 
@@ -18,6 +20,9 @@ class SignupVC: UIViewController {
     @IBOutlet weak var confirmPassField: UITextField!
     @IBOutlet weak var cityField: UITextField!
     @IBOutlet weak var stateField: UITextField!
+    
+    let ref: DatabaseReference! = Database.database().reference()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +38,16 @@ class SignupVC: UIViewController {
                 displayMessage(text: "Error: \(error.localizedDescription)", color: .red)
             } else {
                 displayMessage(text: "Signed Up Successfully", color: .black)
+                let uid: String = Auth.auth().currentUser!.uid
+                //add data to database
+                ref.child("user/\(uid)").setValue([
+                    "username": "@" + usernameField.text!,
+                    "name": usernameField.text!,
+                    "city": cityField.text!,
+                    "state": stateField.text!,
+                    "notifications": true
+                ])
+                
                 goHomeScreen()
             }
         }

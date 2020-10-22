@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class HomePageVC: UIViewController {
 
@@ -13,9 +14,22 @@ class HomePageVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        Auth.auth().addStateDidChangeListener() {
+          auth, user in
+
+          if user != nil {
+            print("logged in")
+          }else{
+            print("logged out")
+          }
+        }
     }
     
 
+    @IBAction func settingButtonPressed(_ sender: Any) {
+        
+    }
     /*
     // MARK: - Navigation
 

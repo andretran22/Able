@@ -17,6 +17,7 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         displayError.textColor = .red
+        
     }
     
     //login with Firebase
@@ -29,6 +30,7 @@ class LoginVC: UIViewController {
             } else {
                 displayMessage(text: "Login Successful", color: .black)
                 goHomeScreen()
+                //dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -44,6 +46,7 @@ class LoginVC: UIViewController {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let nextViewController = storyBoard.instantiateViewController(withIdentifier: "HomePageVC")
         nextViewController.modalPresentationStyle = .fullScreen
+        
         self.present(nextViewController, animated:true, completion:nil)
     }
     
