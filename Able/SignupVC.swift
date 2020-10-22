@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 
 class SignupVC: UIViewController {
-
+    var ref: DatabaseReference!
     @IBOutlet weak var displayError: UILabel!
     
     @IBOutlet weak var usernameField: UITextField!
@@ -33,6 +33,7 @@ class SignupVC: UIViewController {
                 displayMessage(text: "Error: \(error.localizedDescription)", color: .red)
             } else {
                 displayMessage(text: "Signed Up Successfully", color: .black)
+                saveInfo()
                 goHomeScreen()
             }
         }
@@ -52,4 +53,15 @@ class SignupVC: UIViewController {
         self.present(nextViewController, animated:true, completion:nil)
     }
     
+    // save information to Firebase
+    func saveInfo() {
+        ref = Database.database().reference()
+        let user = Auth.auth().currentUser
+        guard let uid = user?.uid else { return }
+        let newUser = ref.child("user").child(uid)
+        newUser.child("username").setValue(usernameField.text!)
+        newUser.child("city").setValue(cityField.text!)
+        newUser.child("state").setValue(stateField.text!)
+        newUser.child("reviews").child("numReviews").setValue(0)
+    }
 }
