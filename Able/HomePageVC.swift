@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Firebase
+import FBSDKLoginKit
 
 class HomePageVC: UIViewController {
 
@@ -16,6 +18,26 @@ class HomePageVC: UIViewController {
     }
     
 
+    // tapped on logout button
+    @IBAction func logoutAction(_ sender: Any) {
+        
+        //Logout Facebook
+        FBSDKLoginKit.LoginManager().logOut()
+        
+        do {
+            //log out Firebase session
+            try FirebaseAuth.Auth.auth().signOut()
+            
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let nextViewController = storyBoard.instantiateViewController(withIdentifier: "LoginMainVC")
+            nextViewController.modalPresentationStyle = .fullScreen
+            self.present(nextViewController, animated:true, completion:nil)
+            
+        } catch  {
+            print("failed to logout")
+            
+        }
+    }
     /*
     // MARK: - Navigation
 
