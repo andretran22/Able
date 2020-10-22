@@ -463,48 +463,6 @@
             </objects>
             <point key="canvasLocation" x="4486.9565217391309" y="-100.78125"/>
         </scene>
-        <!--Home PageVC-->
-        <scene sceneID="L22-cs-tGt">
-            <objects>
-                <viewController storyboardIdentifier="HomePageVC" id="haQ-Ek-lI3" customClass="HomePageVC" customModule="Able" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="4bW-Bu-Hjp">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Log In Successful" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKv-uu-Lyu">
-                                <rect key="frame" x="20" y="44" width="251" height="149"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ve-ui-htn">
-                                <rect key="frame" x="175" y="447" width="65" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="To Profile"/>
-                                <connections>
-                                    <segue destination="162-pc-NU8" kind="show" id="N2U-kd-gKN"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Iwm-CJ-jdJ"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ym6-Nd-J8x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2826" y="1034"/>
-        </scene>
-        <!--Profile-->
-        <scene sceneID="bVQ-4c-ea8">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Profile" id="162-pc-NU8" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="Rnw-I1-lJa"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="X3C-S8-NzO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3558" y="1042"/>
-        </scene>
     </scenes>
     <resources>
         <image name="fb-logo" width="48" height="48"/>

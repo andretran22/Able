@@ -147,7 +147,7 @@ class LoginVC: UIViewController, LoginButtonDelegate, GIDSignInDelegate  {
     
     // Go to home screen after successful login
     func goHomeScreen(){
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyBoard: UIStoryboard = UIStoryboard(name: "HomePage", bundle: nil)
         let nextViewController = storyBoard.instantiateViewController(withIdentifier: "HomePageVC")
         nextViewController.modalPresentationStyle = .fullScreen
         self.present(nextViewController, animated:true, completion:nil)

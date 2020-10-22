@@ -11,7 +11,7 @@
         <!--ProfileVC-->
         <scene sceneID="xYL-13-kIY">
             <objects>
-                <viewController storyboardIdentifier="ProfileVC" id="508-UB-5ro" customClass="ProfileVC" customModule="Able" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="508-UB-5ro" customClass="ProfileVC" customModule="Able" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aIy-DX-WY1">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -72,7 +72,7 @@
                                 <segments>
                                     <segment title="Help"/>
                                     <segment title="Helper"/>
-                                    <segment title="saved"/>
+                                    <segment title="Saved"/>
                                 </segments>
                             </segmentedControl>
                         </subviews>
@@ -91,6 +91,7 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="aboutMeLabel" destination="txc-EC-eGm" id="qh3-JF-fY6"/>
                         <outlet property="locationLabel" destination="X7q-MS-kpB" id="Hey-nL-bJQ"/>
@@ -112,7 +113,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M3s-IY-hdS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1404" y="-311"/>
+            <point key="canvasLocation" x="1627" y="-386"/>
         </scene>
         <!--ReviewVC-->
         <scene sceneID="e91-SC-faj">
@@ -195,11 +196,14 @@
             </objects>
             <point key="canvasLocation" x="2560.8695652173915" y="93.75"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Profile-->
         <scene sceneID="4ye-7g-EjE">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="zOm-gB-ZW7" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3S5-im-bbJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController storyboardIdentifier="ProfileEntryVC" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zOm-gB-ZW7" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.circle" catalog="system" id="PoP-sZ-lpZ"/>
                     <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="GeV-Bn-dK0">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -209,7 +213,6 @@
                         <segue destination="508-UB-5ro" kind="relationship" relationship="rootViewController" id="p3N-Uz-wfY"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3S5-im-bbJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="105.79710144927537" y="94.419642857142847"/>
         </scene>
@@ -217,6 +220,7 @@
     <resources>
         <image name="empty profile" width="673" height="673"/>
         <image name="gearshape.fill" catalog="system" width="128" height="121"/>
+        <image name="person.circle" catalog="system" width="128" height="121"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
