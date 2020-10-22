@@ -15,14 +15,20 @@ class LoginVC: UIViewController, LoginButtonDelegate, GIDSignInDelegate  {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var displayError: UILabel!
+    @IBOutlet weak var facebookButton: UIButton!
+    @IBOutlet weak var googleButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         displayError.textColor = .red
+        facebookButton.setImage(UIImage(named: "fb-logo"), for: .normal)
+        facebookButton.tintColor = .black
+        
+        googleButton.setImage(UIImage(named: "google-logo"), for: .normal)
+        googleButton.tintColor = .black
         
         // Check if user still signed in with Facebook
-        if let token = AccessToken.current,
-           !token.isExpired {
+        if AccessToken.isCurrentAccessTokenActive{
             goHomeScreen()
         }
         
@@ -38,6 +44,8 @@ class LoginVC: UIViewController, LoginButtonDelegate, GIDSignInDelegate  {
     
     // Facebook button action
     @IBAction func facebookButtonAction(_ sender: Any) {
+        FBSDKLoginKit.LoginManager().logOut()
+        print("hello thereeee")
         let loginButton = FBLoginButton()
         loginButton.delegate = self
         loginButton.permissions = ["public_profile", "email"]
@@ -52,6 +60,7 @@ class LoginVC: UIViewController, LoginButtonDelegate, GIDSignInDelegate  {
     
     // Facebook login action
     func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+        print("yoooo")
         if let error = error {
             print(error.localizedDescription)
             return
@@ -66,6 +75,23 @@ class LoginVC: UIViewController, LoginButtonDelegate, GIDSignInDelegate  {
                 return
             }
             print("Login success!")
+            
+            // Get email and name from Facebook using Graph Request API
+            let requestedFields = "email, first_name, last_name"
+            GraphRequest.init(graphPath: "me", parameters: ["fields":requestedFields]).start { (connection, result, error) -> Void in
+                if error != nil {
+                        NSLog(error.debugDescription)
+                        return
+                    }
+                    print(result)
+
+                    // getting and fb id to store and pass
+                    if let result = result as? [String:String],
+                        let email: String = result["email"],
+                        let fbId: String = result["id"] {
+                    }
+            }
+            
             self.goHomeScreen()
         }
     }
@@ -127,4 +153,9 @@ class LoginVC: UIViewController, LoginButtonDelegate, GIDSignInDelegate  {
         self.present(nextViewController, animated:true, completion:nil)
     }
     
+    // This closes the keyboard when touch is detected outside of the keyboard
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
+    }
 }
