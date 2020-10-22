@@ -154,10 +154,10 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
        
         ref.child("user").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             if let getData = snapshot.value as? [String:Any] {
-                let username = getData["username"] as? String
+                let name = getData["name"] as? String
                 let city = getData["city"] as? String
                 let state = getData["state"] as? String
-                self.nameLabel.text = username
+                self.nameLabel.text = name
                 self.locationLabel.text = "\(city ?? ""), \(state ?? "")"
             }
           }) { (error) in

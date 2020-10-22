@@ -111,6 +111,7 @@ class SignupVC: UIViewController {
         guard let uid = user?.uid else { return }
         let newUser = ref.child("user").child(uid)
         newUser.child("username").setValue(usernameField.text!)
+        newUser.child("name").setValue("\(firstnameField.text!) \(lastnameField.text!)")
         newUser.child("city").setValue(cityField.text!)
         newUser.child("state").setValue(stateField.text!)
         newUser.child("reviews").child("numReviews").setValue(0)

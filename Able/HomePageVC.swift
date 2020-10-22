@@ -7,7 +7,6 @@
 
 import UIKit
 import Firebase
-import FBSDKLoginKit
 
 class HomePageVC: UIViewController {
 
@@ -20,9 +19,6 @@ class HomePageVC: UIViewController {
 
     // tapped on logout button
     @IBAction func logoutAction(_ sender: Any) {
-        
-        //Logout Facebook
-        FBSDKLoginKit.LoginManager().logOut()
         
         do {
             //log out Firebase session

@@ -23,6 +23,9 @@
 		7C9E79122541F73700595A8E /* AddReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E79112541F73700595A8E /* AddReviewVC.swift */; };
 		7C9E79152541F75200595A8E /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E79142541F75200595A8E /* Profile.storyboard */; };
 		C6F8ADE4BDD85D6AE5AD3C02 /* Pods_Able.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B56148F9F650324A0C3258D7 /* Pods_Able.framework */; };
+		D1A3AF9A25421A0E00CA7FDA /* SettingScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1A3AF9925421A0E00CA7FDA /* SettingScreen.storyboard */; };
+		D1A3AF9D25421A4D00CA7FDA /* SettingsVCs in Resources */ = {isa = PBXBuildFile; fileRef = D1A3AF9C25421A4D00CA7FDA /* SettingsVCs */; };
+		D1A3AFA12542242A00CA7FDA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A3AFA02542242A00CA7FDA /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +49,9 @@
 		7C9E79112541F73700595A8E /* AddReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewVC.swift; sourceTree = "<group>"; };
 		7C9E79142541F75200595A8E /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		B56148F9F650324A0C3258D7 /* Pods_Able.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Able.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1A3AF9925421A0E00CA7FDA /* SettingScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingScreen.storyboard; sourceTree = "<group>"; };
+		D1A3AF9C25421A4D00CA7FDA /* SettingsVCs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SettingsVCs; sourceTree = "<group>"; };
+		D1A3AFA02542242A00CA7FDA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		ED934EF0DAB263AE62940B5D /* Pods-Able.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Able.debug.xcconfig"; path = "Target Support Files/Pods-Able/Pods-Able.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,9 +77,10 @@
 		0A37D80725312CC600B94D82 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				0A983BA92530EFFA00F45A5F /* LaunchScreen.storyboard */,
 				0A983BA12530EFF900F45A5F /* Main.storyboard */,
 				7C9E79142541F75200595A8E /* Profile.storyboard */,
-				0A983BA92530EFFA00F45A5F /* LaunchScreen.storyboard */,
+				D1A3AF9925421A0E00CA7FDA /* SettingScreen.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -139,6 +146,8 @@
 				7C9E790A2541F6E700595A8E /* ProfileVC.swift */,
 				7C9E790E2541F71600595A8E /* ReviewVC.swift */,
 				7C9E79112541F73700595A8E /* AddReviewVC.swift */,
+				D1A3AFA02542242A00CA7FDA /* SettingsViewController.swift */,
+				D1A3AF9C25421A4D00CA7FDA /* SettingsVCs */,
 			);
 			path = Able;
 			sourceTree = "<group>";
@@ -221,8 +230,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A983BAB2530EFFA00F45A5F /* LaunchScreen.storyboard in Resources */,
+				D1A3AF9D25421A4D00CA7FDA /* SettingsVCs in Resources */,
 				0AC31EB2253969D50084E927 /* GoogleService-Info.plist in Resources */,
 				7C9E79152541F75200595A8E /* Profile.storyboard in Resources */,
+				D1A3AF9A25421A0E00CA7FDA /* SettingScreen.storyboard in Resources */,
 				0A983BA82530EFFA00F45A5F /* Assets.xcassets in Resources */,
 				0A983BA32530EFF900F45A5F /* Main.storyboard in Resources */,
 			);
@@ -296,6 +307,7 @@
 			files = (
 				7C9E79122541F73700595A8E /* AddReviewVC.swift in Sources */,
 				0A37D82C2531531C00B94D82 /* SignupVC.swift in Sources */,
+				D1A3AFA12542242A00CA7FDA /* SettingsViewController.swift in Sources */,
 				7C9E790F2541F71600595A8E /* ReviewVC.swift in Sources */,
 				0A983BA62530EFF900F45A5F /* Able.xcdatamodeld in Sources */,
 				0A983B9C2530EFF900F45A5F /* AppDelegate.swift in Sources */,

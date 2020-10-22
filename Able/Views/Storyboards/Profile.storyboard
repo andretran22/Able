@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zOm-gB-ZW7">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -79,7 +79,18 @@
                         <viewLayoutGuide key="safeArea" id="WWl-CX-SMx"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="G9h-GD-6eR"/>
+                    <navigationItem key="navigationItem" id="G9h-GD-6eR">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="Qy3-0s-Zlc">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nAh-Qh-eE2" userLabel="Settings Button">
+                                <rect key="frame" x="292" y="0.0" width="102" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="gearshape.fill" catalog="system"/>
+                                <connections>
+                                    <segue destination="FLg-xt-fxY" kind="show" id="NAe-mV-dwC"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="aboutMeLabel" destination="txc-EC-eGm" id="qh3-JF-fY6"/>
                         <outlet property="locationLabel" destination="X7q-MS-kpB" id="Hey-nL-bJQ"/>
@@ -92,6 +103,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OCl-DJ-tzp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1015.9420289855074" y="94.419642857142847"/>
+        </scene>
+        <!--SettingsViewController-->
+        <scene sceneID="b98-YI-qtQ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SettingScreen" referencedIdentifier="SettingsViewController" id="FLg-xt-fxY" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Dsw-MA-Xhe"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M3s-IY-hdS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1404" y="-311"/>
         </scene>
         <!--ReviewVC-->
         <scene sceneID="e91-SC-faj">
@@ -177,7 +198,7 @@
         <!--Navigation Controller-->
         <scene sceneID="4ye-7g-EjE">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zOm-gB-ZW7" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="zOm-gB-ZW7" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="GeV-Bn-dK0">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -195,6 +216,7 @@
     </scenes>
     <resources>
         <image name="empty profile" width="673" height="673"/>
+        <image name="gearshape.fill" catalog="system" width="128" height="121"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
