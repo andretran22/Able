@@ -31,6 +31,8 @@
 		D1A3AFE525422A6100CA7FDA /* HelpFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A3AFE025422A6100CA7FDA /* HelpFeedVC.swift */; };
 		D1A3AFE625422A6100CA7FDA /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A3AFE125422A6100CA7FDA /* Post.swift */; };
 		D1A3AFE725422A6100CA7FDA /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A3AFE225422A6100CA7FDA /* PostCell.swift */; };
+		D1FAFE7A2548EE4A0086F074 /* Notifications.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1FAFE792548EE4A0086F074 /* Notifications.storyboard */; };
+		D1FAFE7D2548EE540086F074 /* Messages.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1FAFE7C2548EE540086F074 /* Messages.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +64,8 @@
 		D1A3AFE025422A6100CA7FDA /* HelpFeedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpFeedVC.swift; sourceTree = "<group>"; };
 		D1A3AFE125422A6100CA7FDA /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		D1A3AFE225422A6100CA7FDA /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
+		D1FAFE792548EE4A0086F074 /* Notifications.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Notifications.storyboard; sourceTree = "<group>"; };
+		D1FAFE7C2548EE540086F074 /* Messages.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Messages.storyboard; sourceTree = "<group>"; };
 		ED934EF0DAB263AE62940B5D /* Pods-Able.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Able.debug.xcconfig"; path = "Target Support Files/Pods-Able/Pods-Able.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,8 +84,10 @@
 		0A37D7FF25312B3D00B94D82 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D1FAFE802548EE9B0086F074 /* Messages Page */,
 				D1A3AFEA25423BDF00CA7FDA /* Home Page */,
 				D1A3AFE925423BA500CA7FDA /* Login and Sign Up Page */,
+				D1FAFE7F2548EE820086F074 /* Notifications Page */,
 				D1A3AFEC25423C0B00CA7FDA /* Post */,
 				D1A3AFED25423C3100CA7FDA /* Profile Page */,
 				D1A3AFEF25423C8300CA7FDA /* Reviews Page */,
@@ -98,6 +104,8 @@
 				D1A3AFDA25422A0600CA7FDA /* HomePage.storyboard */,
 				7C9E79142541F75200595A8E /* Profile.storyboard */,
 				D1A3AF9925421A0E00CA7FDA /* SettingScreen.storyboard */,
+				D1FAFE792548EE4A0086F074 /* Notifications.storyboard */,
+				D1FAFE7C2548EE540086F074 /* Messages.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -232,6 +240,20 @@
 			path = "Reviews Page";
 			sourceTree = "<group>";
 		};
+		D1FAFE7F2548EE820086F074 /* Notifications Page */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Notifications Page";
+			sourceTree = "<group>";
+		};
+		D1FAFE802548EE9B0086F074 /* Messages Page */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Messages Page";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -292,7 +314,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1FAFE7D2548EE540086F074 /* Messages.storyboard in Resources */,
 				0A983BAB2530EFFA00F45A5F /* LaunchScreen.storyboard in Resources */,
+				D1FAFE7A2548EE4A0086F074 /* Notifications.storyboard in Resources */,
 				0AC31EB2253969D50084E927 /* GoogleService-Info.plist in Resources */,
 				7C9E79152541F75200595A8E /* Profile.storyboard in Resources */,
 				D1A3AF9A25421A0E00CA7FDA /* SettingScreen.storyboard in Resources */,
