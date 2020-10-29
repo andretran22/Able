@@ -457,11 +457,22 @@
                         <outlet property="googleButton" destination="2IM-1e-Rea" id="pBv-7d-JQL"/>
                         <outlet property="passwordField" destination="0UL-NO-eb0" id="BiG-2y-ij3"/>
                         <outlet property="usernameField" destination="6fC-jg-5Jc" id="vRe-6U-1mL"/>
+                        <segue destination="2AF-i2-EjC" kind="show" identifier="segueToOnboard" id="oka-j9-iER"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CVx-vc-TDm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4486.9565217391309" y="-100.78125"/>
+            <point key="canvasLocation" x="4487" y="-105"/>
+        </scene>
+        <!--OnboardingVC-->
+        <scene sceneID="AjR-Ms-MDr">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Onboarding" referencedIdentifier="OnboardingVC" id="2AF-i2-EjC" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="H9z-1R-8sQ"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W1e-Hp-5rq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5158" y="-217"/>
         </scene>
     </scenes>
     <resources>

@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 import FBSDKLoginKit
+import GoogleSignIn
 
 class SettingsViewController: UIViewController {
     
@@ -170,6 +171,10 @@ class SettingsViewController: UIViewController {
     func logoutUser() {
         //Logout Facebook
         FBSDKLoginKit.LoginManager().logOut()
+        
+        //logout Google
+        GIDSignIn.sharedInstance()?.signOut()
+        
         do { try Auth.auth().signOut() }
         catch { print("already logged out") }
     }

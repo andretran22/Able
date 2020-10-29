@@ -29,12 +29,12 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ebc-O5-ebO" firstAttribute="centerX" secondItem="QgF-4S-VOO" secondAttribute="centerX" id="3lU-Tz-RbT"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="QgF-4S-VOO" secondAttribute="bottom" constant="299" id="HGS-nu-wI8"/>
-                            <constraint firstItem="QgF-4S-VOO" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="f9K-mW-Wdx"/>
-                            <constraint firstItem="ebc-O5-ebO" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="hIk-tp-dYF"/>
-                            <constraint firstItem="QgF-4S-VOO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="i3Q-6x-xHY"/>
-                            <constraint firstItem="ebc-O5-ebO" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="165" id="ncj-O5-IGW"/>
+                            <constraint firstItem="ebc-O5-ebO" firstAttribute="centerX" secondItem="QgF-4S-VOO" secondAttribute="centerX" id="598-N1-aAS"/>
+                            <constraint firstItem="ebc-O5-ebO" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="LTq-2Z-zRC"/>
+                            <constraint firstItem="ebc-O5-ebO" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="165" id="Tv9-QL-H7g"/>
+                            <constraint firstItem="QgF-4S-VOO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="dOp-EW-n53"/>
+                            <constraint firstItem="QgF-4S-VOO" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="gO0-37-Tmh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="QgF-4S-VOO" secondAttribute="bottom" constant="299" id="pn3-MT-FiG"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -44,7 +44,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="heart-hand" width="512" height="476"/>
+        <image name="heart-hand" width="1329" height="1242"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

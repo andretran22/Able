@@ -31,17 +31,18 @@ class SignupVC: UIViewController {
     // sign up with Firebase
     @IBAction func signUpButton(_ sender: Any) {
         if checkEmptyFields() {
-        let email = emailField.text!
-        let password = passwordField.text!
-        Auth.auth().createUser(withEmail: email, password: password) { [self] authResult, error in
-            if let error = error as NSError? {
-                displayMessage(text: "Error: \(error.localizedDescription)")
-            } else {
-                displayMessage(text: "Signed Up Successfully")
-                saveInfo()
-                goHomeScreen()
+            let email = emailField.text!
+            let password = passwordField.text!
+            Auth.auth().createUser(withEmail: email, password: password) { [self] authResult, error in
+                if let error = error as NSError? {
+                    displayMessage(text: "Error: \(error.localizedDescription)")
+                } else {
+                    displayMessage(text: "Signed Up Successfully")
+                    //                saveInfo()
+                    saveToDatabase()
+                    goHomeScreen()
+                }
             }
-        }
         }
     }
     
@@ -115,6 +116,18 @@ class SignupVC: UIViewController {
         newUser.child("city").setValue(cityField.text!)
         newUser.child("state").setValue(stateField.text!)
         newUser.child("reviews").child("numReviews").setValue(0)
+    }
+    
+    func saveToDatabase() {
+        DatabaseManager.shared.insertUser(with: AbleUser(
+            firstName: firstnameField.text!,
+            lastName: lastnameField.text!,
+            emailAddress: emailField.text!,
+            username: usernameField.text!,
+            city: cityField.text!,
+            state: stateField.text!
+        )
+        )
     }
     // This closes the keyboard when touch is detected outside of the keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
