@@ -20,7 +20,7 @@ class SignupVC: UIViewController {
     @IBOutlet weak var confirmPassField: UITextField!
     @IBOutlet weak var cityField: UITextField!
     @IBOutlet weak var stateField: UITextField!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         displayError.textColor = .red
@@ -30,18 +30,26 @@ class SignupVC: UIViewController {
     
     // sign up with Firebase
     @IBAction func signUpButton(_ sender: Any) {
-        if checkEmptyFields() {
+        if checkEmptyFields(){
             let email = emailField.text!
+            let username = usernameField.text!
             let password = passwordField.text!
-            Auth.auth().createUser(withEmail: email, password: password) { [self] authResult, error in
-                if let error = error as NSError? {
-                    displayMessage(text: "Error: \(error.localizedDescription)")
-                } else {
-                    displayMessage(text: "Signed Up Successfully")
-                    //                saveInfo()
-                    saveToDatabase()
-                    goHomeScreen()
+            
+            //check if username taken
+            DatabaseManager.shared.usernameTaken(with: username) { (exists) in
+                if !exists { //username not taken
+                    Auth.auth().createUser(withEmail: email, password: password) { [self] authResult, error in
+                        if let error = error as NSError? {
+                            displayMessage(text: "Error: \(error.localizedDescription)")
+                        } else {
+                            displayMessage(text: "Signed Up Successfully")
+                            saveToDatabase()
+                            goHomeScreen()
+                        }
+                    }
                 }
+                self.displayMessage(text: "Username is taken. Enter another.")
+                return
             }
         }
     }
@@ -88,6 +96,7 @@ class SignupVC: UIViewController {
             displayMessage(text: "Please enter a state")
             return false
         }
+        
         return true
     }
     

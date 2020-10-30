@@ -26,6 +26,8 @@ final class DatabaseManager {
 
 extension DatabaseManager {
     
+    // check if user exists in realtime database
+    /// passes false to completion handler to indicate user does NOT exist.
     public func userExists(with email: String,
                            completion: @escaping ((Bool) -> Void)) {
         
@@ -41,6 +43,21 @@ extension DatabaseManager {
         
     }
     
+    
+    // check if username is taken in realtitme database
+    /// passes false to completion handler to indicate username is NOT taken.
+    public func usernameTaken(with username: String,
+                              completion: @escaping ((Bool) -> Void)){
+        
+        database.child("usernames").child(username).observeSingleEvent(of: .value, with: { snapshot in
+            guard snapshot.value as? [String: Any] != nil else {
+                completion(false)
+                return
+            }
+             completion(true)
+        })
+    }
+    
     /// Insert new user into the database
     public func insertUser(with user: AbleUser){
         database.child("users").child(user.safeEmail).setValue([
@@ -49,6 +66,10 @@ extension DatabaseManager {
             "user_name": user.username,
             "city": user.city,
             "state": user.state
+        ])
+        
+        database.child("usernames").child(user.username).setValue([
+            "email": user.safeEmail
         ])
     }
 }

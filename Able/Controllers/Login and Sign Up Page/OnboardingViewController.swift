@@ -21,7 +21,6 @@ class OnboardingViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        print("state: \(self.email), \(self.firstname), \(self.lastname)")
     }
     
     // continue to home page after entering additional info
@@ -39,11 +38,26 @@ class OnboardingViewController: UIViewController{
             return
         }
         
-        insertToDatabase(username:username, city:city, state:state)
-        goToHome()
+        checkUniqueUsername(username: username, city: city, state: state)
+        
     }
     
-    //insert into database once we have all the necessary info
+    //check if username exists
+    func checkUniqueUsername(username:String, city:String, state:String){
+        DatabaseManager.shared.usernameTaken(with: username) { exists in
+            if !exists{
+                self.insertToDatabase(username:username, city:city, state:state)
+                self.goToHome()
+            } else {
+                self.displayMessage(text: "This username is taken, enter a different one")
+            }
+        }
+    }
+    
+   
+    
+    
+    // insert into database once we have all the necessary info
     func insertToDatabase(username:String, city:String, state:String){
         let newUser = AbleUser( firstName: firstname,
                                 lastName: lastname,
