@@ -31,7 +31,12 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
         super.viewDidLoad()
         collectionViewTags.delegate = self
         collectionViewTags.dataSource = self
+    
+        // create global user for reference once signed up or logged in
+        DatabaseManager.shared.setPublicUser()
+        
     }
+    
     
     @IBAction func switchViews(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {

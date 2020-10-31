@@ -12,6 +12,7 @@ import GoogleSignIn
 import FBSDKLoginKit
 
 
+
 class LoginVC: UIViewController, LoginButtonDelegate, GIDSignInDelegate  {
     
     @IBOutlet weak var usernameField: UITextField!
@@ -152,6 +153,7 @@ class LoginVC: UIViewController, LoginButtonDelegate, GIDSignInDelegate  {
                 displayMessage(text: "Error: \(error.localizedDescription)", color: .red)
             } else {
                 displayMessage(text: "Login Successful", color: .black)
+                publicCurrentUserEmail = email
                 goHomeScreen()
             }
         }
@@ -159,6 +161,7 @@ class LoginVC: UIViewController, LoginButtonDelegate, GIDSignInDelegate  {
     
     // check if user exists in database already. If not, take them to onboarding to fill out more info
     func checkInDatabase(for email:String, firstname:String, lastname:String) {
+        publicCurrentUserEmail = email
         DatabaseManager.shared.userExists(with: email) { exists in
             if !exists{
                 let info = ["email": email, "first": firstname, "last": lastname]

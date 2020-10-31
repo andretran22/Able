@@ -49,13 +49,20 @@ extension DatabaseManager {
     public func usernameTaken(with username: String,
                               completion: @escaping ((Bool) -> Void)){
         
-        database.child("usernames").child(username).observeSingleEvent(of: .value, with: { snapshot in
-            guard snapshot.value as? [String: Any] != nil else {
-                completion(false)
-                return
+        database.child("users").observe(.value) { snapshot in
+            for email in snapshot.children{
+                if let emailSnapshot = email as? DataSnapshot,
+                   let dict = emailSnapshot.value as? [String:Any]{
+                        let other_username = dict["user_name"] as? String
+                        if other_username == username {
+                            print("\(username) matches: \(other_username)")
+                            completion(true)
+                            return
+                        }
+                }
             }
-             completion(true)
-        })
+            completion(false)
+        }
     }
     
     /// Insert new user into the database
@@ -68,26 +75,51 @@ extension DatabaseManager {
             "state": user.state
         ])
         
-        database.child("usernames").child(user.username).setValue([
-            "email": user.safeEmail
-        ])
+    }
+    
+    
+    public func setPublicUser(){
+        guard let email = publicCurrentUserEmail else {
+            print("Public email not set")
+            return
+        }
+        let safeE = DatabaseManager.safeEmail(emailAddress: email)
+        database.child("users").child(safeE).observeSingleEvent(of: .value) { snapshot in
+            guard let dict = snapshot.value as? [String: Any],
+                  let firstname = dict["first_name"] as? String,
+                  let lastname = dict["last_name"] as? String,
+                  let username = dict["user_name"] as? String,
+                  let city = dict["city"] as? String,
+                  let state = dict["state"] as? String else {
+                print("Could not retrive user data from Firebase")
+                return
+            }
+
+            publicCurrentUser = AbleUser(firstName: firstname,
+                                          lastName: lastname,
+                                          emailAddress: email,
+                                          username: username,
+                                          city: city,
+                                          state: state)
+            publicCurrentUser?.printInfo()
+        }
     }
 }
 
 
-struct AbleUser {
-    let firstName: String
-    let lastName: String
-    let emailAddress: String
-    let username: String
-    let city: String
-    let state: String
-    //    let profilePicUrl: String
-    
-    var safeEmail: String {
-        var safeEmail = emailAddress.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-        return safeEmail
-    }
-    
-}
+//struct AbleUser {
+//    let firstName: String
+//    let lastName: String
+//    let emailAddress: String
+//    let username: String
+//    let city: String
+//    let state: String
+//    //    let profilePicUrl: String
+//    
+//    var safeEmail: String {
+//        var safeEmail = emailAddress.replacingOccurrences(of: ".", with: "-")
+//        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+//        return safeEmail
+//    }
+//    
+//}
