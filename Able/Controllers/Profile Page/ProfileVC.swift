@@ -22,6 +22,9 @@ class ProfileVC: UIViewController {
     // use this variable once we set up the segues
     var passedInUid = String()
     
+    // user's profile
+    var user: AbleUser?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,16 +34,25 @@ class ProfileVC: UIViewController {
         imagePicker.sourceType = .photoLibrary
         imagePicker.delegate = self
         
+        // if user is nil, then use publicCurrentUser
+        if (user == nil) {
+            user = publicCurrentUser
+        }
+        print("CURRENTLY VIEWING THIS USER")
+        user?.printInfo()
+        
         // TODO: change this once segues properly set up
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        displayInfo(uid: uid)
+        displayInfo()
+//        displayInfo(uid: uid)
         setRating(uid: uid)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         // TODO: change this once segues properly set up
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        displayInfo(uid: uid)
+        displayInfo()
+//        displayInfo(uid: uid)
         setRating(uid: uid)
     }
     
@@ -147,23 +159,28 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
         }
     }
     
-    // get user data from Firebase realtime Database and display on screen
-    // TODO: implement displaying other people's profiles
-    func displayInfo(uid: String) {
-        ref = Database.database().reference()
-       
-        ref.child("user").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-            if let getData = snapshot.value as? [String:Any] {
-                let name = getData["name"] as? String
-                let city = getData["city"] as? String
-                let state = getData["state"] as? String
-                self.nameLabel.text = name
-                self.locationLabel.text = "\(city ?? ""), \(state ?? "")"
-            }
-          }) { (error) in
-            print(error.localizedDescription)
-        }
+    func displayInfo() {
+        self.nameLabel.text = "\(user!.firstName!) \(user!.lastName!)"
+        self.locationLabel.text = "\(user!.city!), \(user!.state!)"
     }
+    
+//    // get user data from Firebase realtime Database and display on screen
+//    // TODO: implement displaying other people's profiles
+//    func displayInfo(uid: String) {
+//        ref = Database.database().reference()
+//
+//        ref.child("user").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+//            if let getData = snapshot.value as? [String:Any] {
+//                let name = getData["name"] as? String
+//                let city = getData["city"] as? String
+//                let state = getData["state"] as? String
+//                self.nameLabel.text = name
+//                self.locationLabel.text = "\(city ?? ""), \(state ?? "")"
+//            }
+//          }) { (error) in
+//            print(error.localizedDescription)
+//        }
+//    }
     
     // helper for changeProfileImage to put uploaded image to Firebase Storage
     func uploadProfileImage(_ image:UIImage, completion: @escaping ((_ url: URL?)->())) {

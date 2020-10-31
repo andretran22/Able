@@ -8,49 +8,105 @@
 import UIKit
 import Firebase
 
-class CreatePostVC: UIViewController {
+class CreatePostTagCollectionViewCell: UICollectionViewCell {
+    @IBOutlet weak var tagLabel: UILabel!
+}
+    
+class CreatePostVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
 
+    @IBOutlet weak var collectionViewTags: UICollectionView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var segCtrlFeed: UISegmentedControl!
-    @IBOutlet weak var postTextField: UITextField!
+    @IBOutlet weak var postTextView: UITextView!
+    @IBOutlet weak var postButton: UIButton!
+    
+    let placeholderText = "Write something here..."
+    let tagIdentifier = "CreatePostTagCell"
     
     var ref: DatabaseReference!
+    var tags = DEFAULT_TAGS
+    var tagColors = DEFAULT_COLOR_TAGS
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        displayInfo(uid: uid)
+        
+        // set up text view properly
+        postTextView.delegate = self
+        stylePage()
+        
+        collectionViewTags.delegate = self
+        collectionViewTags.dataSource = self
+    }
+    
+    func stylePage() {
+        // textViewStyle
+        postTextView.layer.cornerRadius = 10
+        postTextView.text = placeholderText
+        postTextView.textColor = UIColor.lightGray
+        
+        // button style
+        postButton.layer.cornerRadius = 4
+        
+        self.nameLabel.text = "\(publicCurrentUser!.firstName!) \(publicCurrentUser!.lastName!)"
+        self.locationLabel.text = "\(publicCurrentUser!.city!), \(publicCurrentUser!.state!)"
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = placeholderText
+            textView.textColor = UIColor.lightGray
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.tags.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // get a reference to our storyboard cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagIdentifier, for: indexPath as IndexPath) as! CreatePostTagCollectionViewCell
+        
+        let row = indexPath.row
+        // Use the outlet in our custom class to get a reference to the UILabel in the cell
+        cell.tagLabel.text = self.tags[row] // The row value is the same as the index of the desired text within the array.
+        cell.backgroundColor = self.tagColors[row] // make cell more visible in our example project
+        cell.layer.cornerRadius = 8
+        return cell
     }
     
     // when clicked, check for segCtrlFeed and
     @IBAction func postButtonClicked(_ sender: Any) {
-        let currentUser = User(username: nameLabel.text, profileImage: UIImage(named: "default"))
         
-        let newPost = Post(createdBy: currentUser, timeAgo: "Just now", caption: postTextField.text, image: UIImage(named: "1"), numberOfComments: 0)
+        var postRef = Database.database().reference().child("posts")
         
         if (segCtrlFeed.selectedSegmentIndex == 0) {
-            Post.addHelpPost(post: newPost)
+            postRef = postRef.child("helpPosts").childByAutoId()
         } else {
-            Post.addHelperPost(post: newPost)
+            postRef = postRef.child("helperPosts").childByAutoId()
         }
-    }
-    
-    // get user data from Firebase realtime Database and display on screen
-    // TODO: implement displaying other people's profiles
-    func displayInfo(uid: String) {
-        ref = Database.database().reference()
-       
-        ref.child("user").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-            if let getData = snapshot.value as? [String:Any] {
-                let name = getData["name"] as? String
-                let city = getData["city"] as? String
-                let state = getData["state"] as? String
-                self.nameLabel.text = name
-                self.locationLabel.text = "\(city ?? ""), \(state ?? "")"
+
+        let postObject = [
+            "userKey": publicCurrentUser!.safeEmail,
+            "authorName": "\(publicCurrentUser!.firstName!) \(publicCurrentUser!.lastName!)",
+            "location": "\(publicCurrentUser!.city!), \(publicCurrentUser!.state!)",
+            "text": postTextView.text!,
+            "timestamp": [".sv": "timestamp"]
+        ] as [String: Any]
+        
+        postRef.setValue(postObject, withCompletionBlock: { error, ref in
+            if error == nil {
+                // self.dismiss(animated: true, completion: nil)
+            } else {
+                // handle the error
             }
-          }) { (error) in
-            print(error.localizedDescription)
-        }
+        })
     }
 }

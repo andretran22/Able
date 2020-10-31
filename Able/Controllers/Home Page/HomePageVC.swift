@@ -14,8 +14,7 @@ class TagCollectionViewCell: UICollectionViewCell {
 let DEFAULT_TAGS = ["Food", "Water", "Clothes", "Toiletries", "Medicine", "Toys",
                     "Furniture", "Tech", "Other"]
 
-let DEFAULT_COLOR_TAGS = [UIColor.systemBlue, UIColor.systemPurple, UIColor.systemGreen, UIColor.systemPink,                        UIColor.green, UIColor.systemYellow,
-                      UIColor.systemOrange, UIColor.blue, UIColor.magenta]
+let DEFAULT_COLOR_TAGS = [UIColor.systemBlue, UIColor.systemPurple, UIColor.systemGreen, UIColor.systemPink, UIColor.green, UIColor.systemYellow, UIColor.systemOrange, UIColor.blue, UIColor.magenta]
 
 class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -23,7 +22,7 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
     @IBOutlet weak var helperFeedContainer: UIView!
     @IBOutlet weak var collectionViewTags: UICollectionView!
     
-    let tagIndentifier = "TagCellIdentifier"
+    let tagIdentifier = "TagCellIdentifier"
     var tags = DEFAULT_TAGS
     var tagColors = DEFAULT_COLOR_TAGS
     
@@ -34,9 +33,7 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
         // create global user for reference once signed up or logged in
         DatabaseManager.shared.setPublicUser()
-        
     }
-    
     
     @IBAction func switchViews(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
@@ -62,7 +59,7 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // get a reference to our storyboard cell
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagIndentifier, for: indexPath as IndexPath) as! TagCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagIdentifier, for: indexPath as IndexPath) as! TagCollectionViewCell
         
         let row = indexPath.row
         // Use the outlet in our custom class to get a reference to the UILabel in the cell

@@ -9,12 +9,13 @@ import UIKit
 
 class PostCell: UITableViewCell {
     
-    @IBOutlet weak var timeAgoLabel: UILabel!
-    @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var postImageView: UIImageView!
+    @IBOutlet weak var usernameButton: UIButton!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var timeAgoLabel: UILabel!
     @IBOutlet weak var captionLabel: UILabel!
     @IBOutlet weak var postStatsLabel: UILabel!
+//    @IBOutlet weak var postImageView: UIImageView!
     
     var post: Post! {
         didSet {
@@ -23,10 +24,17 @@ class PostCell: UITableViewCell {
     }
     
     func updateUI() {
-        profileImageView.image = post.createdBy.profileImage
-        usernameLabel.text = post.createdBy.username
-        timeAgoLabel.text = post.timeAgo
-        captionLabel.text = post.caption
-        postStatsLabel.text = "\(post.numberOfComments!) Comments"
+        usernameButton.setTitle("\(post.authorName)", for: .normal)
+        locationLabel.text = post.location
+        timeAgoLabel.text = post.createdAt.calenderTimeSinceNow()
+        captionLabel.text = post.text
+//        postStatsLabel.text = "\(post.numberOfComments!)"
+    //        profileImageView.image = post.createdBy.profileImage
+    //        usernameLabel.text = post.createdBy.username
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
     }
 }

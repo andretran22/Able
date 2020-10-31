@@ -27,6 +27,12 @@
 		7C9E79122541F73700595A8E /* AddReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E79112541F73700595A8E /* AddReviewVC.swift */; };
 		7C9E79152541F75200595A8E /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E79142541F75200595A8E /* Profile.storyboard */; };
 		C6F8ADE4BDD85D6AE5AD3C02 /* Pods_Able.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B56148F9F650324A0C3258D7 /* Pods_Able.framework */; };
+		D17077E3254B44E8009BA136 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17077E2254B44E8009BA136 /* CustomSegmentedControl.swift */; };
+		D17077E9254BDCC4009BA136 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17077E8254BDCC4009BA136 /* SearchViewController.swift */; };
+		D17077ED254BDD19009BA136 /* SearchUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17077EC254BDD19009BA136 /* SearchUsersViewController.swift */; };
+		D17077F0254BDD2D009BA136 /* SearchPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17077EF254BDD2D009BA136 /* SearchPostsViewController.swift */; };
+		D17077F4254C2DC1009BA136 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17077F3254C2DC1009BA136 /* PostViewController.swift */; };
+		D17077F7254C3C72009BA136 /* Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17077F6254C3C72009BA136 /* Timestamp.swift */; };
 		D1A3AF9A25421A0E00CA7FDA /* SettingScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1A3AF9925421A0E00CA7FDA /* SettingScreen.storyboard */; };
 		D1A3AFA12542242A00CA7FDA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A3AFA02542242A00CA7FDA /* SettingsViewController.swift */; };
 		D1A3AFDB25422A0600CA7FDA /* HomePage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1A3AFDA25422A0600CA7FDA /* HomePage.storyboard */; };
@@ -64,6 +70,12 @@
 		7C9E79112541F73700595A8E /* AddReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewVC.swift; sourceTree = "<group>"; };
 		7C9E79142541F75200595A8E /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		B56148F9F650324A0C3258D7 /* Pods_Able.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Able.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D17077E2254B44E8009BA136 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
+		D17077E8254BDCC4009BA136 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		D17077EC254BDD19009BA136 /* SearchUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUsersViewController.swift; sourceTree = "<group>"; };
+		D17077EF254BDD2D009BA136 /* SearchPostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPostsViewController.swift; sourceTree = "<group>"; };
+		D17077F3254C2DC1009BA136 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		D17077F6254C3C72009BA136 /* Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamp.swift; sourceTree = "<group>"; };
 		D1A3AF9925421A0E00CA7FDA /* SettingScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingScreen.storyboard; sourceTree = "<group>"; };
 		D1A3AFA02542242A00CA7FDA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		D1A3AFDA25422A0600CA7FDA /* HomePage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = HomePage.storyboard; sourceTree = "<group>"; };
@@ -196,6 +208,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D17077E7254BDCA2009BA136 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				D17077E8254BDCC4009BA136 /* SearchViewController.swift */,
+				D17077EF254BDD2D009BA136 /* SearchPostsViewController.swift */,
+				D17077EC254BDD19009BA136 /* SearchUsersViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		D1A3AFE925423BA500CA7FDA /* Login and Sign Up Page */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,9 +232,10 @@
 		D1A3AFEA25423BDF00CA7FDA /* Home Page */ = {
 			isa = PBXGroup;
 			children = (
+				D17077E7254BDCA2009BA136 /* Search */,
 				0A37D85C2531A6F900B94D82 /* HomePageVC.swift */,
-				D1A3AFDE25422A6100CA7FDA /* HelperFeedVC.swift */,
 				D1A3AFE025422A6100CA7FDA /* HelpFeedVC.swift */,
+				D1A3AFDE25422A6100CA7FDA /* HelperFeedVC.swift */,
 			);
 			path = "Home Page";
 			sourceTree = "<group>";
@@ -222,7 +245,10 @@
 			children = (
 				D1A3AFDF25422A6100CA7FDA /* CreatePostVC.swift */,
 				D1A3AFE125422A6100CA7FDA /* Post.swift */,
+				D17077F3254C2DC1009BA136 /* PostViewController.swift */,
 				D1A3AFE225422A6100CA7FDA /* PostCell.swift */,
+				D17077E2254B44E8009BA136 /* CustomSegmentedControl.swift */,
+				D17077F6254C3C72009BA136 /* Timestamp.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -407,7 +433,9 @@
 			files = (
 				7C9E79122541F73700595A8E /* AddReviewVC.swift in Sources */,
 				D1A3AFE525422A6100CA7FDA /* HelpFeedVC.swift in Sources */,
+				D17077ED254BDD19009BA136 /* SearchUsersViewController.swift in Sources */,
 				0A37D82C2531531C00B94D82 /* SignupVC.swift in Sources */,
+				D17077F0254BDD2D009BA136 /* SearchPostsViewController.swift in Sources */,
 				D1A3AFE425422A6100CA7FDA /* CreatePostVC.swift in Sources */,
 				0A44BBE0254A819F00DB247C /* DatabaseManager.swift in Sources */,
 				0A64F923254CFA9700C1204C /* AbleUser.swift in Sources */,
@@ -415,10 +443,14 @@
 				7C9E790F2541F71600595A8E /* ReviewVC.swift in Sources */,
 				0A64F8B4254AABFB00C1204C /* OnboardingViewController.swift in Sources */,
 				0A983BA62530EFF900F45A5F /* Able.xcdatamodeld in Sources */,
+				D17077F4254C2DC1009BA136 /* PostViewController.swift in Sources */,
 				0A983B9C2530EFF900F45A5F /* AppDelegate.swift in Sources */,
 				0A37D81D253147D200B94D82 /* LoginMainViewController.swift in Sources */,
+				D17077E3254B44E8009BA136 /* CustomSegmentedControl.swift in Sources */,
 				D1A3AFE625422A6100CA7FDA /* Post.swift in Sources */,
+				D17077F7254C3C72009BA136 /* Timestamp.swift in Sources */,
 				7C9E790B2541F6E700595A8E /* ProfileVC.swift in Sources */,
+				D17077E9254BDCC4009BA136 /* SearchViewController.swift in Sources */,
 				0A37D85D2531A6F900B94D82 /* HomePageVC.swift in Sources */,
 				0A983B9E2530EFF900F45A5F /* SceneDelegate.swift in Sources */,
 				D1A3AFE325422A6100CA7FDA /* HelperFeedVC.swift in Sources */,

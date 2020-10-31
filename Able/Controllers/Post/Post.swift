@@ -7,39 +7,25 @@
 
 import UIKit
 
-var helpPosts = [Post]()
-var helperPosts = [Post]()
-
-struct Post
+class Post
 {
-    var createdBy: User
-    var timeAgo: String?
-    var tags: [String]?
-    var caption: String?
-    var image: UIImage?
-    var numberOfComments: Int?
+    var id: String
+    var userKey: String
+    var authorName: String
+    var location: String
+    var text: String
+    var createdAt: Date
+//    var tags: [String]?
+//    var comments: [String]?
+//    var images: [String]? PhotosURLS
     
-    static func fetchHelpPosts() -> [Post]
-    {
-        return helpPosts
+    init(id: String, userKey: String, authorName: String, location: String,
+         text: String, timestamp: Double) {
+        self.id = id
+        self.userKey = userKey
+        self.authorName = authorName
+        self.location = location
+        self.text = text
+        self.createdAt = Date(timeIntervalSince1970: timestamp / 1000)
     }
-    
-    static func fetchHelperPosts() -> [Post]
-    {        
-        return helperPosts
-    }
-    
-    static func addHelpPost(post: Post) {
-        helpPosts.append(post)
-    }
-    
-    static func addHelperPost(post: Post) {
-        helperPosts.append(post)
-    }
-}
-
-struct User
-{
-    var username: String?
-    var profileImage: UIImage?
 }
