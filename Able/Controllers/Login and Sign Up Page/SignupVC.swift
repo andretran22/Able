@@ -37,20 +37,23 @@ class SignupVC: UIViewController {
             
             //check if username taken
             DatabaseManager.shared.usernameTaken(with: username) { (exists) in
+                print("hey: \(username)")
                 if !exists { //username not taken
+                    
+                    self.displayMessage(text: "")
                     Auth.auth().createUser(withEmail: email, password: password) { [self] authResult, error in
                         if let error = error as NSError? {
                             displayMessage(text: "Error: \(error.localizedDescription)")
                         } else {
-                            displayMessage(text: "Signed Up Successfully")
                             saveToDatabase()
                             publicCurrentUserEmail = email
                             goHomeScreen()
                         }
                     }
+                }else{
+                    self.displayMessage(text: "Username is taken. Enter another.")
+                    return
                 }
-                self.displayMessage(text: "Username is taken. Enter another.")
-                return
             }
         }
     }
@@ -77,7 +80,7 @@ class SignupVC: UIViewController {
             displayMessage(text: "Please enter a password")
             return false
         }
-        guard pass.count == 6 else {
+        guard pass.count >= 6 else {
             displayMessage(text: "Password must contain 6 characters or longer")
             return false
         }
