@@ -74,7 +74,7 @@ extension DatabaseManager {
             "city": user.city,
             "state": user.state
         ])
-        
+        database.child("users").child(user.safeEmail).child("reviews").child("numReviews").setValue(0)
     }
     
     
