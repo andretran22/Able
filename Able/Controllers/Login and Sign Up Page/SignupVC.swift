@@ -77,7 +77,7 @@ class SignupVC: UIViewController {
             displayMessage(text: "Please enter a password")
             return false
         }
-        guard pass.count == 6 else {
+        guard pass.count >= 6 else {
             displayMessage(text: "Password must contain 6 characters or longer")
             return false
         }
