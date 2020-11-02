@@ -46,11 +46,11 @@ class AddReviewVC: UIViewController {
     @IBAction func submitReview(_ sender: UIButton) {
         // add to Realtime database user/uid/reviews/posteruid/
         let ratingNumber = cosmosView.rating
-        let postId = publicCurrentUser!.safeEmail
+        let postId = user!.safeEmail
         if let reviewText = textView.text {
-            uploadReview(ratingNumber: ratingNumber, reviewText: reviewText, postUid: postId)
+            uploadReview(ratingNumber: ratingNumber, reviewText: reviewText, reviewedUid: postId)
         } else {
-            uploadReview(ratingNumber: ratingNumber, reviewText: "", postUid: postId)
+            uploadReview(ratingNumber: ratingNumber, reviewText: "", reviewedUid: postId)
         }
     }
 }
@@ -69,18 +69,18 @@ extension AddReviewVC {
 //        }
 //    }
     
-    func uploadReview(ratingNumber: Double, reviewText: String, postUid: String) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+    func uploadReview(ratingNumber: Double, reviewText: String, reviewedUid: String) {
+        guard let uid = publicCurrentUser?.safeEmail else { return }
         ref = Database.database().reference()
         
-        ref.child("user").child(postUid).child("reviews").observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("users").child(reviewedUid).child("reviews").observeSingleEvent(of: .value, with: { (snapshot) in
             if let getData = snapshot.value as? [String:Any] {
                 let reviewCount = (getData["numReviews"] as? Int)! + 1
-                let newReview = self.ref.child("user").child(postUid).child("reviews").child("review\(reviewCount)")
+                let newReview = self.ref.child("users").child(reviewedUid).child("reviews").child("review\(reviewCount)")
                 newReview.child("posterId").setValue(uid)
                 newReview.child("rating").setValue(ratingNumber)
                 newReview.child("post").setValue(reviewText)
-                self.ref.child("user").child(postUid).child("reviews").child("numReviews").setValue(reviewCount)
+                self.ref.child("users").child(reviewedUid).child("reviews").child("numReviews").setValue(reviewCount)
             }
           }) { (error) in
             print(error.localizedDescription)

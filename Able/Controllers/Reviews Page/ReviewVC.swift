@@ -18,11 +18,11 @@ class ReviewVC: UIViewController {
         super.viewDidLoad()
 
         // retrieve rating from Firebase realtime database
-        setRating(uid: Auth.auth().currentUser!.uid)
+        setRating(uid: viewUser!.safeEmail)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setRating(uid: Auth.auth().currentUser!.uid)
+        setRating(uid: viewUser!.safeEmail)
         if viewUser?.safeEmail != publicCurrentUser?.safeEmail {
             reviewButton.isHidden = false
         } else {
@@ -42,7 +42,7 @@ extension ReviewVC {
     
     func setRating(uid: String) {
         ref = Database.database().reference()
-        ref.child("user").child(uid).child("reviews").observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("users").child(uid).child("reviews").observeSingleEvent(of: .value, with: { (snapshot) in
             if let getData = snapshot.value as? [String:Any] {
                 let numReviews = (getData["numReviews"] as? Int)!
                 var rating = 0.0

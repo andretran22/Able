@@ -47,20 +47,14 @@ class ProfileVC: UIViewController {
 //        user?.printInfo()
 //        print("THIS USER IS VIEWING THIS PROFILE")
 //        publicCurrentUser?.printInfo()
-        
-        // TODO: change this once segues properly set up
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+
         displayInfo()
-//        displayInfo(uid: uid)
-        setRating(uid: uid)
+        setRating(uid: user!.safeEmail)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // TODO: change this once segues properly set up
-        guard let uid = Auth.auth().currentUser?.uid else { return }
         displayInfo()
-//        displayInfo(uid: uid)
-        setRating(uid: uid)
+        setRating(uid: user!.safeEmail)
     }
     
     @IBAction func switchViews(_ sender: UISegmentedControl) {
@@ -180,7 +174,7 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
     func setRating(uid: String) {
         ref = Database.database().reference()
         
-        ref.child("user").child(uid).child("reviews").observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("users").child(uid).child("reviews").observeSingleEvent(of: .value, with: { (snapshot) in
             if let getData = snapshot.value as? [String:Any] {
                 let numReviews = (getData["numReviews"] as? Int)!
                 var rating = 0.0
