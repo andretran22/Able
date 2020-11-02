@@ -16,6 +16,11 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var aboutMeLabel: UILabel!
     @IBOutlet weak var ratingButton: UIButton!
     
+
+    @IBOutlet weak var helpFeedContainer: UIView!
+    @IBOutlet weak var helperFeedContainer: UIView!
+    
+    
     var ref: DatabaseReference!
     var imagePicker: UIImagePickerController!
     
@@ -56,6 +61,25 @@ class ProfileVC: UIViewController {
         displayInfo()
 //        displayInfo(uid: uid)
         setRating(uid: uid)
+    }
+    
+    @IBAction func switchViews(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            setView(view: helpFeedContainer, hidden: false)
+            setView(view: helperFeedContainer, hidden: true)
+            print("In helperFeedContainer")
+        }
+        else{
+            setView(view: helpFeedContainer, hidden: true)
+            setView(view: helperFeedContainer, hidden: false)
+            print("In helpFeedContainer")
+        }
+    }
+    // animation helper function to hide/show views
+    func setView(view: UIView, hidden: Bool) {
+        UIView.transition(with: view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            view.isHidden = hidden
+        })
     }
     
     // button that changes the aboutMeLabel text when the aboutMeButton is pressed
@@ -127,6 +151,11 @@ class ProfileVC: UIViewController {
             let profilePageVC = segue.destination as? PersonalHelpFeedVC {
             profilePageVC.viewUser = user
         }
+        
+        if segue.identifier == "personalHelperSegue",
+           let profilePageVC = segue.destination as? PersonalHelperFeedVC {
+           profilePageVC.viewUser = user
+       }
     }
 }
 

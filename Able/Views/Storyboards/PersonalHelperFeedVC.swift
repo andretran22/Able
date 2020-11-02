@@ -1,5 +1,5 @@
 //
-//  PersonalHelpFeedVC.swift
+//  PersonalHelperFeedVC.swift
 //  Able
 //
 //  Created by Ziyi Liew on 3/11/20.
@@ -8,8 +8,8 @@
 import UIKit
 import Firebase
 
-class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource{
-
+class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource{
+    
     @IBOutlet weak var tableView: UITableView!
     var helpPosts = [Post]()
     var postIndex: IndexPath?
@@ -27,7 +27,7 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
         if (viewUser == nil) {
             viewUser = publicCurrentUser
         }
-        print("CURRENTLY VIEWING THIS USER Help Feed")
+        print("CURRENTLY VIEWING THIS USER Helper Feed")
         print(viewUser!.safeEmail)
     }
     
@@ -36,7 +36,7 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func fetchPosts() {
-        let helpPostsRef = Database.database().reference().child("posts").child("helpPosts")
+        let helpPostsRef = Database.database().reference().child("posts").child("helperPosts")
         
         helpPostsRef.observe(.value, with: { snapshot in
             
@@ -50,9 +50,9 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
                    let location = dict["location"] as? String,
                    let text = dict["text"] as? String,
                    let timestamp = dict["timestamp"] as? Double {
-//                    print("email is " + userKey + " viewUser safe email is " + self.viewUser!.safeEmail)
+                    print("email is " + userKey + " viewUser safe email is " + self.viewUser!.safeEmail)
                     if userKey == self.viewUser?.safeEmail {
-//                        print("adding post to tempPosts")
+                        print("adding post to tempPosts")
                         let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, text: text, timestamp: timestamp)
                         
                         tempPosts.append(post)
@@ -74,7 +74,7 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HelpPostCell", for: indexPath) as! PostCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HelperPostCell", for: indexPath) as! PostCell
         cell.post = helpPosts[indexPath.row]
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell
@@ -128,4 +128,3 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 }
-
