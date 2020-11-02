@@ -23,6 +23,9 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
         tableView.separatorStyle = .none
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableView.automaticDimension
+        
+        print("CURRENTLY VIEWING THIS USER TABLEVIEW")
+        print(viewUser!.safeEmail)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,10 +47,13 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
                    let location = dict["location"] as? String,
                    let text = dict["text"] as? String,
                    let timestamp = dict["timestamp"] as? Double {
-                    
-                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, text: text, timestamp: timestamp)
-                    
-                    tempPosts.append(post)
+                    print("email is " + userKey + " viewUser safe email is " + self.viewUser!.safeEmail)
+                    if userKey == self.viewUser?.safeEmail {
+                        print("adding post to tempPosts")
+                        let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, text: text, timestamp: timestamp)
+                        
+                        tempPosts.append(post)
+                    }
                 }
             }
             self.helpPosts = tempPosts

@@ -38,10 +38,10 @@ class ProfileVC: UIViewController {
         if (user == nil) {
             user = publicCurrentUser
         }
-        print("CURRENTLY VIEWING THIS USER PROFILE")
-        user?.printInfo()
-        print("THIS USER IS VIEWING THIS PROFILE")
-        publicCurrentUser?.printInfo()
+//        print("CURRENTLY VIEWING THIS USER PROFILE")
+//        user?.printInfo()
+//        print("THIS USER IS VIEWING THIS PROFILE")
+//        publicCurrentUser?.printInfo()
         
         // TODO: change this once segues properly set up
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -119,6 +119,13 @@ class ProfileVC: UIViewController {
             } else {
                 // url is nil
             }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "personalHelpSegue",
+            let profilePageVC = segue.destination as? PersonalHelpFeedVC {
+            profilePageVC.viewUser = user
         }
     }
 }

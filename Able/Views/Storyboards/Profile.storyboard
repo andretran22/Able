@@ -79,7 +79,7 @@
                                 <rect key="frame" x="20" y="402" width="381" height="395"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <connections>
-                                    <segue destination="7jL-rA-SPo" kind="embed" id="6vF-Ip-wR0"/>
+                                    <segue destination="7jL-rA-SPo" kind="embed" identifier="personalHelpSegue" id="6vF-Ip-wR0"/>
                                 </connections>
                             </containerView>
                         </subviews>
