@@ -156,6 +156,11 @@ class ProfileVC: UIViewController {
            let profilePageVC = segue.destination as? PersonalHelperFeedVC {
            profilePageVC.viewUser = user
        }
+        
+        if segue.identifier == "reviewSegue",
+           let profilePageVC = segue.destination as? ReviewVC {
+           profilePageVC.viewUser = user
+       }
     }
 }
 

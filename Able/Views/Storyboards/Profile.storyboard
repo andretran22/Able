@@ -56,7 +56,7 @@
                                     <color key="titleColor" systemColor="labelColor"/>
                                 </state>
                                 <connections>
-                                    <segue destination="3er-eA-7kQ" kind="show" id="4eU-Si-PWh"/>
+                                    <segue destination="3er-eA-7kQ" kind="show" identifier="reviewSegue" id="4eU-Si-PWh"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l64-4e-pNe" userLabel="About Me Edit Button">
@@ -147,6 +147,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Add a Review"/>
                                 <connections>
+                                    <action selector="addReview:" destination="3er-eA-7kQ" eventType="touchUpInside" id="VR9-fG-tVc"/>
                                     <segue destination="yE5-KT-pfu" kind="show" id="7kx-V6-lKo"/>
                                 </connections>
                             </button>
@@ -164,6 +165,7 @@
                     <navigationItem key="navigationItem" id="bOt-Hq-k3j"/>
                     <connections>
                         <outlet property="ratingLabel" destination="PY2-Hn-Voz" id="D91-sN-fMj"/>
+                        <outlet property="reviewButton" destination="ORi-so-GUR" id="2L9-iU-tfY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VmV-jW-dmh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

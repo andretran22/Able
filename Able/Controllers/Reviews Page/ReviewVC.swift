@@ -10,7 +10,9 @@ import Firebase
 
 class ReviewVC: UIViewController {
     var ref: DatabaseReference!
+    var viewUser: AbleUser?
     @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var reviewButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +23,12 @@ class ReviewVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setRating(uid: Auth.auth().currentUser!.uid)
+        if viewUser?.safeEmail != publicCurrentUser?.safeEmail {
+            reviewButton.isHidden = false
+        } else {
+            reviewButton.isHidden = true
+        }
     }
-
 }
 
 extension ReviewVC {
