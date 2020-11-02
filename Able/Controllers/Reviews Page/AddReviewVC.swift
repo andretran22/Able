@@ -12,6 +12,7 @@ import TinyConstraints
 
 class AddReviewVC: UIViewController {
     var ref: DatabaseReference!
+    var user: AbleUser?
     
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
@@ -36,34 +37,37 @@ class AddReviewVC: UIViewController {
             print("Rated: \(rating)")
         }
         
-        guard let thisUid = Auth.auth().currentUser?.uid else { return }
-        setUsername(uid: thisUid)
+        usernameLabel.text = (user?.firstName)! + " " + (user?.lastName)!
+        
+//        guard let thisUid = Auth.auth().currentUser?.uid else { return }
+//        setUsername(uid: thisUid)
     }
     
-    @IBAction func submitReview(_ sender: Any) {
+    @IBAction func submitReview(_ sender: UIButton) {
         // add to Realtime database user/uid/reviews/posteruid/
         let ratingNumber = cosmosView.rating
+        let postId = publicCurrentUser!.safeEmail
         if let reviewText = textView.text {
-            uploadReview(ratingNumber: ratingNumber, reviewText: reviewText, postUid: Auth.auth().currentUser!.uid)
+            uploadReview(ratingNumber: ratingNumber, reviewText: reviewText, postUid: postId)
         } else {
-            uploadReview(ratingNumber: ratingNumber, reviewText: "", postUid: Auth.auth().currentUser!.uid)
+            uploadReview(ratingNumber: ratingNumber, reviewText: "", postUid: postId)
         }
     }
 }
 
 extension AddReviewVC {
-    func setUsername(uid: String) {
-        ref = Database.database().reference()
-       
-        ref.child("user").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-            if let getData = snapshot.value as? [String:Any] {
-                let username = (getData["username"] as? String)!
-                self.usernameLabel.text = username
-            }
-          }) { (error) in
-            print(error.localizedDescription)
-        }
-    }
+//    func setUsername(uid: String) {
+//        ref = Database.database().reference()
+//
+//        ref.child("user").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+//            if let getData = snapshot.value as? [String:Any] {
+//                let username = (getData["username"] as? String)!
+//                self.usernameLabel.text = username
+//            }
+//          }) { (error) in
+//            print(error.localizedDescription)
+//        }
+//    }
     
     func uploadReview(ratingNumber: Double, reviewText: String, postUid: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }

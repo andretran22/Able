@@ -24,6 +24,7 @@
 		0AC31EB2253969D50084E927 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AC31EB1253969D50084E927 /* GoogleService-Info.plist */; };
 		7C6CFE8D25507718002E8B17 /* PersonalHelpFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6CFE8C25507718002E8B17 /* PersonalHelpFeedVC.swift */; };
 		7C6CFE9625508916002E8B17 /* PersonalHelperFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6CFE9525508916002E8B17 /* PersonalHelperFeedVC.swift */; };
+		7C6CFE992550A3AB002E8B17 /* ReviewTableViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6CFE982550A3AB002E8B17 /* ReviewTableViewVC.swift */; };
 		7C9E790B2541F6E700595A8E /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E790A2541F6E700595A8E /* ProfileVC.swift */; };
 		7C9E790F2541F71600595A8E /* ReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E790E2541F71600595A8E /* ReviewVC.swift */; };
 		7C9E79122541F73700595A8E /* AddReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E79112541F73700595A8E /* AddReviewVC.swift */; };
@@ -69,6 +70,7 @@
 		0E2A666DE14DB870C80B13A8 /* Pods-Able.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Able.release.xcconfig"; path = "Target Support Files/Pods-Able/Pods-Able.release.xcconfig"; sourceTree = "<group>"; };
 		7C6CFE8C25507718002E8B17 /* PersonalHelpFeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PersonalHelpFeedVC.swift; path = "Able/Controllers/Profile Page/PersonalHelpFeedVC.swift"; sourceTree = SOURCE_ROOT; };
 		7C6CFE9525508916002E8B17 /* PersonalHelperFeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PersonalHelperFeedVC.swift; path = Able/Views/Storyboards/PersonalHelperFeedVC.swift; sourceTree = SOURCE_ROOT; };
+		7C6CFE982550A3AB002E8B17 /* ReviewTableViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReviewTableViewVC.swift; path = Able/Views/Storyboards/ReviewTableViewVC.swift; sourceTree = SOURCE_ROOT; };
 		7C9E790A2541F6E700595A8E /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		7C9E790E2541F71600595A8E /* ReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewVC.swift; sourceTree = "<group>"; };
 		7C9E79112541F73700595A8E /* AddReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewVC.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 		D1A3AFEF25423C8300CA7FDA /* Reviews Page */ = {
 			isa = PBXGroup;
 			children = (
+				7C6CFE982550A3AB002E8B17 /* ReviewTableViewVC.swift */,
 				7C9E79112541F73700595A8E /* AddReviewVC.swift */,
 				7C9E790E2541F71600595A8E /* ReviewVC.swift */,
 			);
@@ -437,6 +440,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C6CFE992550A3AB002E8B17 /* ReviewTableViewVC.swift in Sources */,
 				7C9E79122541F73700595A8E /* AddReviewVC.swift in Sources */,
 				D1A3AFE525422A6100CA7FDA /* HelpFeedVC.swift in Sources */,
 				D17077ED254BDD19009BA136 /* SearchUsersViewController.swift in Sources */,

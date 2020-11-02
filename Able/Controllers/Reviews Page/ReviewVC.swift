@@ -29,6 +29,13 @@ class ReviewVC: UIViewController {
             reviewButton.isHidden = true
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addReviewSegue",
+            let profilePageVC = segue.destination as? AddReviewVC {
+            profilePageVC.user = viewUser
+        }
+    }
 }
 
 extension ReviewVC {
