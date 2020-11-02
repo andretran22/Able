@@ -38,8 +38,10 @@ class ProfileVC: UIViewController {
         if (user == nil) {
             user = publicCurrentUser
         }
-        print("CURRENTLY VIEWING THIS USER")
+        print("CURRENTLY VIEWING THIS USER PROFILE")
         user?.printInfo()
+        print("THIS USER IS VIEWING THIS PROFILE")
+        publicCurrentUser?.printInfo()
         
         // TODO: change this once segues properly set up
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -58,6 +60,7 @@ class ProfileVC: UIViewController {
     
     // button that changes the aboutMeLabel text when the aboutMeButton is pressed
     @IBAction func editAboutMe(_ sender: Any) {
+        if user?.safeEmail != publicCurrentUser?.safeEmail { return }
         let controller = UIAlertController(title: "About me",
                                            message: "Edit my profile description",
                                            preferredStyle: .alert)
