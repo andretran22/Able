@@ -22,6 +22,7 @@
 		0A983BA82530EFFA00F45A5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A983BA72530EFFA00F45A5F /* Assets.xcassets */; };
 		0A983BAB2530EFFA00F45A5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A983BA92530EFFA00F45A5F /* LaunchScreen.storyboard */; };
 		0AC31EB2253969D50084E927 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AC31EB1253969D50084E927 /* GoogleService-Info.plist */; };
+		7C6CFE8D25507718002E8B17 /* PersonalHelpFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6CFE8C25507718002E8B17 /* PersonalHelpFeedVC.swift */; };
 		7C9E790B2541F6E700595A8E /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E790A2541F6E700595A8E /* ProfileVC.swift */; };
 		7C9E790F2541F71600595A8E /* ReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E790E2541F71600595A8E /* ReviewVC.swift */; };
 		7C9E79122541F73700595A8E /* AddReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E79112541F73700595A8E /* AddReviewVC.swift */; };
@@ -65,6 +66,7 @@
 		0A983BAC2530EFFA00F45A5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AC31EB1253969D50084E927 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0E2A666DE14DB870C80B13A8 /* Pods-Able.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Able.release.xcconfig"; path = "Target Support Files/Pods-Able/Pods-Able.release.xcconfig"; sourceTree = "<group>"; };
+		7C6CFE8C25507718002E8B17 /* PersonalHelpFeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PersonalHelpFeedVC.swift; path = "Able/Controllers/Profile Page/PersonalHelpFeedVC.swift"; sourceTree = SOURCE_ROOT; };
 		7C9E790A2541F6E700595A8E /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		7C9E790E2541F71600595A8E /* ReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewVC.swift; sourceTree = "<group>"; };
 		7C9E79112541F73700595A8E /* AddReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewVC.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 		D1A3AFED25423C3100CA7FDA /* Profile Page */ = {
 			isa = PBXGroup;
 			children = (
+				7C6CFE8C25507718002E8B17 /* PersonalHelpFeedVC.swift */,
 				7C9E790A2541F6E700595A8E /* ProfileVC.swift */,
 			);
 			path = "Profile Page";
@@ -442,6 +445,7 @@
 				D1A3AFA12542242A00CA7FDA /* SettingsViewController.swift in Sources */,
 				7C9E790F2541F71600595A8E /* ReviewVC.swift in Sources */,
 				0A64F8B4254AABFB00C1204C /* OnboardingViewController.swift in Sources */,
+				7C6CFE8D25507718002E8B17 /* PersonalHelpFeedVC.swift in Sources */,
 				0A983BA62530EFF900F45A5F /* Able.xcdatamodeld in Sources */,
 				D17077F4254C2DC1009BA136 /* PostViewController.swift in Sources */,
 				0A983B9C2530EFF900F45A5F /* AppDelegate.swift in Sources */,
