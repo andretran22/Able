@@ -58,8 +58,8 @@ class ProfileVC: UIViewController {
     
     // button that changes the aboutMeLabel text when the aboutMeButton is pressed
     @IBAction func editAboutMe(_ sender: Any) {
-        let controller = UIAlertController(title: "Alert Controller",
-                                           message: "Edit About Me",
+        let controller = UIAlertController(title: "About me",
+                                           message: "Edit my profile description",
                                            preferredStyle: .alert)
         
         controller.addAction(UIAlertAction(title: "Cancel",
@@ -77,7 +77,9 @@ class ProfileVC: UIViewController {
                                             if let textFieldArray = controller.textFields {
                                                 let textFields = textFieldArray as [UITextField]
                                                 self.aboutMeLabel.text = textFields[0].text
-
+                                                self.user?.userDescription = textFields[0].text
+                                                self.ref = Database.database().reference()
+                                                self.ref.child("users").child(self.user!.safeEmail).child("user_description").setValue(textFields[0].text)
                                             }
                 }))
         
@@ -162,6 +164,7 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
     func displayInfo() {
         self.nameLabel.text = "\(user!.firstName!) \(user!.lastName!)"
         self.locationLabel.text = "\(user!.city!), \(user!.state!)"
+        self.aboutMeLabel.text = user!.userDescription
     }
     
 //    // get user data from Firebase realtime Database and display on screen

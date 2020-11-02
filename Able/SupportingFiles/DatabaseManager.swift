@@ -72,7 +72,8 @@ extension DatabaseManager {
             "last_name": user.lastName,
             "user_name": user.username,
             "city": user.city,
-            "state": user.state
+            "state": user.state,
+            "user_description": user.userDescription
         ])
         database.child("users").child(user.safeEmail).child("reviews").child("numReviews").setValue(0)
     }
