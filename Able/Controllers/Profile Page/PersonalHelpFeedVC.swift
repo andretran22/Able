@@ -53,7 +53,7 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
 //                    print("email is " + userKey + " viewUser safe email is " + self.viewUser!.safeEmail)
                     if userKey == self.viewUser?.safeEmail {
 //                        print("adding post to tempPosts")
-                        let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, text: text, timestamp: timestamp)
+                        let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: [String](), text: text, timestamp: timestamp)
                         
                         tempPosts.append(post)
                     }

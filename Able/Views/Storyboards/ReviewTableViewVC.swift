@@ -53,7 +53,7 @@ class ReviewTableViewVC: UIViewController, UITableViewDelegate, UITableViewDataS
                    let rating = dict["rating"] as? Double,
                    let timestamp = dict["timestamp"] as? Double {
 
-                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, text: text, timestamp: timestamp)
+                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: [String](), text: text, timestamp: timestamp)
                     
                     post.rating = rating
                     tempPosts.append(post)
