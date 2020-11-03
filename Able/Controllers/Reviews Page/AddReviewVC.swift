@@ -39,14 +39,12 @@ class AddReviewVC: UIViewController {
         
         usernameLabel.text = (user?.firstName)! + " " + (user?.lastName)!
         
-//        guard let thisUid = Auth.auth().currentUser?.uid else { return }
-//        setUsername(uid: thisUid)
     }
     
     @IBAction func submitReview(_ sender: UIButton) {
         // add to Realtime database user/uid/reviews/posteruid/
         let ratingNumber = cosmosView.rating
-        let postId = user!.safeEmail
+        guard let postId = user?.safeEmail else { return }
         if let reviewText = textView.text {
             uploadReview(ratingNumber: ratingNumber, reviewText: reviewText, reviewedUid: postId)
         } else {
@@ -56,19 +54,6 @@ class AddReviewVC: UIViewController {
 }
 
 extension AddReviewVC {
-//    func setUsername(uid: String) {
-//        ref = Database.database().reference()
-//
-//        ref.child("user").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-//            if let getData = snapshot.value as? [String:Any] {
-//                let username = (getData["username"] as? String)!
-//                self.usernameLabel.text = username
-//            }
-//          }) { (error) in
-//            print(error.localizedDescription)
-//        }
-//    }
-    
     func uploadReview(ratingNumber: Double, reviewText: String, reviewedUid: String) {
         guard let uid = publicCurrentUser?.safeEmail else { return }
         ref = Database.database().reference()
@@ -77,9 +62,12 @@ extension AddReviewVC {
             if let getData = snapshot.value as? [String:Any] {
                 let reviewCount = (getData["numReviews"] as? Int)! + 1
                 let newReview = self.ref.child("users").child(reviewedUid).child("reviews").child("review\(reviewCount)")
-                newReview.child("posterId").setValue(uid)
+                newReview.child("userKey").setValue(uid)
+                newReview.child("authorName").setValue("\(publicCurrentUser!.firstName!) \(publicCurrentUser!.lastName!)")
+                newReview.child("location").setValue("\(publicCurrentUser!.city!), \(publicCurrentUser!.state!)")
+                newReview.child("text").setValue(reviewText)
+                newReview.child("timestamp").setValue([".sv": "timestamp"])
                 newReview.child("rating").setValue(ratingNumber)
-                newReview.child("post").setValue(reviewText)
                 self.ref.child("users").child(reviewedUid).child("reviews").child("numReviews").setValue(reviewCount)
             }
           }) { (error) in
