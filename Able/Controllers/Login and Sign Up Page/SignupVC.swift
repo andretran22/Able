@@ -121,16 +121,10 @@ class SignupVC: UIViewController {
     // save information to Firebase
 //    func saveInfo() {
 //        ref = Database.database().reference()
-//        let user = Auth.auth().currentUser
-//        guard let uid = user?.uid else { return }
-//        let newUser = ref.child("user").child(uid)
-//        newUser.child("username").setValue(usernameField.text!)
-//        newUser.child("name").setValue("\(firstnameField.text!) \(lastnameField.text!)")
-//        newUser.child("city").setValue(cityField.text!)
-//        newUser.child("state").setValue(stateField.text!)
+//        let newUser = ref.child("user").child(emailField.text!)
 //        newUser.child("reviews").child("numReviews").setValue(0)
 //    }
-    
+//
     func saveToDatabase() {
         DatabaseManager.shared.insertUser(with: AbleUser(
             firstName: firstnameField.text!,

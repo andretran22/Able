@@ -16,6 +16,11 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var aboutMeLabel: UILabel!
     @IBOutlet weak var ratingButton: UIButton!
     
+
+    @IBOutlet weak var helpFeedContainer: UIView!
+    @IBOutlet weak var helperFeedContainer: UIView!
+    
+    
     var ref: DatabaseReference!
     var imagePicker: UIImagePickerController!
     
@@ -38,28 +43,44 @@ class ProfileVC: UIViewController {
         if (user == nil) {
             user = publicCurrentUser
         }
-        print("CURRENTLY VIEWING THIS USER")
-        user?.printInfo()
-        
-        // TODO: change this once segues properly set up
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        print("CURRENTLY VIEWING THIS USER PROFILE")
+//        user?.printInfo()
+//        print("THIS USER IS VIEWING THIS PROFILE")
+//        publicCurrentUser?.printInfo()
+
         displayInfo()
-//        displayInfo(uid: uid)
-        setRating(uid: uid)
+        setRating(uid: user!.safeEmail)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // TODO: change this once segues properly set up
-        guard let uid = Auth.auth().currentUser?.uid else { return }
         displayInfo()
-//        displayInfo(uid: uid)
-        setRating(uid: uid)
+        setRating(uid: user!.safeEmail)
+    }
+    
+    @IBAction func switchViews(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            setView(view: helpFeedContainer, hidden: false)
+            setView(view: helperFeedContainer, hidden: true)
+            print("In helperFeedContainer")
+        }
+        else{
+            setView(view: helpFeedContainer, hidden: true)
+            setView(view: helperFeedContainer, hidden: false)
+            print("In helpFeedContainer")
+        }
+    }
+    // animation helper function to hide/show views
+    func setView(view: UIView, hidden: Bool) {
+        UIView.transition(with: view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            view.isHidden = hidden
+        })
     }
     
     // button that changes the aboutMeLabel text when the aboutMeButton is pressed
     @IBAction func editAboutMe(_ sender: Any) {
-        let controller = UIAlertController(title: "Alert Controller",
-                                           message: "Edit About Me",
+        if user?.safeEmail != publicCurrentUser?.safeEmail { return }
+        let controller = UIAlertController(title: "About me",
+                                           message: "Edit my profile description",
                                            preferredStyle: .alert)
         
         controller.addAction(UIAlertAction(title: "Cancel",
@@ -77,14 +98,16 @@ class ProfileVC: UIViewController {
                                             if let textFieldArray = controller.textFields {
                                                 let textFields = textFieldArray as [UITextField]
                                                 self.aboutMeLabel.text = textFields[0].text
-
+                                                self.user?.userDescription = textFields[0].text
+                                                self.ref = Database.database().reference()
+                                                self.ref.child("users").child(self.user!.safeEmail).child("user_description").setValue(textFields[0].text)
                                             }
                 }))
         
         present(controller, animated: true, completion: nil)
     }
     
-    // change the profile image of the user
+    // change the profile image of the user, NOT DOING ANYTHING RIGHT NOW
     @IBAction func changeProfileImage(_ sender: Any) {
         // check that current user is authorized to change picture
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -116,6 +139,23 @@ class ProfileVC: UIViewController {
             }
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "personalHelpSegue",
+            let profilePageVC = segue.destination as? PersonalHelpFeedVC {
+            profilePageVC.viewUser = user
+        }
+        
+        if segue.identifier == "personalHelperSegue",
+           let profilePageVC = segue.destination as? PersonalHelperFeedVC {
+           profilePageVC.viewUser = user
+       }
+        
+        if segue.identifier == "reviewSegue",
+           let profilePageVC = segue.destination as? ReviewVC {
+           profilePageVC.viewUser = user
+       }
+    }
 }
 
 extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -133,8 +173,7 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
     // sets the ratingButton text from data retrieved from Firebase
     func setRating(uid: String) {
         ref = Database.database().reference()
-        
-        ref.child("user").child(uid).child("reviews").observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("users").child(uid).child("reviews").observeSingleEvent(of: .value, with: { (snapshot) in
             if let getData = snapshot.value as? [String:Any] {
                 let numReviews = (getData["numReviews"] as? Int)!
                 var rating = 0.0
@@ -162,6 +201,7 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
     func displayInfo() {
         self.nameLabel.text = "\(user!.firstName!) \(user!.lastName!)"
         self.locationLabel.text = "\(user!.city!), \(user!.state!)"
+        self.aboutMeLabel.text = user!.userDescription
     }
     
 //    // get user data from Firebase realtime Database and display on screen

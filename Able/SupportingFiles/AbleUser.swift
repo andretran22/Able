@@ -20,6 +20,7 @@ class AbleUser {
      var username: String?
      var city: String?
      var state: String?
+    var userDescription: String?
     //    let profilePicUrl: String
     
     init(firstName:String, lastName:String, emailAddress:String, username:String, city: String, state: String){
@@ -29,6 +30,7 @@ class AbleUser {
         self.username = username
         self.city = city
         self.state = state
+        self.userDescription = "Hi, I'm " + firstName
     }
     
     var safeEmail: String {
@@ -43,6 +45,7 @@ class AbleUser {
         print("Username: \(username!)")
         print("City: \(city!)")
         print("State: \(state!)")
+        print("User Description: \(userDescription)")
     }
  
 }

@@ -16,6 +16,8 @@ class Post
     var tags: [String]
     var text: String
     var createdAt: Date
+    var rating: Double
+//    var tags: [String]?
 //    var comments: [String]?
 //    var images: [String]? PhotosURLS
     
@@ -28,5 +30,6 @@ class Post
         self.tags = tags
         self.text = text
         self.createdAt = Date(timeIntervalSince1970: timestamp / 1000)
+        self.rating = -1
     }
 }
