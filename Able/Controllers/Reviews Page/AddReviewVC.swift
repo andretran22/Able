@@ -50,6 +50,7 @@ class AddReviewVC: UIViewController {
         }
         
         // TODO : Segue to ReviewVC
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

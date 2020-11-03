@@ -50,12 +50,12 @@ class ReviewTableViewVC: UIViewController, UITableViewDelegate, UITableViewDataS
                    let authorName = dict["authorName"] as? String,
                    let location = dict["location"] as? String,
                    let text = dict["text"] as? String,
+                   let rating = dict["rating"] as? Double,
                    let timestamp = dict["timestamp"] as? Double {
-//                    print("email is " + userKey + " viewUser safe email is " + self.viewUser!.safeEmail)
-                   
-//                        print("adding post to tempPosts")
+
                     let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, text: text, timestamp: timestamp)
                     
+                    post.rating = rating
                     tempPosts.append(post)
                 
                 }
@@ -78,6 +78,7 @@ class ReviewTableViewVC: UIViewController, UITableViewDelegate, UITableViewDataS
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewPost", for: indexPath) as! PostCell
         cell.post = helpPosts[indexPath.row]
         cell.usernameButton.tag = indexPath.row
+        cell.postStatsLabel.text = String(Int(helpPosts[indexPath.row].rating))
         // add shadow on cell
         cell.backgroundColor = .clear // very important
         cell.layer.masksToBounds = false
