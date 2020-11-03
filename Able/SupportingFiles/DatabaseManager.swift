@@ -49,18 +49,20 @@ extension DatabaseManager {
     public func usernameTaken(with username: String,
                               completion: @escaping ((Bool) -> Void)){
         
-        database.child("users").observe(.value) { snapshot in
+        database.child("users").observeSingleEvent(of: .value) { snapshot in
             for email in snapshot.children{
                 if let emailSnapshot = email as? DataSnapshot,
                    let dict = emailSnapshot.value as? [String:Any]{
                         let other_username = dict["user_name"] as? String
                         if other_username == username {
-                            print("\(username) matches: \(other_username)")
+                            
+                            print("damn, username taken: \(username)")
                             completion(true)
                             return
                         }
                 }
             }
+            print("nice, username not taken: \(username)")
             completion(false)
         }
     }
