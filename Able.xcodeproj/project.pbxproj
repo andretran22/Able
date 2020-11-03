@@ -27,6 +27,7 @@
 		7C9E79122541F73700595A8E /* AddReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E79112541F73700595A8E /* AddReviewVC.swift */; };
 		7C9E79152541F75200595A8E /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E79142541F75200595A8E /* Profile.storyboard */; };
 		C6F8ADE4BDD85D6AE5AD3C02 /* Pods_Able.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B56148F9F650324A0C3258D7 /* Pods_Able.framework */; };
+		D167FE922551B27D00FF34F8 /* AddTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D167FE912551B27D00FF34F8 /* AddTagsViewController.swift */; };
 		D17077E3254B44E8009BA136 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17077E2254B44E8009BA136 /* CustomSegmentedControl.swift */; };
 		D17077E9254BDCC4009BA136 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17077E8254BDCC4009BA136 /* SearchViewController.swift */; };
 		D17077ED254BDD19009BA136 /* SearchUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17077EC254BDD19009BA136 /* SearchUsersViewController.swift */; };
@@ -70,6 +71,7 @@
 		7C9E79112541F73700595A8E /* AddReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewVC.swift; sourceTree = "<group>"; };
 		7C9E79142541F75200595A8E /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		B56148F9F650324A0C3258D7 /* Pods_Able.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Able.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D167FE912551B27D00FF34F8 /* AddTagsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagsViewController.swift; sourceTree = "<group>"; };
 		D17077E2254B44E8009BA136 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		D17077E8254BDCC4009BA136 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		D17077EC254BDD19009BA136 /* SearchUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUsersViewController.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				D1A3AFDF25422A6100CA7FDA /* CreatePostVC.swift */,
+				D167FE912551B27D00FF34F8 /* AddTagsViewController.swift */,
 				D1A3AFE125422A6100CA7FDA /* Post.swift */,
 				D17077F3254C2DC1009BA136 /* PostViewController.swift */,
 				D1A3AFE225422A6100CA7FDA /* PostCell.swift */,
@@ -446,6 +449,7 @@
 				D17077F4254C2DC1009BA136 /* PostViewController.swift in Sources */,
 				0A983B9C2530EFF900F45A5F /* AppDelegate.swift in Sources */,
 				0A37D81D253147D200B94D82 /* LoginMainViewController.swift in Sources */,
+				D167FE922551B27D00FF34F8 /* AddTagsViewController.swift in Sources */,
 				D17077E3254B44E8009BA136 /* CustomSegmentedControl.swift in Sources */,
 				D1A3AFE625422A6100CA7FDA /* Post.swift in Sources */,
 				D17077F7254C3C72009BA136 /* Timestamp.swift in Sources */,

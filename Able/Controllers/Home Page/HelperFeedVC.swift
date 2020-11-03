@@ -41,10 +41,11 @@ class HelperFeedVC: UITableViewController {
                    let userKey = dict["userKey"] as? String,
                    let authorName = dict["authorName"] as? String,
                    let location = dict["location"] as? String,
+                   let tags = dict["tags"] as? [String],
                    let text = dict["text"] as? String,
                    let timestamp = dict["timestamp"] as? Double {
                     
-                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, text: text, timestamp: timestamp)
+                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp)
                     
                     tempPosts.append(post)
                 }

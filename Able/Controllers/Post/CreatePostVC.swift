@@ -8,11 +8,13 @@
 import UIKit
 import Firebase
 
-class CreatePostTagCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var tagLabel: UILabel!
+protocol ApplyTags {
+    func addTags(newTags: [String])
 }
-    
-class CreatePostVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+
+class CreatePostVC: UIViewController, UITextViewDelegate,
+                    UICollectionViewDataSource, UICollectionViewDelegate,
+                    ApplyTags {
 
     @IBOutlet weak var collectionViewTags: UICollectionView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -25,8 +27,7 @@ class CreatePostVC: UIViewController, UITextViewDelegate, UICollectionViewDataSo
     let tagIdentifier = "CreatePostTagCell"
     
     var ref: DatabaseReference!
-    var tags = DEFAULT_TAGS
-    var tagColors = DEFAULT_COLOR_TAGS
+    var tags = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,12 +73,12 @@ class CreatePostVC: UIViewController, UITextViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // get a reference to our storyboard cell
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagIdentifier, for: indexPath as IndexPath) as! CreatePostTagCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagIdentifier, for: indexPath as IndexPath) as! TagCollectionViewCell
         
         let row = indexPath.row
         // Use the outlet in our custom class to get a reference to the UILabel in the cell
         cell.tagLabel.text = self.tags[row] // The row value is the same as the index of the desired text within the array.
-        cell.backgroundColor = self.tagColors[row] // make cell more visible in our example project
+        cell.backgroundColor = UIColor.systemBlue // make cell more visible in our example project
         cell.layer.cornerRadius = 8
         return cell
     }
@@ -97,16 +98,30 @@ class CreatePostVC: UIViewController, UITextViewDelegate, UICollectionViewDataSo
             "userKey": publicCurrentUser!.safeEmail,
             "authorName": "\(publicCurrentUser!.firstName!) \(publicCurrentUser!.lastName!)",
             "location": "\(publicCurrentUser!.city!), \(publicCurrentUser!.state!)",
+            "tags": tags,
             "text": postTextView.text!,
             "timestamp": [".sv": "timestamp"]
         ] as [String: Any]
         
         postRef.setValue(postObject, withCompletionBlock: { error, ref in
             if error == nil {
-                // self.dismiss(animated: true, completion: nil)
+                self.tabBarController?.selectedIndex = 0
             } else {
                 // handle the error
             }
         })
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addTagsPopover",
+           let addTagsVC = segue.destination as? AddTagsViewController {
+            addTagsVC.delegate = self
+            addTagsVC.yourTags = tags
+        }
+    }
+    
+    func addTags(newTags: [String]) {
+        tags = newTags
+        collectionViewTags.reloadData()
     }
 }
