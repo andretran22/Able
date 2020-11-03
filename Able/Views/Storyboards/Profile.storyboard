@@ -161,7 +161,7 @@
                                 <rect key="frame" x="20" y="280" width="374" height="533"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <connections>
-                                    <segue destination="T15-yu-7aA" kind="embed" id="IBa-cc-R0Z"/>
+                                    <segue destination="T15-yu-7aA" kind="embed" identifier="reviewTableViewSegue" id="IBa-cc-R0Z"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -652,6 +652,9 @@
                             <constraint firstItem="OAs-UH-FUV" firstAttribute="leading" secondItem="9Eb-l4-Hoy" secondAttribute="leadingMargin" id="muD-Ul-DHe"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="OAs-UH-FUV" id="zFZ-j3-5me"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aJx-8N-3Jx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
     var helpPosts = [Post]()

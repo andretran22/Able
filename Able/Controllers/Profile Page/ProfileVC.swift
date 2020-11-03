@@ -107,7 +107,7 @@ class ProfileVC: UIViewController {
         present(controller, animated: true, completion: nil)
     }
     
-    // change the profile image of the user
+    // change the profile image of the user, NOT DOING ANYTHING RIGHT NOW
     @IBAction func changeProfileImage(_ sender: Any) {
         // check that current user is authorized to change picture
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -173,7 +173,6 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
     // sets the ratingButton text from data retrieved from Firebase
     func setRating(uid: String) {
         ref = Database.database().reference()
-        
         ref.child("users").child(uid).child("reviews").observeSingleEvent(of: .value, with: { (snapshot) in
             if let getData = snapshot.value as? [String:Any] {
                 let numReviews = (getData["numReviews"] as? Int)!

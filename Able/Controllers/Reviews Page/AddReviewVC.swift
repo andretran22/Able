@@ -19,7 +19,6 @@ class AddReviewVC: UIViewController {
     
     lazy var cosmosView: CosmosView = {
         var view = CosmosView()
-        
         view.settings.filledImage = UIImage(named: "RatingStarFilled")?.withRenderingMode(.alwaysOriginal)
         view.settings.emptyImage = UIImage(named: "RatingStarEmpty")?.withRenderingMode(.alwaysOriginal)
         return view
@@ -38,7 +37,6 @@ class AddReviewVC: UIViewController {
         }
         
         usernameLabel.text = (user?.firstName)! + " " + (user?.lastName)!
-        
     }
     
     @IBAction func submitReview(_ sender: UIButton) {
@@ -50,6 +48,8 @@ class AddReviewVC: UIViewController {
         } else {
             uploadReview(ratingNumber: ratingNumber, reviewText: "", reviewedUid: postId)
         }
+        
+        // TODO : Segue to ReviewVC
     }
 }
 

@@ -35,11 +35,14 @@ class ReviewVC: UIViewController {
             let profilePageVC = segue.destination as? AddReviewVC {
             profilePageVC.user = viewUser
         }
+        if segue.identifier == "reviewTableViewSegue",
+            let profilePageVC = segue.destination as? ReviewTableViewVC {
+            profilePageVC.viewUser = viewUser
+        }
     }
 }
 
 extension ReviewVC {
-    
     func setRating(uid: String) {
         ref = Database.database().reference()
         ref.child("users").child(uid).child("reviews").observeSingleEvent(of: .value, with: { (snapshot) in
