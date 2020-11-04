@@ -15,7 +15,6 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var tapToChangeProfileButton: UIButton!
     @IBOutlet weak var aboutMeLabel: UILabel!
     @IBOutlet weak var ratingButton: UIButton!
-    
 
     @IBOutlet weak var helpFeedContainer: UIView!
     @IBOutlet weak var helperFeedContainer: UIView!
@@ -110,9 +109,8 @@ class ProfileVC: UIViewController {
     // change the profile image of the user, NOT DOING ANYTHING RIGHT NOW
     @IBAction func changeProfileImage(_ sender: Any) {
         // check that current user is authorized to change picture
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        if passedInUid != uid { return }
-        
+        if user?.safeEmail != publicCurrentUser?.safeEmail { return }
+        guard let uid = user?.safeEmail else { return }
         guard let image = profileImageView.image else { return }
         
         self.present(imagePicker, animated: true, completion: nil)
@@ -125,9 +123,9 @@ class ProfileVC: UIViewController {
                 changeRequest?.commitChanges { error in
                     if error == nil {
                         print("User name changed")
-                        self.saveProfile(username: self.nameLabel.text!, profileImageURL: url!) { success in
+                        self.saveProfile(username: uid, profileImageURL: url!) { success in
                             if success {
-                                self.dismiss(animated: true, completion: nil)
+                                self.navigationController?.popViewController(animated: true)
                             }
                         }
                     } else {
@@ -198,33 +196,16 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
         }
     }
     
+    // Display the user's information on the Profile page
     func displayInfo() {
         self.nameLabel.text = "\(user!.firstName!) \(user!.lastName!)"
         self.locationLabel.text = "\(user!.city!), \(user!.state!)"
         self.aboutMeLabel.text = user!.userDescription
     }
     
-//    // get user data from Firebase realtime Database and display on screen
-//    // TODO: implement displaying other people's profiles
-//    func displayInfo(uid: String) {
-//        ref = Database.database().reference()
-//
-//        ref.child("user").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-//            if let getData = snapshot.value as? [String:Any] {
-//                let name = getData["name"] as? String
-//                let city = getData["city"] as? String
-//                let state = getData["state"] as? String
-//                self.nameLabel.text = name
-//                self.locationLabel.text = "\(city ?? ""), \(state ?? "")"
-//            }
-//          }) { (error) in
-//            print(error.localizedDescription)
-//        }
-//    }
-    
     // helper for changeProfileImage to put uploaded image to Firebase Storage
     func uploadProfileImage(_ image:UIImage, completion: @escaping ((_ url: URL?)->())) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = user?.safeEmail else { return }
         let storageRef = Storage.storage().reference().child("user/\(uid)")
         
         guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
@@ -249,14 +230,13 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
     
     // helper for changeProfileImage to put image into specified user's storage url
     func saveProfile(username: String, profileImageURL: URL, completion: @escaping ((_ success:Bool)->())) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let databaseRef = Database.database().reference().child("users/profile/\(uid)")
-        let userObject = [
-            "username:": username,
-            "photoURL": profileImageURL.absoluteString
-        ] as [String:Any]
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+        ref = Database.database().reference().child("users/\(username)")
+//        let userObject = [
+//            "photoURL": profileImageURL.absoluteString
+//        ] as [String:Any]
         
-        databaseRef.setValue(userObject) { (error, ref) in
+        ref.child("photoURL").setValue(profileImageURL.absoluteString) { (error, ref) in
             completion(error == nil)
         }
     }
