@@ -13,6 +13,8 @@ var publicCurrentUserEmail: String?
 //global var tracks all meta data for current user
 var publicCurrentUser:AbleUser?
 
+let defaultProfilePicURL = "https://firebasestorage.googleapis.com/v0/b/able-90d0e.appspot.com/o/empty%20profile.png?alt=media&token=977e093a-6b15-48da-b39a-d19c5ade82bf"
+
 class AbleUser {
      var firstName: String?
      var lastName: String?
@@ -21,9 +23,10 @@ class AbleUser {
      var city: String?
      var state: String?
     var userDescription: String?
-    //    let profilePicUrl: String
+    // default profile pic in Database
+    var profilePicUrl = defaultProfilePicURL
     
-    init(firstName:String, lastName:String, emailAddress:String, username:String, city: String, state: String){
+    init(firstName:String, lastName:String, emailAddress:String, username:String, city: String, state: String, profilePicURL: String){
         self.firstName = firstName
         self.lastName = lastName
         self.emailAddress = emailAddress
@@ -31,6 +34,7 @@ class AbleUser {
         self.city = city
         self.state = state
         self.userDescription = "Hi, I'm " + firstName
+        self.profilePicUrl = profilePicURL
     }
     
     var safeEmail: String {

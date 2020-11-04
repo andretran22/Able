@@ -38,6 +38,9 @@ class ProfileVC: UIViewController {
         imagePicker.sourceType = .photoLibrary
         imagePicker.delegate = self
         
+        profileImageView.layer.masksToBounds = true
+        profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
+        
         // if user is nil, then use publicCurrentUser
         if (user == nil) {
             user = publicCurrentUser
@@ -201,6 +204,11 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
         self.nameLabel.text = "\(user!.firstName!) \(user!.lastName!)"
         self.locationLabel.text = "\(user!.city!), \(user!.state!)"
         self.aboutMeLabel.text = user!.userDescription
+        
+        // retrieve url from firebase
+        ImageService.downloadImage(withURL: URL(string: user!.profilePicUrl)!) { image in
+            self.profileImageView.image = image
+        }
     }
     
     // helper for changeProfileImage to put uploaded image to Firebase Storage
@@ -232,10 +240,13 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
     func saveProfile(username: String, profileImageURL: URL, completion: @escaping ((_ success:Bool)->())) {
 //        guard let uid = Auth.auth().currentUser?.uid else { return }
         ref = Database.database().reference().child("users/\(username)")
-//        let userObject = [
-//            "photoURL": profileImageURL.absoluteString
-//        ] as [String:Any]
-        
+        user?.profilePicUrl = profileImageURL.absoluteString
+//        ref.observeSingleEvent(of: .value, with: {
+//            (snapshot) in
+//            self.ref.child("photoURL").setValue(profileImageURL.absoluteString)
+//        }) { (error) in
+////            completion(error == nil)
+//        }
         ref.child("photoURL").setValue(profileImageURL.absoluteString) { (error, ref) in
             completion(error == nil)
         }

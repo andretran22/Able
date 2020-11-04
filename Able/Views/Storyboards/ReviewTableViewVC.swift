@@ -113,10 +113,11 @@ class ReviewTableViewVC: UIViewController, UITableViewDelegate, UITableViewDataS
                let lastName = userData["last_name"] as? String,
                let username = userData["user_name"] as? String,
                let city = userData["city"] as? String,
+               let url = userData["photoURL"] as? String,
                let state = userData["state"] as? String
                {
                 self.viewUser = AbleUser(firstName: firstName, lastName: lastName,
-                                    emailAddress: snapshot.key, username: username, city: city, state: state)
+                                    emailAddress: snapshot.key, username: username, city: city, state: state, profilePicURL: url)
             }
             self.performSegue(withIdentifier: "ToProfileFromHelpFeed", sender: nil)
         })

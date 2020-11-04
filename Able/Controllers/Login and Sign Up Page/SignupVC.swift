@@ -132,7 +132,8 @@ class SignupVC: UIViewController {
             emailAddress: emailField.text!,
             username: usernameField.text!,
             city: cityField.text!,
-            state: stateField.text!
+            state: stateField.text!,
+            profilePicURL: defaultProfilePicURL
         )
         )
     }

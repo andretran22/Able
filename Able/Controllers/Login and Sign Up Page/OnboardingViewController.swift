@@ -66,7 +66,8 @@ class OnboardingViewController: UIViewController{
                                 emailAddress: email,
                                 username: username,
                                 city: city,
-                                state: state)
+                                state: state,
+                                profilePicURL: defaultProfilePicURL)
         DatabaseManager.shared.insertUser(with: newUser)
     }
     

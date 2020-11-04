@@ -75,7 +75,8 @@ extension DatabaseManager {
             "user_name": user.username,
             "city": user.city,
             "state": user.state,
-            "user_description": user.userDescription
+            "user_description": user.userDescription,
+            "photoURL" : user.profilePicUrl
         ])
         database.child("users").child(user.safeEmail).child("reviews").child("numReviews").setValue(0)
     }
@@ -93,6 +94,7 @@ extension DatabaseManager {
                   let lastname = dict["last_name"] as? String,
                   let username = dict["user_name"] as? String,
                   let city = dict["city"] as? String,
+                  let url = dict["photoURL"] as? String,
                   let state = dict["state"] as? String else {
                 print("Could not retrive user data from Firebase")
                 return
@@ -103,7 +105,8 @@ extension DatabaseManager {
                                           emailAddress: email,
                                           username: username,
                                           city: city,
-                                          state: state)
+                                          state: state,
+                                          profilePicURL: url)
             publicCurrentUser?.printInfo()
         }
     }
