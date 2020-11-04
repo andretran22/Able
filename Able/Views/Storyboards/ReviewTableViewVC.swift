@@ -10,7 +10,7 @@ import Firebase
 
 class ReviewTableViewVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
-    var helpPosts = [Post]()
+    var reviews = [Post]()
     var postIndex: IndexPath?
     var viewUser: AbleUser?
     
@@ -37,9 +37,9 @@ class ReviewTableViewVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func fetchPosts() {
         print("executing fetchPosts in reviews")
-        let helpPostsRef = Database.database().reference().child("users").child(viewUser!.safeEmail).child("reviews")
+        let reviewsRef = Database.database().reference().child("users").child(viewUser!.safeEmail).child("reviews")
         
-        helpPostsRef.observe(.value, with: { snapshot in
+        reviewsRef.observe(.value, with: { snapshot in
             
             var tempPosts = [Post]()
             
@@ -53,14 +53,13 @@ class ReviewTableViewVC: UIViewController, UITableViewDelegate, UITableViewDataS
                    let rating = dict["rating"] as? Double,
                    let timestamp = dict["timestamp"] as? Double {
 
-                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: [String](), text: text, timestamp: timestamp)
+                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, text: text, timestamp: timestamp, rating: rating)
                     
-                    post.rating = rating
                     tempPosts.append(post)
                 
                 }
             }
-            self.helpPosts = tempPosts
+            self.reviews = tempPosts
             self.tableView.reloadData()
         })
     }
@@ -71,14 +70,14 @@ class ReviewTableViewVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return helpPosts.count
+        return reviews.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewPost", for: indexPath) as! PostCell
-        cell.post = helpPosts[indexPath.row]
+        cell.post = reviews[indexPath.row]
         cell.usernameButton.tag = indexPath.row
-        cell.postStatsLabel.text = String(Int(helpPosts[indexPath.row].rating))
+        cell.postStatsLabel.text = String(Int(reviews[indexPath.row].rating!))
         // add shadow on cell
         cell.backgroundColor = .clear // very important
         cell.layer.masksToBounds = false
@@ -104,7 +103,7 @@ class ReviewTableViewVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     @IBAction func nameClicked(_ sender: UIButton) {
         postIndex = IndexPath(row: sender.tag, section: 0)
-        let userKey = helpPosts[postIndex!.row].userKey
+        let userKey = reviews[postIndex!.row].userKey
         
         let usersRef = Database.database().reference()
         

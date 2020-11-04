@@ -16,7 +16,13 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
     @IBOutlet weak var captionLabel: UILabel!
     @IBOutlet weak var postStatsLabel: UILabel!
 //    @IBOutlet weak var postImageView: UIImageView!
+    
+    // only for help or helper posts
     @IBOutlet weak var tagsCollectionView: UICollectionView?
+    @IBOutlet weak var numberOfCommentsLabel: UILabel?
+    
+    // only for review posts
+    @IBOutlet weak var ratingLabel: UILabel?
     
     var tags = [String]()
     
@@ -31,9 +37,19 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
         locationLabel.text = post.location
         timeAgoLabel.text = post.createdAt.calenderTimeSinceNow()
         captionLabel.text = post.text
-        tags = post.tags
-        tagsCollectionView?.delegate = self
-        tagsCollectionView?.dataSource = self
+        
+        // for help and helper posts
+        if (post.tags != nil) {
+            tags = post.tags!
+            tagsCollectionView?.delegate = self
+            tagsCollectionView?.dataSource = self
+        }
+        
+        // for reviews
+        if (post.rating != nil) {
+            ratingLabel?.text =  String(Int(post.rating!))
+        }
+        
 //        postStatsLabel.text = "\(post.numberOfComments!)"
     //        profileImageView.image = post.createdBy.profileImage
     //        usernameLabel.text = post.createdBy.username

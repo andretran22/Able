@@ -59,6 +59,8 @@ extension AddReviewVC {
         guard let uid = publicCurrentUser?.safeEmail else { return }
         ref = Database.database().reference()
         
+        print("attempt to upload review")
+        
         ref.child("users").child(reviewedUid).child("reviews").observeSingleEvent(of: .value, with: { (snapshot) in
             if let getData = snapshot.value as? [String:Any] {
                 let reviewCount = (getData["numReviews"] as? Int)! + 1
@@ -70,6 +72,9 @@ extension AddReviewVC {
                 newReview.child("timestamp").setValue([".sv": "timestamp"])
                 newReview.child("rating").setValue(ratingNumber)
                 self.ref.child("users").child(reviewedUid).child("reviews").child("numReviews").setValue(reviewCount)
+                print("COMPLETED: review uploaded")
+            } else {
+                print("FAILED: review could not upload")
             }
           }) { (error) in
             print(error.localizedDescription)
