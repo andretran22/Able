@@ -16,7 +16,7 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
     @IBOutlet weak var captionLabel: UILabel!
     @IBOutlet weak var postStatsLabel: UILabel!
 //    @IBOutlet weak var postImageView: UIImageView!
-    @IBOutlet weak var tagsCollectionView: UICollectionView!
+    @IBOutlet weak var tagsCollectionView: UICollectionView?
     
     var tags = [String]()
     
@@ -32,8 +32,8 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
         timeAgoLabel.text = post.createdAt.calenderTimeSinceNow()
         captionLabel.text = post.text
         tags = post.tags
-        tagsCollectionView.delegate = self
-        tagsCollectionView.dataSource = self
+        tagsCollectionView?.delegate = self
+        tagsCollectionView?.dataSource = self
 //        postStatsLabel.text = "\(post.numberOfComments!)"
     //        profileImageView.image = post.createdBy.profileImage
     //        usernameLabel.text = post.createdBy.username
