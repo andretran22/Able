@@ -16,6 +16,7 @@ class AddReviewVC: UIViewController {
     
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var submitButton: UIButton!
     
     lazy var cosmosView: CosmosView = {
         var view = CosmosView()
@@ -29,14 +30,35 @@ class AddReviewVC: UIViewController {
 
         // Do any additional setup after loading the view.
         view.addSubview(cosmosView)
-        let point = CGPoint(x: -130, y: -230)
+        let point = CGPoint(x: -110, y: -140)
         cosmosView.centerInSuperview(offset: point, priority: .defaultHigh, isActive: true, usingSafeArea: true)
         
         cosmosView.didFinishTouchingCosmos = { rating in
             print("Rated: \(rating)")
         }
         
+        // set up textView styling
+        textView.layer.cornerRadius = 10
+        textView.text = "leave a review"
+        textView.textColor = UIColor.lightGray
+        
+        submitButton.layer.cornerRadius = 4
+        
         usernameLabel.text = (user?.firstName)! + " " + (user?.lastName)!
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "leave a review"
+            textView.textColor = UIColor.lightGray
+        }
     }
     
     @IBAction func submitReview(_ sender: UIButton) {
