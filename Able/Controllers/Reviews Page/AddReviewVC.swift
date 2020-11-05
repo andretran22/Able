@@ -40,8 +40,6 @@ class AddReviewVC: UIViewController {
         // set up textView styling
         textView.layer.cornerRadius = 10
         textView.text = "leave a review"
-        textView.textColor = UIColor.lightGray
-        
         submitButton.layer.cornerRadius = 4
         
         usernameLabel.text = (user?.firstName)! + " " + (user?.lastName)!
@@ -102,4 +100,8 @@ extension AddReviewVC {
             print(error.localizedDescription)
         }
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            self.view.endEditing(true)
+        }
 }
