@@ -1507,6 +1507,7 @@
                     </view>
                     <connections>
                         <outlet property="userTableView" destination="yBR-YL-6oB" id="abr-9O-Gbi"/>
+                        <segue destination="M2i-ZM-UAf" kind="show" identifier="ToProfileFromSearchUser" id="ygx-Q5-WQC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YVS-Ot-oY5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1709,7 +1710,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="kVu-QY-jCa"/>
+        <segue reference="ygx-Q5-WQC"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="default" width="512" height="512"/>

@@ -8,31 +8,17 @@
 import UIKit
 import Firebase
 
-class User1{
-    var photoURL = ""
-    var firstName = ""
-    var lastName = ""
-    var username = ""
-    
-    init(url: String, first: String, last: String, un: String){
-        photoURL = url
-        firstName = first
-        lastName = last
-        username = un
-    }
-    
-}
-
 class SearchViewController: UIViewController, UISearchBarDelegate {
 
     @IBOutlet weak var searchPostsView: UIView!
     @IBOutlet weak var searchUsersView: UIView!
     @IBOutlet weak var searchbarEditText: UISearchBar!
+    
     let ref: DatabaseReference! = Database.database().reference()
     var searchUserVC: SearchUsersViewController!
     var searchPostVC: SearchPostsViewController!
-    var userList:[User1] = []
-    var filteredUserList1:[User1] = []
+    var userList:[AbleUser] = []
+    var filteredUserList1:[AbleUser] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,14 +31,18 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
             for child in snapshot.children{
                 
                 if let childSnapshot = child as? DataSnapshot,
-                   let dict = childSnapshot.value as? [String:Any],
-                   let firstName1 = dict["first_name"] as? String,
-                   let lastName1 = dict["last_name"] as? String,
-                   let profPic = dict["photoURL"] as? String,
-                   let username = dict["user_name"] as? String{
-                    
-                    let newUser = User1(url: profPic, first: firstName1, last: lastName1, un: username)
-                    self.userList.append(newUser)
+                   let userData = childSnapshot.value as? [String:Any],
+                   let firstName = userData["first_name"] as? String,
+                   let lastName = userData["last_name"] as? String,
+                   let username = userData["user_name"] as? String,
+                   let city = userData["city"] as? String,
+                   let state = userData["state"] as? String,
+                   let url = userData["photoURL"] as? String,
+                   let user_description = userData["user_description"] as? String {
+
+                    let user = AbleUser(firstName: firstName, lastName: lastName,
+                                        emailAddress: childSnapshot.key, username: username, city: city, state: state, profilePicURL: url, userDescription: user_description)
+                    self.userList.append(user)
                 }
             }
         })
@@ -81,8 +71,8 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         filteredUserList1 = []
         print("before \(searchUserVC.filteredUserList.count)")
         for user in userList{
-            let fullName = "\(user.firstName) \(user.lastName)"
-            if(fullName.lowercased().contains(searchText.lowercased()) || user.username.lowercased().contains(searchText.lowercased())){
+            let fullName = "\(user.firstName!) \(user.lastName!)"
+            if(fullName.lowercased().contains(searchText.lowercased()) || user.username!.lowercased().contains(searchText.lowercased())){
                 filteredUserList1.append(user)
             }
         }

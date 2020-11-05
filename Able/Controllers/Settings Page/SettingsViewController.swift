@@ -177,13 +177,17 @@ class SettingsViewController: UIViewController {
         //logout Google
         GIDSignIn.sharedInstance()?.signOut()
         
-        do { try Auth.auth().signOut() }
+        
+        do {
+            try Auth.auth().signOut()
+            self.dismiss(animated: true, completion: nil)
+        }
         catch { print("already logged out") }
     }
     
 
     @IBAction func updateInformationButtonPressed(_ sender: Any) {
-        print("iside update info")
+        print("inside update info")
         ref.child("users/\(publicCurrentUser!.safeEmail)").updateChildValues([
             "user_name":usernameEditText.text!,
             "first_name": firstNameEditText.text!,

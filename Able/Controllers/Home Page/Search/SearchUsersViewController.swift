@@ -14,27 +14,13 @@ class UserCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView?
-
-//    var user: User! {
-//        didSet {
-//            updateUI()
-//        }
-//    }
-//
-//    func updateUI() {
-//        nameLabel.text = user.name
-//        usernameLabel.text = user.username
-//        profileImageView.image = user.profileImage
-//    }
 }
 
 class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var userTableView: UITableView!
     var ref: DatabaseReference!
-    var users = [User]()
-    public var filteredUserList:[User1] = []
-    public var listCount = 0
+    public var filteredUserList:[AbleUser] = []
     let userCellIdentifier = "userCellIdentifier"
 
     override func viewDidLoad() {
@@ -57,20 +43,30 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
         let cell = tableView.dequeueReusableCell(withIdentifier: userCellIdentifier, for: indexPath as IndexPath) as! UserCell
         let user = filteredUserList[indexPath.row]
         //update the cell
-        cell.nameLabel.text = "\(user.firstName) \(user.lastName)"
+        cell.nameLabel.text = "\(user.firstName!) \(user.lastName!)"
         //TODO: I need help here
 //        cell.profileImageView?.image = user.photoURL
-        cell.usernameLabel.text = user.username
+        cell.usernameLabel.text = "@\(user.username!)"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //this function gets executed when you tap a row
         tableView.deselectRow(at: indexPath, animated: true)
+        let user = filteredUserList[indexPath.row]
+        self.performSegue(withIdentifier: "ToProfileFromSearchUser", sender: user)
     }
     
     public func updateTableView(){
         userTableView.reloadData()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ToProfileFromSearchUser",
+            let profilePageVC = segue.destination as? ProfileVC {
+            let user = sender as! AbleUser
+            profilePageVC.user = user
+        }
     }
     
     
