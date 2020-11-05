@@ -14,9 +14,18 @@ class TagCollectionViewCell: UICollectionViewCell {
 let DEFAULT_TAGS = ["Food", "Water", "Clothes", "Toiletries", "Medicine", "Toys",
                     "Furniture", "Tech", "Other"]
 
-let DEFAULT_COLOR_TAGS = [UIColor.systemBlue, UIColor.systemPurple, UIColor.systemGreen, UIColor.systemPink, UIColor.green, UIColor.systemYellow, UIColor.systemOrange, UIColor.blue, UIColor.magenta]
+let DEFAULT_COLOR_TAGS = [UIColor(red: 0/255, green: 203/255, blue: 255/255, alpha: 1.0),   /* #00cbff, blue */
+                          UIColor(red: 152/255, green: 145/255, blue: 255/255, alpha: 1.0), /* #9891ff, purple */
+                          UIColor(red: 96/255, green: 255/255, blue: 149/255, alpha: 1.0),  /* #60ff95, green */
+                          UIColor(red: 255/255, green: 186/255, blue: 246/255, alpha: 1.0), /* #ffbaf6, pink */
+                          UIColor(red: 76/255, green: 255/255, blue: 147/255, alpha: 1.0),  /* #4cff93, mint */
+                          UIColor(red: 255/255, green: 250/255, blue: 112/255, alpha: 1.0), /* #fffa70, yellow */
+                          UIColor(red: 255/255, green: 130/255, blue: 150/255, alpha: 1.0), /* #ff8296, red */
+                          UIColor(red: 255/255, green: 166/255, blue: 84/255, alpha: 1.0),  /* #ffa654, orange */
+                          UIColor(red: 109/255, green: 242/255, blue: 255/255, alpha: 1.0)  /* #6df2ff, cyan */
+                        ]
 
-class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ReturnFilterDelegate {
     
     @IBOutlet weak var helpFeedContainer: UIView!
     @IBOutlet weak var helperFeedContainer: UIView!
@@ -26,11 +35,12 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
     var tags = DEFAULT_TAGS
     var tagColors = DEFAULT_COLOR_TAGS
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionViewTags.delegate = self
         collectionViewTags.dataSource = self
-    
+        
         // create global user for reference once signed up or logged in
         DatabaseManager.shared.setPublicUser()
     }
@@ -72,13 +82,25 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
     // change background color when user touches cell
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = UIColor.red
+        cell?.backgroundColor = cell?.backgroundColor!.adjust(by: -30)
     }
 
     // change background color back when user releases touch
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.backgroundColor = self.tagColors[indexPath.row]
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueFilter",
+           let filterVC = segue.destination as? FilterVC{
+            filterVC.returnDelegate = self
+        }
+    }
+    
+    func returnFilterProperties(properties: Dictionary<String, Any>) {
+        print("Recieved Filter properties: ")
+        print(properties)
     }
 }
 
