@@ -7,37 +7,72 @@
 
 import UIKit
 import Firebase
+import Foundation
 
 class UserCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView?
-    
-    var user: User! {
-        didSet {
-            updateUI()
-        }
-    }
-    
-    func updateUI() {
+
+//    var user: User! {
+//        didSet {
+//            updateUI()
+//        }
+//    }
+//
+//    func updateUI() {
 //        nameLabel.text = user.name
 //        usernameLabel.text = user.username
 //        profileImageView.image = user.profileImage
-    }
+//    }
 }
 
-class SearchUsersViewController: UIViewController {
-    
+class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+    @IBOutlet weak var userTableView: UITableView!
     var ref: DatabaseReference!
     var users = [User]()
+    public var filteredUserList:[User1] = []
+    public var listCount = 0
+    let userCellIdentifier = "userCellIdentifier"
 
     override func viewDidLoad() {
         super.viewDidLoad()
 //        getUsersFromDatabase()
         print("showing users")
         // Do any additional setup after loading the view.
+        //observe the filteredUserList
+//        var observableList = filteredUserList as NSObject
+        userTableView.delegate = self
+        userTableView.dataSource = self
+        
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return filteredUserList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: userCellIdentifier, for: indexPath as IndexPath) as! UserCell
+        let user = filteredUserList[indexPath.row]
+        //update the cell
+        cell.nameLabel.text = "\(user.firstName) \(user.lastName)"
+        //TODO: I need help here
+//        cell.profileImageView?.image = user.photoURL
+        cell.usernameLabel.text = user.username
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //this function gets executed when you tap a row
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    public func updateTableView(){
+        userTableView.reloadData()
+    }
+    
     
 //    func getUsersFromDatabase() {
 //        ref = Database.database().reference()

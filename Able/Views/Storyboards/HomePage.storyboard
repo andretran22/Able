@@ -391,14 +391,14 @@
                                 <rect key="frame" x="20" y="281" width="374" height="532"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <connections>
-                                    <segue destination="XMP-Nj-YQV" kind="embed" id="Ks9-6q-km0"/>
+                                    <segue destination="XMP-Nj-YQV" kind="embed" identifier="searchPostSegue" id="Ks9-6q-km0"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8vh-Jr-56U" userLabel="Search Users View Container">
                                 <rect key="frame" x="20" y="281" width="374" height="532"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <connections>
-                                    <segue destination="EK0-gb-CKu" kind="embed" id="Lae-St-lbA"/>
+                                    <segue destination="EK0-gb-CKu" kind="embed" identifier="searchUserSegue" id="Lae-St-lbA"/>
                                 </connections>
                             </containerView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="533-MK-yqQ">
@@ -420,6 +420,7 @@
                     <connections>
                         <outlet property="searchPostsView" destination="Pp4-5y-aCy" id="hYv-B2-AkQ"/>
                         <outlet property="searchUsersView" destination="8vh-Jr-56U" id="dqt-1L-Zpa"/>
+                        <outlet property="searchbarEditText" destination="SC7-Tg-TwV" id="vCp-nH-WNY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uOs-xQ-PI1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1086,27 +1087,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="374" height="532"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yBR-YL-6oB">
-                                <rect key="frame" x="16" y="44" width="342" height="468"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yBR-YL-6oB">
+                                <rect key="frame" x="0.0" y="0.0" width="374" height="532"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="58" id="7Qu-pL-6Tn">
-                                        <rect key="frame" x="0.0" y="28" width="342" height="58"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userCellIdentifier" rowHeight="58" id="7Qu-pL-6Tn" customClass="UserCell" customModule="Able" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="374" height="58"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7Qu-pL-6Tn" id="YWY-Ki-B2l">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="58"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="58"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="John Doe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BaD-bG-zDb" userLabel="Name">
-                                                    <rect key="frame" x="71" y="9" width="73" height="20"/>
+                                                    <rect key="frame" x="71" y="9" width="271" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@johndoe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aDt-Z1-UlM" userLabel="Username">
-                                                    <rect key="frame" x="71" y="29" width="73" height="20"/>
+                                                    <rect key="frame" x="71" y="29" width="271" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                     <nil key="textColor"/>
@@ -1118,6 +1119,11 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="BaD-bG-zDb" id="ruK-y0-JSM"/>
+                                            <outlet property="profileImageView" destination="jgo-tn-WJn" id="yG9-eD-86D"/>
+                                            <outlet property="usernameLabel" destination="aDt-Z1-UlM" id="2qv-mm-1fV"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -1125,6 +1131,9 @@
                         <viewLayoutGuide key="safeArea" id="aVq-aY-sjj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <outlet property="userTableView" destination="yBR-YL-6oB" id="abr-9O-Gbi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YVS-Ot-oY5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
