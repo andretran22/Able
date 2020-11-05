@@ -95,6 +95,9 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
             errorStatusLabel.isHidden = false
         } else {
             uploadPost()
+            //TODO: Ban added this but should be a placeholder text instead
+            postTextView.text = ""
+            
             errorStatusLabel.isHidden = true
         }
     }
