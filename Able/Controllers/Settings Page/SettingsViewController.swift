@@ -14,7 +14,8 @@ import GoogleSignIn
 class SettingsViewController: UIViewController {
     
     @IBOutlet weak var usernameEditText: UITextField!
-    @IBOutlet weak var nameEditText: UITextField!
+    @IBOutlet weak var firstNameEditText: UITextField!
+    @IBOutlet weak var lastNameEditText: UITextField!
     @IBOutlet weak var cityEditText: UITextField!
     @IBOutlet weak var stateEditText: UITextField!
     @IBOutlet weak var notificationsSwitch: UISwitch!
@@ -22,7 +23,8 @@ class SettingsViewController: UIViewController {
     let ref: DatabaseReference! = Database.database().reference()
     let uid: String = Auth.auth().currentUser!.uid
     var username = ""
-    var name = ""
+    var firstName = ""
+    var lastName = ""
     var notifcations = false
     var city = ""
     var state = ""
@@ -33,21 +35,21 @@ class SettingsViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         print("inside setting")
-        
-        ref.child("user/\(uid)").observeSingleEvent(of: .value, with: {(snapshot) in
+        ref.child("users/\(publicCurrentUser!.safeEmail)").observeSingleEvent(of: .value, with: {(snapshot) in
             let value = snapshot.value as? NSDictionary
             print(value!.count)
-            
-            self.username = value!["username"] as! String
-            self.name = value!["name"] as! String
-            
+
+            self.username = value!["user_name"] as! String
+            self.firstName = value!["first_name"] as! String
+            self.lastName = value!["last_name"] as! String
             // TODO: Need to change this
             // self.notifcations = value!["notifications"] as! Bool
-            
+
             self.city = value!["city"] as! String
             self.state = value!["state"] as! String
             self.usernameEditText.text = self.username
-            self.nameEditText.text = self.name
+            self.firstNameEditText.text = self.firstName
+            self.lastNameEditText.text = self.lastName
             self.cityEditText.text = self.city
             self.stateEditText.text = self.state
         })
@@ -70,7 +72,7 @@ class SettingsViewController: UIViewController {
                                             (action) in
                                             
                                             let user = Auth.auth().currentUser
-                                            self.ref.child("user/\(self.uid)").removeValue()
+                                            self.ref.child("users/\(publicCurrentUser!.safeEmail)").removeValue()
                                             user?.delete { error in
                                               if let error = error {
                                                 // An error happened.
@@ -181,9 +183,11 @@ class SettingsViewController: UIViewController {
     
 
     @IBAction func updateInformationButtonPressed(_ sender: Any) {
-        ref.child("user").child(uid).updateChildValues([
-            "username":"@\(usernameEditText.text!)",
-            "name": nameEditText.text!,
+        print("iside update info")
+        ref.child("users/\(publicCurrentUser!.safeEmail)").updateChildValues([
+            "user_name":usernameEditText.text!,
+            "first_name": firstNameEditText.text!,
+            "last_name": lastNameEditText.text!,
             "city": cityEditText.text!,
             "state": stateEditText.text!
         ])
@@ -192,11 +196,11 @@ class SettingsViewController: UIViewController {
     
     @IBAction func notificationSwitchChanged(_ sender: Any) {
         if(notificationsSwitch.isOn){
-            ref.child("user").child(uid).updateChildValues([
+            ref.child("users/\(publicCurrentUser!.safeEmail)").updateChildValues([
                 "notifications": true
             ])
         }else{
-            ref.child("user").child(uid).updateChildValues([
+            ref.child("users/\(publicCurrentUser!.safeEmail)").updateChildValues([
                 "notifications": false
             ])
         }
