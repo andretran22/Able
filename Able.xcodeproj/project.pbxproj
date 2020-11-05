@@ -15,12 +15,15 @@
 		0A44BBE3254AA59A00DB247C /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A44BBE2254AA59A00DB247C /* Onboarding.storyboard */; };
 		0A64F8B4254AABFB00C1204C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64F8B3254AABFB00C1204C /* OnboardingViewController.swift */; };
 		0A64F923254CFA9700C1204C /* AbleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64F922254CFA9700C1204C /* AbleUser.swift */; };
+		0A95849D255155B9009DE2DB /* FilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A95849C255155B9009DE2DB /* FilterVC.swift */; };
 		0A983B9C2530EFF900F45A5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A983B9B2530EFF900F45A5F /* AppDelegate.swift */; };
 		0A983B9E2530EFF900F45A5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A983B9D2530EFF900F45A5F /* SceneDelegate.swift */; };
 		0A983BA32530EFF900F45A5F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A983BA12530EFF900F45A5F /* Main.storyboard */; };
 		0A983BA62530EFF900F45A5F /* Able.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A983BA42530EFF900F45A5F /* Able.xcdatamodeld */; };
 		0A983BA82530EFFA00F45A5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A983BA72530EFFA00F45A5F /* Assets.xcassets */; };
 		0A983BAB2530EFFA00F45A5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A983BA92530EFFA00F45A5F /* LaunchScreen.storyboard */; };
+		0A9AC6FA25525BE700A27DEC /* CategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9AC6F925525BE700A27DEC /* CategoryButton.swift */; };
+		0ABBA20825536C8D00D31D97 /* CustomFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABBA20725536C8D00D31D97 /* CustomFilterCell.swift */; };
 		0AC31EB2253969D50084E927 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AC31EB1253969D50084E927 /* GoogleService-Info.plist */; };
 		7C6CFE8D25507718002E8B17 /* PersonalHelpFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6CFE8C25507718002E8B17 /* PersonalHelpFeedVC.swift */; };
 		7C6CFE9625508916002E8B17 /* PersonalHelperFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6CFE9525508916002E8B17 /* PersonalHelperFeedVC.swift */; };
@@ -60,6 +63,7 @@
 		0A44BBE2254AA59A00DB247C /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		0A64F8B3254AABFB00C1204C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		0A64F922254CFA9700C1204C /* AbleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbleUser.swift; sourceTree = "<group>"; };
+		0A95849C255155B9009DE2DB /* FilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterVC.swift; sourceTree = "<group>"; };
 		0A983B982530EFF900F45A5F /* Able.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Able.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A983B9B2530EFF900F45A5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A983B9D2530EFF900F45A5F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +72,8 @@
 		0A983BA72530EFFA00F45A5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A983BAA2530EFFA00F45A5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A983BAC2530EFFA00F45A5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A9AC6F925525BE700A27DEC /* CategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButton.swift; sourceTree = "<group>"; };
+		0ABBA20725536C8D00D31D97 /* CustomFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFilterCell.swift; sourceTree = "<group>"; };
 		0AC31EB1253969D50084E927 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0E2A666DE14DB870C80B13A8 /* Pods-Able.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Able.release.xcconfig"; path = "Target Support Files/Pods-Able/Pods-Able.release.xcconfig"; sourceTree = "<group>"; };
 		7C6CFE8C25507718002E8B17 /* PersonalHelpFeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PersonalHelpFeedVC.swift; path = "Able/Controllers/Profile Page/PersonalHelpFeedVC.swift"; sourceTree = SOURCE_ROOT; };
@@ -171,6 +177,16 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
+		0A95849F255155BD009DE2DB /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				0A95849C255155B9009DE2DB /* FilterVC.swift */,
+				0A9AC6F925525BE700A27DEC /* CategoryButton.swift */,
+				0ABBA20725536C8D00D31D97 /* CustomFilterCell.swift */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
 		0A983B8F2530EFF900F45A5F = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +263,7 @@
 				0A37D85C2531A6F900B94D82 /* HomePageVC.swift */,
 				D1A3AFE025422A6100CA7FDA /* HelpFeedVC.swift */,
 				D1A3AFDE25422A6100CA7FDA /* HelperFeedVC.swift */,
+				0A95849F255155BD009DE2DB /* Filter */,
 			);
 			path = "Home Page";
 			sourceTree = "<group>";
@@ -454,6 +471,8 @@
 				D17077F0254BDD2D009BA136 /* SearchPostsViewController.swift in Sources */,
 				D1A3AFE425422A6100CA7FDA /* CreatePostVC.swift in Sources */,
 				7C6CFE9625508916002E8B17 /* PersonalHelperFeedVC.swift in Sources */,
+				0ABBA20825536C8D00D31D97 /* CustomFilterCell.swift in Sources */,
+				0A95849D255155B9009DE2DB /* FilterVC.swift in Sources */,
 				0A44BBE0254A819F00DB247C /* DatabaseManager.swift in Sources */,
 				0A64F923254CFA9700C1204C /* AbleUser.swift in Sources */,
 				D1A3AFA12542242A00CA7FDA /* SettingsViewController.swift in Sources */,
@@ -470,6 +489,7 @@
 				D17077F7254C3C72009BA136 /* Timestamp.swift in Sources */,
 				7C9E790B2541F6E700595A8E /* ProfileVC.swift in Sources */,
 				7C6CFF0A25533A9F002E8B17 /* ImageService.swift in Sources */,
+				0A9AC6FA25525BE700A27DEC /* CategoryButton.swift in Sources */,
 				D17077E9254BDCC4009BA136 /* SearchViewController.swift in Sources */,
 				0A37D85D2531A6F900B94D82 /* HomePageVC.swift in Sources */,
 				0A983B9E2530EFF900F45A5F /* SceneDelegate.swift in Sources */,
