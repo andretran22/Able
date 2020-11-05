@@ -14,7 +14,7 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var timeAgoLabel: UILabel!
     @IBOutlet weak var captionLabel: UILabel!
-    @IBOutlet weak var postStatsLabel: UILabel!
+    @IBOutlet weak var postStatsLabel: UILabel! // works for number of comments and ratings label
 //    @IBOutlet weak var postImageView: UIImageView!
     
     // only for help or helper posts
@@ -33,7 +33,7 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
     }
     
     func updateUI() {
-        usernameButton.setTitle("\(post.authorName)", for: .normal)
+        usernameButton.setTitle(post.authorName, for: .normal)
         locationLabel.text = post.location
         timeAgoLabel.text = post.createdAt.calenderTimeSinceNow()
         captionLabel.text = post.text
@@ -66,7 +66,7 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
         let row = indexPath.row
         // Use the outlet in our custom class to get a reference to the UILabel in the cell
         cell.tagLabel.text = self.tags[row] // The row value is the same as the index of the desired text within the array.
-        cell.backgroundColor = UIColor.systemBlue // make cell more visible in our example project
+        cell.backgroundColor = DEFAULT_COLOR_TAGS[row % 9] // make cell more visible in our example project
         cell.layer.cornerRadius = 8
         return cell
     }

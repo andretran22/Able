@@ -11,8 +11,7 @@ import Firebase
 class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     @IBOutlet weak var tableView: UITableView!
-    var helpPosts = [Post]()
-    var postIndex: IndexPath?
+    var helperPosts = [Post]()
     var viewUser: AbleUser?
     
     override func viewDidLoad() {
@@ -36,9 +35,9 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func fetchPosts() {
-        let helpPostsRef = Database.database().reference().child("posts").child("helperPosts")
+        let helperPostsRef = Database.database().reference().child("posts").child("helperPosts")
         
-        helpPostsRef.observe(.value, with: { snapshot in
+        helperPostsRef.observe(.value, with: { snapshot in
             
             var tempPosts = [Post]()
             
@@ -54,13 +53,16 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
                     print("email is " + userKey + " viewUser safe email is " + self.viewUser!.safeEmail)
                     if userKey == self.viewUser?.safeEmail {
                         print("adding post to tempPosts")
-                        let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp)
-                        
+                        var comments = [Post]()
+                        if let anyComments = dict["comments"] as? [Post] {
+                            comments = anyComments
+                        }
+                        let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, comments: comments)
                         tempPosts.append(post)
                     }
                 }
             }
-            self.helpPosts = tempPosts
+            self.helperPosts = tempPosts
             self.tableView.reloadData()
         })
     }
@@ -71,12 +73,12 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return helpPosts.count
+        return helperPosts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HelperPostCell", for: indexPath) as! PostCell
-        cell.post = helpPosts[indexPath.row]
+        cell.post = helperPosts[indexPath.row]
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell
         cell.backgroundColor = .clear // very important
@@ -102,8 +104,8 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func nameClicked(_ sender: UIButton) {
-        postIndex = IndexPath(row: sender.tag, section: 0)
-        let userKey = helpPosts[postIndex!.row].userKey
+        let postIndex = IndexPath(row: sender.tag, section: 0)
+        let userKey = helperPosts[postIndex.row].userKey
         
         let usersRef = Database.database().reference()
         

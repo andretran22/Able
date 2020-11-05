@@ -1,5 +1,5 @@
 //
-//  HelperFeedVC.swift
+//  HelpFeedVC.swift
 //  Able
 //
 //  Created by Tim Nguyen on 10/16/20.
@@ -9,10 +9,8 @@ import UIKit
 import Firebase
 
 class HelperFeedVC: UITableViewController {
-    
+
     var helperPosts = [Post]()
-    var postIndex: IndexPath?
-    var viewUser: AbleUser?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +27,9 @@ class HelperFeedVC: UITableViewController {
     }
     
     func fetchPosts() {
-        let helperPostsRef = Database.database().reference().child("posts").child("helperPosts")
+        let helpPostsRef = Database.database().reference().child("posts").child("helperPosts")
         
-        helperPostsRef.observe(.value, with: { snapshot in
+        helpPostsRef.observe(.value, with: { snapshot in
             
             var tempPosts = [Post]()
             
@@ -45,8 +43,11 @@ class HelperFeedVC: UITableViewController {
                    let text = dict["text"] as? String,
                    let timestamp = dict["timestamp"] as? Double {
                     
-                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp)
-                    
+                    var comments = [Post]()
+                    if let anyComments = dict["comments"] as? [Post] {
+                        comments = anyComments
+                    }
+                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, comments: comments)
                     tempPosts.append(post)
                 }
             }
@@ -58,6 +59,7 @@ class HelperFeedVC: UITableViewController {
     // animation to deselect cell
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        self.performSegue(withIdentifier: "ToSinglePostSegue", sender: helperPosts[indexPath.row])
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,8 +94,9 @@ class HelperFeedVC: UITableViewController {
     }
     
     @IBAction func nameClicked(_ sender: UIButton) {
-        postIndex = IndexPath(row: sender.tag, section: 0)
-        let userKey = helperPosts[postIndex!.row].userKey
+        
+        let postIndex = IndexPath(row: sender.tag, section: 0)
+        let userKey = helperPosts[postIndex.row].userKey
         
         let usersRef = Database.database().reference()
         
@@ -103,20 +106,27 @@ class HelperFeedVC: UITableViewController {
                let lastName = userData["last_name"] as? String,
                let username = userData["user_name"] as? String,
                let city = userData["city"] as? String,
+               let state = userData["state"] as? String,
                let url = userData["photoURL"] as? String,
-               let state = userData["state"] as? String
+               let user_description = userData["user_description"] as? String
                {
-                self.viewUser = AbleUser(firstName: firstName, lastName: lastName,
-                                    emailAddress: snapshot.key, username: username, city: city, state: state, profilePicURL: url)
+                let viewUser = AbleUser(firstName: firstName, lastName: lastName,
+                                    emailAddress: snapshot.key, username: username, city: city, state: state, profilePicURL: url, userDescription: user_description)
+                self.performSegue(withIdentifier: "ToProfileFromHelpFeed", sender: viewUser)
             }
-            self.performSegue(withIdentifier: "ToProfileFromHelperFeed", sender: nil)
         })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ToProfileFromHelperFeed",
+        if segue.identifier == "ToProfileFromHelpFeed",
             let profilePageVC = segue.destination as? ProfileVC {
+            let viewUser = sender as! AbleUser
             profilePageVC.user = viewUser
+        } else if segue.identifier == "ToSinglePostSegue",
+            let postVC = segue.destination as? PostViewController {
+            let viewPost = sender as! Post
+            postVC.post = viewPost
+            postVC.whichFeed = "helperPosts"
         }
     }
 }

@@ -22,6 +22,7 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
     @IBOutlet weak var segCtrlFeed: UISegmentedControl!
     @IBOutlet weak var postTextView: UITextView!
     @IBOutlet weak var postButton: UIButton!
+    @IBOutlet weak var errorStatusLabel: UILabel!
     
     let placeholderText = "Write something here..."
     let tagIdentifier = "CreatePostTagCell"
@@ -78,22 +79,37 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
         let row = indexPath.row
         // Use the outlet in our custom class to get a reference to the UILabel in the cell
         cell.tagLabel.text = self.tags[row] // The row value is the same as the index of the desired text within the array.
-        cell.backgroundColor = UIColor.systemBlue // make cell more visible in our example project
+        cell.backgroundColor = DEFAULT_COLOR_TAGS[row % 9]// make cell more visible in our example project
         cell.layer.cornerRadius = 8
         return cell
     }
     
-    // when clicked, check for segCtrlFeed and
+    // checks if fields are filled out properly first and then uploads post
     @IBAction func postButtonClicked(_ sender: Any) {
-        
+        // there must be at least one tag
+        if (postTextView.text.isEmpty || postTextView.text! == placeholderText) {
+            errorStatusLabel.text = "Post cannot be empty"
+            errorStatusLabel.isHidden = false
+        } else if (tags.count == 0) {
+            errorStatusLabel.text = "Post must have at least one tag"
+            errorStatusLabel.isHidden = false
+        } else {
+            uploadPost()
+            errorStatusLabel.isHidden = true
+        }
+    }
+    
+    // uploads post to firebase in helpPosts or helperPosts
+    func uploadPost() {
         var postRef = Database.database().reference().child("posts")
         
+        // check for which segCtrlFeed
         if (segCtrlFeed.selectedSegmentIndex == 0) {
             postRef = postRef.child("helpPosts").childByAutoId()
         } else {
             postRef = postRef.child("helperPosts").childByAutoId()
         }
-
+        
         let postObject = [
             "userKey": publicCurrentUser!.safeEmail,
             "authorName": "\(publicCurrentUser!.firstName!) \(publicCurrentUser!.lastName!)",

@@ -15,6 +15,7 @@ class AddTagsViewController: UIViewController, UICollectionViewDataSource, UICol
     
     var delegate: UIViewController?
     var yourTags = [String]()
+    var defaultTags = DEFAULT_TAGS
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,7 @@ class AddTagsViewController: UIViewController, UICollectionViewDataSource, UICol
         if (collectionView == yourTagsCollectionView) {
             return yourTags.count
         } else {
-            return DEFAULT_TAGS.count
+            return defaultTags.count
         }
     }
     
@@ -39,7 +40,7 @@ class AddTagsViewController: UIViewController, UICollectionViewDataSource, UICol
             let row = indexPath.row
             // Use the outlet in our custom class to get a reference to the UILabel in the cell
             cell.tagLabel.text = yourTags[row] // The row value is the same as the index of the desired text within the array.
-            cell.backgroundColor = UIColor.systemBlue // make cell more visible in our example project
+            cell.backgroundColor = DEFAULT_COLOR_TAGS[row % 9] // make cell more visible in our example project
             cell.layer.cornerRadius = 8
             return cell
         } else {
@@ -47,7 +48,7 @@ class AddTagsViewController: UIViewController, UICollectionViewDataSource, UICol
             // get a reference to our storyboard cell
             let row = indexPath.row
             // Use the outlet in our custom class to get a reference to the UILabel in the cell
-            cell.tagLabel.text = DEFAULT_TAGS[row] // The row value is the same as the index of the desired text within the array.
+            cell.tagLabel.text = defaultTags[row] // The row value is the same as the index of the desired text within the array.
             cell.backgroundColor = DEFAULT_COLOR_TAGS[row] // make cell more visible in our example project
             cell.layer.cornerRadius = 8
             return cell
@@ -60,12 +61,17 @@ class AddTagsViewController: UIViewController, UICollectionViewDataSource, UICol
         let row = indexPath.row
         if (collectionView == defaultTagsCollectionView) {
             defaultTagsCollectionView.deselectItem(at: indexPath, animated: true)
-            yourTags.append(DEFAULT_TAGS[row])
+            yourTags.append(defaultTags[row])
+            defaultTags.remove(at: row)
         } else {
             yourTagsCollectionView.deselectItem(at: indexPath, animated: true)
+            if (DEFAULT_TAGS.contains(yourTags[row])) {
+                defaultTags.append(yourTags[row])
+            }
             yourTags.remove(at: row)
         }
         yourTagsCollectionView.reloadData()
+        defaultTagsCollectionView.reloadData()
     }
     
     // adds the custom tag into the user's used tags

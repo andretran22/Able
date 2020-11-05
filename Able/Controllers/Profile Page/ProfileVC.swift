@@ -32,6 +32,9 @@ class ProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setView(view: helpFeedContainer, hidden: false)
+        setView(view: helperFeedContainer, hidden: true)
+        
         // Setup imagePicker to change the profile image
         imagePicker = UIImagePickerController()
         imagePicker.allowsEditing = true

@@ -43,6 +43,9 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
         
         // create global user for reference once signed up or logged in
         DatabaseManager.shared.setPublicUser()
+        
+        setView(view: helpFeedContainer, hidden: false)
+        setView(view: helperFeedContainer, hidden: true)
     }
     
     @IBAction func switchViews(_ sender: UISegmentedControl) {

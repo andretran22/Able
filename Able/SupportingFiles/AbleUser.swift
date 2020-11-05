@@ -26,6 +26,7 @@ class AbleUser {
     // default profile pic in Database
     var profilePicUrl = defaultProfilePicURL
     
+    // initial account creation with default user description
     init(firstName:String, lastName:String, emailAddress:String, username:String, city: String, state: String, profilePicURL: String){
         self.firstName = firstName
         self.lastName = lastName
@@ -34,6 +35,18 @@ class AbleUser {
         self.city = city
         self.state = state
         self.userDescription = "Hi, I'm " + firstName
+        self.profilePicUrl = profilePicURL
+    }
+    
+    // use this if the account has already been created
+    init(firstName:String, lastName:String, emailAddress:String, username:String, city: String, state: String, profilePicURL: String, userDescription: String){
+        self.firstName = firstName
+        self.lastName = lastName
+        self.emailAddress = emailAddress
+        self.username = username
+        self.city = city
+        self.state = state
+        self.userDescription = userDescription
         self.profilePicUrl = profilePicURL
     }
     

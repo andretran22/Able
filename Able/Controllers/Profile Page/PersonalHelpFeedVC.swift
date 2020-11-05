@@ -12,7 +12,6 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
 
     @IBOutlet weak var tableView: UITableView!
     var helpPosts = [Post]()
-    var postIndex: IndexPath?
     var viewUser: AbleUser?
     
     override func viewDidLoad() {
@@ -56,7 +55,11 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
 //                    print("email is " + userKey + " viewUser safe email is " + self.viewUser!.safeEmail)
                     if userKey == self.viewUser?.safeEmail {
 //                        print("adding post to tempPosts")
-                        let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp)
+                        var comments = [Post]()
+                        if let anyComments = dict["comments"] as? [Post] {
+                            comments = anyComments
+                        }
+                        let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, comments: comments)
                         
                         tempPosts.append(post)
                     }
@@ -104,8 +107,8 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func nameClicked(_ sender: UIButton) {
-        postIndex = IndexPath(row: sender.tag, section: 0)
-        let userKey = helpPosts[postIndex!.row].userKey
+        let postIndex = IndexPath(row: sender.tag, section: 0)
+        let userKey = helpPosts[postIndex.row].userKey
         
         let usersRef = Database.database().reference()
         

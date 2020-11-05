@@ -11,8 +11,6 @@ import Firebase
 class HelpFeedVC: UITableViewController {
 
     var helpPosts = [Post]()
-    var postIndex: IndexPath?
-    var viewUser: AbleUser?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,8 +43,11 @@ class HelpFeedVC: UITableViewController {
                    let text = dict["text"] as? String,
                    let timestamp = dict["timestamp"] as? Double {
                     
-                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp)
-                    
+                    var comments = [Post]()
+                    if let anyComments = dict["comments"] as? [Post] {
+                        comments = anyComments
+                    }
+                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, comments: comments)
                     tempPosts.append(post)
                 }
             }
@@ -58,6 +59,7 @@ class HelpFeedVC: UITableViewController {
     // animation to deselect cell
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        self.performSegue(withIdentifier: "ToSinglePostSegue", sender: helpPosts[indexPath.row])
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,8 +94,9 @@ class HelpFeedVC: UITableViewController {
     }
     
     @IBAction func nameClicked(_ sender: UIButton) {
-        postIndex = IndexPath(row: sender.tag, section: 0)
-        let userKey = helpPosts[postIndex!.row].userKey
+        
+        let postIndex = IndexPath(row: sender.tag, section: 0)
+        let userKey = helpPosts[postIndex.row].userKey
         
         let usersRef = Database.database().reference()
         
@@ -103,20 +106,27 @@ class HelpFeedVC: UITableViewController {
                let lastName = userData["last_name"] as? String,
                let username = userData["user_name"] as? String,
                let city = userData["city"] as? String,
+               let state = userData["state"] as? String,
                let url = userData["photoURL"] as? String,
-               let state = userData["state"] as? String
+               let user_description = userData["user_description"] as? String
                {
-                self.viewUser = AbleUser(firstName: firstName, lastName: lastName,
-                                    emailAddress: snapshot.key, username: username, city: city, state: state, profilePicURL: url)
+                let viewUser = AbleUser(firstName: firstName, lastName: lastName,
+                                    emailAddress: snapshot.key, username: username, city: city, state: state, profilePicURL: url, userDescription: user_description)
+                self.performSegue(withIdentifier: "ToProfileFromHelpFeed", sender: viewUser)
             }
-            self.performSegue(withIdentifier: "ToProfileFromHelpFeed", sender: nil)
         })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToProfileFromHelpFeed",
             let profilePageVC = segue.destination as? ProfileVC {
+            let viewUser = sender as! AbleUser
             profilePageVC.user = viewUser
+        } else if segue.identifier == "ToSinglePostSegue",
+            let postVC = segue.destination as? PostViewController {
+            let viewPost = sender as! Post
+            postVC.post = viewPost
+            postVC.whichFeed = "helpPosts"
         }
     }
 }
