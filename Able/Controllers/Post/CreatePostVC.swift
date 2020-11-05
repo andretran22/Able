@@ -95,10 +95,11 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
             errorStatusLabel.isHidden = false
         } else {
             uploadPost()
-            //TODO: Ban added this but should be a placeholder text instead
-            postTextView.text = ""
-            
+            tags = [String]()
+            postTextView.text = placeholderText
+            postTextView.textColor = UIColor.lightGray
             errorStatusLabel.isHidden = true
+            collectionViewTags.reloadData()
         }
     }
     
@@ -142,5 +143,11 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
     func addTags(newTags: [String]) {
         tags = newTags
         collectionViewTags.reloadData()
+    }
+    
+    // This closes the keyboard when touch is detected outside of the keyboard
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
     }
 }

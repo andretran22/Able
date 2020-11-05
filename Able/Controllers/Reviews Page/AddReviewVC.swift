@@ -106,7 +106,9 @@ extension AddReviewVC {
         }
     }
     
+    // This closes the keyboard when touch is detected outside of the keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            self.view.endEditing(true)
-        }
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
+    }
 }
