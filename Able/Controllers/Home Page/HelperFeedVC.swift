@@ -1,5 +1,5 @@
 //
-//  HelpFeedVC.swift
+//  HelperFeedVC.swift
 //  Able
 //
 //  Created by Tim Nguyen on 10/16/20.
@@ -112,13 +112,13 @@ class HelperFeedVC: UITableViewController {
                {
                 let viewUser = AbleUser(firstName: firstName, lastName: lastName,
                                     emailAddress: snapshot.key, username: username, city: city, state: state, profilePicURL: url, userDescription: user_description)
-                self.performSegue(withIdentifier: "ToProfileFromHelpFeed", sender: viewUser)
+                self.performSegue(withIdentifier: "ToProfileFromHelperFeed", sender: viewUser)
             }
         })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ToProfileFromHelpFeed",
+        if segue.identifier == "ToProfileFromHelperFeed",
             let profilePageVC = segue.destination as? ProfileVC {
             let viewUser = sender as! AbleUser
             profilePageVC.user = viewUser

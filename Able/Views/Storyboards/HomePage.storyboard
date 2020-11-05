@@ -1356,7 +1356,7 @@
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
                                             <connections>
-                                                <action selector="nameClicked:" destination="HoB-2B-dWj" eventType="touchUpInside" id="klb-xZ-acE"/>
+                                                <action selector="nameClicked:" destination="L2c-HM-0Zh" eventType="touchUpInside" id="JxO-iD-Ts4"/>
                                             </connections>
                                         </button>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HhL-iI-WWY">
@@ -1710,7 +1710,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Isg-Jh-C3a"/>
+        <segue reference="kVu-QY-jCa"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="default" width="512" height="512"/>
