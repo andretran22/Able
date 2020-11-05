@@ -43,11 +43,11 @@ class HelpFeedVC: UITableViewController {
                    let text = dict["text"] as? String,
                    let timestamp = dict["timestamp"] as? Double {
                     
-                    var comments = [Post]()
-                    if let anyComments = dict["comments"] as? [Post] {
-                        comments = anyComments
+                    var numComments = 0
+                    if let anyComments = dict["comments"] as? [String: Any] {
+                        numComments = anyComments.count
                     }
-                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, comments: comments)
+                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
                     tempPosts.append(post)
                 }
             }

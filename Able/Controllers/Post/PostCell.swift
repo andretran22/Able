@@ -45,9 +45,13 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
             tagsCollectionView?.dataSource = self
         }
         
+        if (post.numComments != nil) {
+            postStatsLabel.text = String(post.numComments!)
+        }
+        
         // for reviews
         if (post.rating != nil) {
-            ratingLabel?.text =  String(Int(post.rating!))
+            ratingLabel?.text = String(Int(post.rating!))
         }
         
 //        postStatsLabel.text = "\(post.numberOfComments!)"

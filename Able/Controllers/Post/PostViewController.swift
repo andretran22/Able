@@ -98,6 +98,11 @@ class PostViewController: UIViewController,
         return cell
     }
     
+    // animation to deselectrow
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func fetchComments() {
         let postCommentsRef = Database.database().reference().child("posts")
             .child(whichFeed!).child(post!.id).child("comments")

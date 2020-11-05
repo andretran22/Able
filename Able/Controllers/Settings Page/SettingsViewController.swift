@@ -189,13 +189,17 @@ class SettingsViewController: UIViewController {
     @IBAction func updateInformationButtonPressed(_ sender: Any) {
         print("inside update info")
         ref.child("users/\(publicCurrentUser!.safeEmail)").updateChildValues([
-            "user_name":usernameEditText.text!,
+            "user_name": usernameEditText.text!,
             "first_name": firstNameEditText.text!,
             "last_name": lastNameEditText.text!,
             "city": cityEditText.text!,
             "state": stateEditText.text!
         ])
-        
+        publicCurrentUser?.username = usernameEditText.text!
+        publicCurrentUser?.firstName = firstNameEditText.text!
+        publicCurrentUser?.lastName = lastNameEditText.text!
+        publicCurrentUser?.city = cityEditText.text!
+        publicCurrentUser?.state = stateEditText.text!
     }
     
     @IBAction func notificationSwitchChanged(_ sender: Any) {

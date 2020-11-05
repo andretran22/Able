@@ -23,6 +23,11 @@ class AddTagsViewController: UIViewController, UICollectionViewDataSource, UICol
         yourTagsCollectionView.dataSource = self
         defaultTagsCollectionView.delegate = self
         defaultTagsCollectionView.dataSource = self
+        for tag in yourTags {
+            if let index = defaultTags.firstIndex(of: tag) {
+                defaultTags.remove(at: index)
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

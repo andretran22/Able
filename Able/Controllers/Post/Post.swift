@@ -19,7 +19,7 @@ class Post
     
     // for help posts and helper posts
     var tags: [String]?
-    var comments: [Post]?
+    var numComments: Int?
     var createdAt: Date // timestamp
     
     // for reviews
@@ -28,7 +28,7 @@ class Post
     
     // for help and helper posts
     init(id: String, userKey: String, authorName: String, location: String,
-         tags: [String], text: String, timestamp: Double, comments: [Post]) {
+         tags: [String], text: String, timestamp: Double, numComments: Int) {
         self.id = id
         self.userKey = userKey
         self.authorName = authorName
@@ -36,7 +36,7 @@ class Post
         self.tags = tags
         self.text = text
         self.createdAt = Date(timeIntervalSince1970: timestamp / 1000)
-        self.comments = comments
+        self.numComments = numComments
     }
     
     // for review posts

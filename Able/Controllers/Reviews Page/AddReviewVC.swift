@@ -10,12 +10,12 @@ import Firebase
 import Cosmos
 import TinyConstraints
 
-class AddReviewVC: UIViewController {
+class AddReviewVC: UIViewController, UITextViewDelegate {
     var ref: DatabaseReference!
     var user: AbleUser?
     
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var reviewTextView: UITextView!
     @IBOutlet weak var submitButton: UIButton!
     
     lazy var cosmosView: CosmosView = {
@@ -27,7 +27,7 @@ class AddReviewVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         view.addSubview(cosmosView)
         let point = CGPoint(x: -110, y: -140)
@@ -37,10 +37,15 @@ class AddReviewVC: UIViewController {
             print("Rated: \(rating)")
         }
         
+        reviewTextView.delegate = self
+        
         // set up textView styling
-        textView.layer.cornerRadius = 10
-        textView.text = "leave a review"
+        reviewTextView.layer.cornerRadius = 10
+        reviewTextView.text = "Leave a review..."
+        reviewTextView.textColor = UIColor.lightGray
+        
         submitButton.layer.cornerRadius = 4
+        
         
         usernameLabel.text = (user?.firstName)! + " " + (user?.lastName)!
     }
@@ -54,7 +59,7 @@ class AddReviewVC: UIViewController {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "leave a review"
+            textView.text = "Leave a review..."
             textView.textColor = UIColor.lightGray
         }
     }
@@ -63,7 +68,7 @@ class AddReviewVC: UIViewController {
         // add to Realtime database user/uid/reviews/posteruid/
         let ratingNumber = cosmosView.rating
         guard let postId = user?.safeEmail else { return }
-        if let reviewText = textView.text {
+        if let reviewText = reviewTextView.text {
             uploadReview(ratingNumber: ratingNumber, reviewText: reviewText, reviewedUid: postId)
         } else {
             uploadReview(ratingNumber: ratingNumber, reviewText: "", reviewedUid: postId)

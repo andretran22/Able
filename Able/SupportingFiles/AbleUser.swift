@@ -62,7 +62,7 @@ class AbleUser {
         print("Username: \(username!)")
         print("City: \(city!)")
         print("State: \(state!)")
-        print("User Description: \(userDescription)")
+        print("User Description: \(userDescription!)")
     }
  
 }

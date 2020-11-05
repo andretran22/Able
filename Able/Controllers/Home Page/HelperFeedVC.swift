@@ -27,9 +27,9 @@ class HelperFeedVC: UITableViewController {
     }
     
     func fetchPosts() {
-        let helpPostsRef = Database.database().reference().child("posts").child("helperPosts")
+        let helperPostsRef = Database.database().reference().child("posts").child("helperPosts")
         
-        helpPostsRef.observe(.value, with: { snapshot in
+        helperPostsRef.observe(.value, with: { snapshot in
             
             var tempPosts = [Post]()
             
@@ -43,11 +43,11 @@ class HelperFeedVC: UITableViewController {
                    let text = dict["text"] as? String,
                    let timestamp = dict["timestamp"] as? Double {
                     
-                    var comments = [Post]()
-                    if let anyComments = dict["comments"] as? [Post] {
-                        comments = anyComments
+                    var numComments = 0
+                    if let anyComments = dict["comments"] as? [String: Any] {
+                        numComments = anyComments.count
                     }
-                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, comments: comments)
+                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
                     tempPosts.append(post)
                 }
             }
