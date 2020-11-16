@@ -25,7 +25,7 @@ let DEFAULT_COLOR_TAGS = [UIColor(red: 0/255, green: 203/255, blue: 255/255, alp
                           UIColor(red: 109/255, green: 242/255, blue: 255/255, alpha: 1.0)  /* #6df2ff, cyan */
                         ]
 
-class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ReturnFilterDelegate {
+class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
     
     @IBOutlet weak var helpFeedContainer: UIView!
     @IBOutlet weak var helperFeedContainer: UIView!
@@ -43,6 +43,9 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
         
         // create global user for reference once signed up or logged in
         DatabaseManager.shared.setPublicUser()
+        
+        // create global filter state with default sort by Most Recent
+        globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: [])
         
         setView(view: helpFeedContainer, hidden: false)
         setView(view: helperFeedContainer, hidden: true)
@@ -94,16 +97,5 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
         cell?.backgroundColor = self.tagColors[indexPath.row]
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueFilter",
-           let filterVC = segue.destination as? FilterVC{
-            filterVC.returnDelegate = self
-        }
-    }
-    
-    func returnFilterProperties(properties: Dictionary<String, Any>) {
-        print("Recieved Filter properties: ")
-        print(properties)
-    }
 }
 

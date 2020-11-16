@@ -29,7 +29,7 @@ class HelpFeedVC: UITableViewController {
     func fetchPosts() {
         let helpPostsRef = Database.database().reference().child("posts").child("helpPosts")
         
-        helpPostsRef.observe(.value, with: { snapshot in
+        helpPostsRef.observeSingleEvent(of: .value, with: { (snapshot) in
             
             var tempPosts = [Post]()
             
@@ -51,6 +51,17 @@ class HelpFeedVC: UITableViewController {
                     tempPosts.append(post)
                 }
             }
+            
+            //filter tempPosts and sort them
+            tempPosts = (globalFilterState?.sortAndFilter(postType: "helpPosts", posts: tempPosts))!
+            
+            for tempPost in tempPosts{
+//                print("Author: \(tempPost.authorName)")
+//                print("Text: \(tempPost.text)")
+//                print("Tags: \(tempPost.tags!)")
+//                print()
+            }
+            
             self.helpPosts = tempPosts
             self.tableView.reloadData()
         })
@@ -69,6 +80,11 @@ class HelpFeedVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HelpPostCell", for: indexPath) as! PostCell
         cell.post = helpPosts[indexPath.row]
+        
+//        print("author at row: \(helpPosts[indexPath.row].authorName)")
+//        print("text at row: \(helpPosts[indexPath.row].text)")
+//        print("tags at row: \(helpPosts[indexPath.row].tags)")
+        
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell
         cell.backgroundColor = .clear // very important

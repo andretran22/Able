@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol ReturnFilterDelegate {
-    func returnFilterProperties(properties: Dictionary<String, Any>)
-}
-
 class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegate, SelectedButtonDelegate, CustomTagDelegate {
     
     //text fields
@@ -42,7 +38,7 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     var categoriesSelected = Set<String>()
     
     // delegate to send filter properties back to home page
-    var returnDelegate: ReturnFilterDelegate!
+//    var returnDelegate: ReturnFilterDelegate!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -181,17 +177,13 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         super.touchesBegan(touches, with: event)
     }
     
+    // set global filter state right before view disappears
     override func viewWillDisappear(_ animated: Bool) {
-        let returnDict = [
-            "sort": sortField.text!,
-            "location": locationField.text!,
-            "tags": Array(searchTags),
-            "categories": Array(categoriesSelected)
-        ] as [String : Any]
-        
-        print("Returning filter properties: ")
-        print(returnDict)
-        returnDelegate?.returnFilterProperties(properties: returnDict)
+        globalFilterState = CurrentFilters(sort: sortField.text!,
+                                           location: locationField.text!,
+                                           tags: Array(searchTags),
+                                           categories: Array(categoriesSelected))
+                
     }
 
 }

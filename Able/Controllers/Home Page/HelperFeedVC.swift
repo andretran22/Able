@@ -29,8 +29,8 @@ class HelperFeedVC: UITableViewController {
     func fetchPosts() {
         let helperPostsRef = Database.database().reference().child("posts").child("helperPosts")
         
-        helperPostsRef.observe(.value, with: { snapshot in
-            
+        helperPostsRef.observeSingleEvent(of: .value, with: { (snapshot) in
+
             var tempPosts = [Post]()
             
             for child in snapshot.children {
@@ -51,6 +51,10 @@ class HelperFeedVC: UITableViewController {
                     tempPosts.append(post)
                 }
             }
+            
+            //filter tempPosts and sort them
+            tempPosts = (globalFilterState?.sortAndFilter(postType: "helperPosts", posts: tempPosts))!
+            
             self.helperPosts = tempPosts
             self.tableView.reloadData()
         })
