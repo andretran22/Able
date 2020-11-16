@@ -43,6 +43,7 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
             tags = post.tags!
             tagsCollectionView?.delegate = self
             tagsCollectionView?.dataSource = self
+            tagsCollectionView?.reloadData()
         }
         
         if (post.numComments != nil) {
