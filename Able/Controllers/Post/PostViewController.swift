@@ -152,6 +152,8 @@ class PostViewController: UIViewController,
         
         postRef.setValue(commentObject, withCompletionBlock: { [self] error, ref in
             if error == nil {
+                // clear comment text field
+                commentTextField.text = ""
                 self.fetchComments()
             } else {
                 // handle the error

@@ -12,13 +12,17 @@ protocol ApplyTags {
     func addTags(newTags: [String])
 }
 
+protocol ChangeLocation {
+    func changeLocation(location: String)
+}
+
 class CreatePostVC: UIViewController, UITextViewDelegate,
                     UICollectionViewDataSource, UICollectionViewDelegate,
-                    ApplyTags {
+                    ApplyTags, ChangeLocation {
 
     @IBOutlet weak var collectionViewTags: UICollectionView!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var segCtrlFeed: UISegmentedControl!
     @IBOutlet weak var postTextView: UITextView!
     @IBOutlet weak var postButton: UIButton!
@@ -28,6 +32,7 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
     let tagIdentifier = "CreatePostTagCell"
     
     var ref: DatabaseReference!
+    var location: String = ""
     var tags = [String]()
     
     override func viewDidLoad() {
@@ -39,19 +44,35 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
         
         collectionViewTags.delegate = self
         collectionViewTags.dataSource = self
+        
+        resetOriginalPostParameters()
+    }
+    
+    func resetOriginalPostParameters() {
+        
+        // reset to help feed
+        segCtrlFeed.selectedSegmentIndex = 0
+        
+        // reset location to user's location
+        location = "\(publicCurrentUser!.city!), \(publicCurrentUser!.state!)"
+        self.locationButton.setTitle(location, for: .normal)
+        
+        // empty tags
+        tags = [String]()
+        
+        // clear text and revert back to placeholder text
+        postTextView.text = placeholderText
+        postTextView.textColor = UIColor.lightGray
     }
     
     func stylePage() {
         // textViewStyle
         postTextView.layer.cornerRadius = 10
-        postTextView.text = placeholderText
-        postTextView.textColor = UIColor.lightGray
         
         // button style
         postButton.layer.cornerRadius = 4
         
         self.nameLabel.text = "\(publicCurrentUser!.firstName!) \(publicCurrentUser!.lastName!)"
-        self.locationLabel.text = "\(publicCurrentUser!.city!), \(publicCurrentUser!.state!)"
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -117,7 +138,7 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
         let postObject = [
             "userKey": publicCurrentUser!.safeEmail,
             "authorName": "\(publicCurrentUser!.firstName!) \(publicCurrentUser!.lastName!)",
-            "location": "\(publicCurrentUser!.city!), \(publicCurrentUser!.state!)",
+            "location": location,
             "tags": tags,
             "text": postTextView.text!,
             "timestamp": [".sv": "timestamp"]
@@ -125,6 +146,7 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
         
         postRef.setValue(postObject, withCompletionBlock: { error, ref in
             if error == nil {
+                self.resetOriginalPostParameters()
                 self.tabBarController?.selectedIndex = 0
             } else {
                 // handle the error
@@ -133,16 +155,24 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "addTagsPopover",
+        if segue.identifier == "AddTagsPopover",
            let addTagsVC = segue.destination as? AddTagsViewController {
             addTagsVC.delegate = self
             addTagsVC.yourTags = tags
+        } else if segue.identifier == "ChangeLocation",
+                  let changeLocationVC = segue.destination as? LocationViewController  {
+            changeLocationVC.delegate = self
         }
     }
     
     func addTags(newTags: [String]) {
         tags = newTags
         collectionViewTags.reloadData()
+    }
+    
+    func changeLocation(location: String) {
+        self.location = location
+        self.locationButton.setTitle(location, for: .normal)
     }
     
     // This closes the keyboard when touch is detected outside of the keyboard
