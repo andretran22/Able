@@ -48,7 +48,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "78"
             endingLineNumber = "78"
-            landmarkName = "uploadReview(ratingNumber:reviewText:reviewedUid:)"
+            landmarkName = "submitReview(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
