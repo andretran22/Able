@@ -15,7 +15,6 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var tapToChangeProfileButton: UIButton!
     @IBOutlet weak var aboutMeLabel: UILabel!
     @IBOutlet weak var ratingButton: UIButton!
-
     @IBOutlet weak var helpFeedContainer: UIView!
     @IBOutlet weak var helperFeedContainer: UIView!
     
@@ -114,38 +113,7 @@ class ProfileVC: UIViewController {
     
     // change the profile image of the user
     @IBAction func changeProfileImage(_ sender: Any) {
-        print("hit changeProfileImage")
         present(imagePicker, animated: true)
-//
-        
-//        // check that current user is authorized to change picture
-//        if user?.safeEmail != publicCurrentUser?.safeEmail { return }
-//        guard let uid = user?.safeEmail else { return }
-//
-//        self.present(imagePicker, animated: true, completion: nil)
-//        guard let image = profileImageView.image else { return }
-//        self.uploadProfileImage(image) {url in
-//            if url != nil {
-//                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-//                changeRequest?.displayName = self.nameLabel.text
-//                changeRequest?.photoURL = url
-//
-//                changeRequest?.commitChanges { error in
-//                    if error == nil {
-//                        print("User name changed")
-//                        self.saveProfile(username: uid, profileImageURL: url!) { success in
-//                            if success {
-//                                self.navigationController?.popViewController(animated: true)
-//                            }
-//                        }
-//                    } else {
-//                        print("Error: \(error!.localizedDescription)")
-//                    }
-//                }
-//            } else {
-//                // url is nil
-//            }
-//        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -172,16 +140,22 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // get the image from photolibrary
         guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
             return
         }
         guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
+        
+        // set the profile image to the new image
         profileImageView.image = image
         
+        // get storage reference, set metedata
         guard let uid = user?.safeEmail else { return }
         let storageRef = Storage.storage().reference().child("user/\(uid)")
         let metaData = StorageMetadata()
         metaData.contentType = "image/jpg"
+        
+        // insert new image into database
         storageRef.putData(imageData, metadata: metaData, completion: { _, error in
             guard error == nil else {
                 print("Failed to upload")
@@ -193,14 +167,22 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
                     return
                 }
                 
+                // set local and firebase user url to the new url
                 let urlString = url.absoluteString
                 print("downloadURL: \(urlString)")
                 self.user?.profilePicUrl = urlString
+                
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                self.ref = Database.database().reference().child("users/\(uid)")
+                self.ref.observeSingleEvent(of: .value, with: {
+                    (snapshot) in
+                    self.ref.child("photoURL").setValue(urlString)
+                }) { (error) in
+        //            completion(error == nil)
+                }
             })
         })
-//        if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-//            self.profileImageView.image = pickedImage
-//        }
+
         print("profilePicURL set to : \(String(describing: user?.profilePicUrl))")
         picker.dismiss(animated: true, completion: nil)
     }
@@ -244,47 +226,6 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
         // retrieve url from firebase
         ImageService.downloadImage(withURL: URL(string: user!.profilePicUrl)!) { image in
             self.profileImageView.image = image
-        }
-    }
-    
-    // helper for changeProfileImage to put uploaded image to Firebase Storage
-    func uploadProfileImage(_ image:UIImage, completion: @escaping ((_ url: URL?)->())) {
-        guard let uid = user?.safeEmail else { return }
-        let storageRef = Storage.storage().reference().child("user/\(uid)")
-        
-        guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
-        
-        let metaData = StorageMetadata()
-        metaData.contentType = "image/jpg"
-        storageRef.putData(imageData, metadata: metaData) { (metaData, error) in
-            if error == nil, metaData != nil {
-                storageRef.downloadURL(completion: { (url, error) in
-                    if error != nil {
-                        completion(nil)
-                    }
-                    if url != nil {
-                        completion(url)
-                    }
-                })
-            } else {
-                completion(nil)
-            }
-        }
-    }
-    
-    // helper for changeProfileImage to put image into specified user's storage url
-    func saveProfile(username: String, profileImageURL: URL, completion: @escaping ((_ success:Bool)->())) {
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
-        ref = Database.database().reference().child("users/\(username)")
-        user?.profilePicUrl = profileImageURL.absoluteString
-//        ref.observeSingleEvent(of: .value, with: {
-//            (snapshot) in
-//            self.ref.child("photoURL").setValue(profileImageURL.absoluteString)
-//        }) { (error) in
-////            completion(error == nil)
-//        }
-        ref.child("photoURL").setValue(profileImageURL.absoluteString) { (error, ref) in
-            completion(error == nil)
         }
     }
 }
