@@ -172,7 +172,7 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
                 print("downloadURL: \(urlString)")
                 self.user?.profilePicUrl = urlString
                 
-                guard let uid = Auth.auth().currentUser?.uid else { return }
+                guard let uid = self.user?.safeEmail else { return }
                 self.ref = Database.database().reference().child("users/\(uid)")
                 self.ref.observeSingleEvent(of: .value, with: {
                     (snapshot) in
