@@ -41,13 +41,16 @@ class HelperFeedVC: UITableViewController {
                    let location = dict["location"] as? String,
                    let tags = dict["tags"] as? [String],
                    let text = dict["text"] as? String,
-                   let timestamp = dict["timestamp"] as? Double {
+                   let timestamp = dict["timestamp"] as? Double,
+                   dict["completed"] as? Bool == false {
                     
                     var numComments = 0
                     if let anyComments = dict["comments"] as? [String: Any] {
                         numComments = anyComments.count
                     }
                     let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
+                    post.whichFeed = "helperPosts"
+                    post.completed = false
                     tempPosts.append(post)
                 }
             }

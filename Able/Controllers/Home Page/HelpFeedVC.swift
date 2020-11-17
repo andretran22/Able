@@ -8,8 +8,8 @@
 import UIKit
 import Firebase
 
-class HelpFeedVC: UITableViewController {
-
+class HelpFeedVC: UITableViewController, EditPost {
+    
     var helpPosts = [Post]()
     
     override func viewDidLoad() {
@@ -41,13 +41,16 @@ class HelpFeedVC: UITableViewController {
                    let location = dict["location"] as? String,
                    let tags = dict["tags"] as? [String],
                    let text = dict["text"] as? String,
-                   let timestamp = dict["timestamp"] as? Double {
+                   let timestamp = dict["timestamp"] as? Double,
+                   dict["completed"] as? Bool == false {
                     
                     var numComments = 0
                     if let anyComments = dict["comments"] as? [String: Any] {
                         numComments = anyComments.count
                     }
                     let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
+                    post.whichFeed = "helpPosts"
+                    post.completed = false
                     tempPosts.append(post)
                 }
             }
@@ -68,6 +71,7 @@ class HelpFeedVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HelpPostCell", for: indexPath) as! PostCell
+        cell.delegate = self
         cell.post = helpPosts[indexPath.row]
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell
@@ -115,6 +119,10 @@ class HelpFeedVC: UITableViewController {
                 self.performSegue(withIdentifier: "ToProfileFromHelpFeed", sender: viewUser)
             }
         })
+    }
+    
+    func editPost(post: Post) {
+        self.performSegue(withIdentifier: "ToSinglePostSegue", sender: post)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

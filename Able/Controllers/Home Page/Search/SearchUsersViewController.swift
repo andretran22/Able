@@ -13,7 +13,7 @@ class UserCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var profileImageView: UIImageView?
+    @IBOutlet weak var profileImageView: UIImageView!
 }
 
 class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -43,8 +43,9 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
         let user = filteredUserList[indexPath.row]
         //update the cell
         cell.nameLabel.text = "\(user.firstName!) \(user.lastName!)"
-        //TODO: I need help here
-//        cell.profileImageView?.image = user.photoURL
+        ImageService.downloadImage(withURL: URL(string: user.profilePicUrl)!) { image in
+            cell.profileImageView.image = image
+        }
         cell.usernameLabel.text = "@\(user.username!)"
         return cell
     }

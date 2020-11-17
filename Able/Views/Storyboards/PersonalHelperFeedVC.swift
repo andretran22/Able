@@ -49,7 +49,8 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
                    let location = dict["location"] as? String,
                    let tags = dict["tags"] as? [String],
                    let text = dict["text"] as? String,
-                   let timestamp = dict["timestamp"] as? Double {
+                   let timestamp = dict["timestamp"] as? Double,
+                   let completed = dict["completed"] as? Bool {
                     print("email is " + userKey + " viewUser safe email is " + self.viewUser!.safeEmail)
                     if userKey == self.viewUser?.safeEmail {
                         print("adding post to tempPosts")
@@ -59,6 +60,8 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
                             numComments = anyComments.count
                         }
                         let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
+                        post.completed = completed
+                        post.whichFeed = "helperPosts"
                         tempPosts.append(post)
                     }
                 }

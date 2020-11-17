@@ -18,6 +18,8 @@ class Post
     //    var images: [String]? PhotosURLS
     
     // for help posts and helper posts
+    var whichFeed: String?
+    var completed: Bool?
     var tags: [String]?
     var numComments: Int?
     var createdAt: Date // timestamp
