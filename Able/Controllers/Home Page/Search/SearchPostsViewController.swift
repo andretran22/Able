@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 import Foundation
 
-class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, EditPost {
     
     @IBOutlet weak var postsTableView: UITableView!
     public var filteredPostList:[Post] = []
@@ -29,7 +29,8 @@ class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: postsCellIdentifier, for: indexPath as IndexPath) as! PostCell
-        cell.post = filteredPostList[indexPath.row]        
+        cell.post = filteredPostList[indexPath.row]
+        cell.delegate = self
         return cell
     }
 
@@ -44,6 +45,10 @@ class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableV
         postsTableView.reloadData()
     }
     
+    func editPost(post: Post) {
+        self.performSegue(withIdentifier: "ToEditPostSegueIdentifier", sender: post)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "searchPostToPost",
             let postPage = segue.destination as? PostViewController {
@@ -54,6 +59,10 @@ class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableV
             }else{
                 postPage.whichFeed = "helperPosts"
             }
+        } else if segue.identifier == "ToEditPostSegueIdentifier",
+                  let editPostVC = segue.destination as? CreatePostVC {
+            let post = sender as! Post
+            editPostVC.post = post
         }
     }
     

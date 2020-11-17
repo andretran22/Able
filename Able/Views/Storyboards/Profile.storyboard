@@ -250,6 +250,16 @@
             </objects>
             <point key="canvasLocation" x="105.79710144927537" y="94.419642857142847"/>
         </scene>
+        <!--EditPostVC-->
+        <scene sceneID="3yZ-VD-EqC">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="EditPostVC" storyboardName="HomePage" referencedIdentifier="EditPostVC" id="yA5-Rh-VN4" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="fDr-bO-yB6"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hzI-xR-1tw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1590" y="1198"/>
+        </scene>
         <!--Personal Help FeedVC-->
         <scene sceneID="zef-qB-ygL">
             <objects>
@@ -423,6 +433,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="OKw-Im-W2g" id="w8a-ro-KFp"/>
+                        <segue destination="yA5-Rh-VN4" kind="show" identifier="ToEditPostSegueIdentifier" id="C7G-bh-LLa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J9Y-Nf-H1S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -688,6 +699,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="ePe-BZ-cLy" id="zrA-Na-PT5"/>
+                        <segue destination="yA5-Rh-VN4" kind="show" identifier="ToEditPostSegueIdentifier" id="3YY-ez-XJY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UzQ-CS-FgR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -799,6 +811,9 @@
             <point key="canvasLocation" x="1841" y="287"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="C7G-bh-LLa"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="RatingStarFilled" width="55" height="51"/>
         <image name="default" width="512" height="512"/>

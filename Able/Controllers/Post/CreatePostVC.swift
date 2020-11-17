@@ -36,6 +36,9 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
     var location: String = ""
     var tags = [String]()
     
+    // for editing posts
+    var post: Post?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,9 +49,16 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
         collectionViewTags.delegate = self
         collectionViewTags.dataSource = self
         
-        resetOriginalPostParameters()
+        // if the post is nil, then we are creating a new post
+        // else, we are editing an existing post
+        if (post == nil) {
+            resetOriginalPostParameters()
+        } else {
+            useExistingPostParameters()
+        }
     }
     
+    // use default post info
     func resetOriginalPostParameters() {
         
         // reset to help feed
@@ -64,6 +74,23 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
         // clear text and revert back to placeholder text
         postTextView.text = placeholderText
         postTextView.textColor = UIColor.lightGray
+    }
+    
+    // apply existing post info to UI elements
+    func useExistingPostParameters() {
+        
+        if (post?.whichFeed == "helpPosts") {
+            segCtrlFeed.selectedSegmentIndex = 0
+        } else {
+            segCtrlFeed.selectedSegmentIndex = 1
+        }
+        
+        location = post!.location
+        self.locationButton.setTitle(location, for: .normal)
+        
+        tags = post!.tags!
+        
+        postTextView.text = post!.text
     }
     
     func stylePage() {
@@ -134,11 +161,30 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
     func uploadPost() {
         var postRef = Database.database().reference().child("posts")
         
+        // delete the post just in case if the user switches feeds
+        if (post != nil) {
+            postRef.child(post!.whichFeed!).child(post!.id).removeValue { error, ref in
+                if error != nil {
+                    print("error \(String(describing: error))")
+                } else {
+                    print("\(self.post!.id) IS DELETED")
+                }
+            }
+        }
+        
         // check for which segCtrlFeed
         if (segCtrlFeed.selectedSegmentIndex == 0) {
-            postRef = postRef.child("helpPosts").childByAutoId()
+            postRef = postRef.child("helpPosts")
         } else {
-            postRef = postRef.child("helperPosts").childByAutoId()
+            postRef = postRef.child("helperPosts")
+        }
+        
+        // if post is nil, create a new post
+        // else, update and overwrite existing post
+        if (post == nil) {
+            postRef = postRef.childByAutoId()
+        } else {
+            postRef = postRef.child(post!.id)
         }
         
         let postObject = [
@@ -154,6 +200,9 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
         postRef.setValue(postObject, withCompletionBlock: { error, ref in
             if error == nil {
                 self.resetOriginalPostParameters()
+                if (self.post != nil) {
+                    self.navigationController?.popViewController(animated: true)
+                }
                 self.tabBarController?.selectedIndex = 0
             } else {
                 // handle the error
@@ -169,6 +218,7 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
         } else if segue.identifier == "ChangeLocation",
                   let changeLocationVC = segue.destination as? LocationViewController  {
             changeLocationVC.delegate = self
+            print("CHANGE LOCATION")
         }
     }
     

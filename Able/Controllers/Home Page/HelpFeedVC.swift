@@ -122,7 +122,7 @@ class HelpFeedVC: UITableViewController, EditPost {
     }
     
     func editPost(post: Post) {
-        self.performSegue(withIdentifier: "ToSinglePostSegue", sender: post)
+        self.performSegue(withIdentifier: "ToEditPostSegueIdentifier", sender: post)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -135,6 +135,10 @@ class HelpFeedVC: UITableViewController, EditPost {
             let viewPost = sender as! Post
             postVC.post = viewPost
             postVC.whichFeed = "helpPosts"
+        } else if segue.identifier == "ToEditPostSegueIdentifier",
+                  let editPostVC = segue.destination as? CreatePostVC {
+            let post = sender as! Post
+            editPostVC.post = post
         }
     }
 }

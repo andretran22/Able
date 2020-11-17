@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, EditPost {
     
     @IBOutlet weak var tableView: UITableView!
     var helperPosts = [Post]()
@@ -83,6 +83,7 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HelperPostCell", for: indexPath) as! PostCell
         cell.post = helperPosts[indexPath.row]
+        cell.delegate = self
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell
         cell.backgroundColor = .clear // very important
@@ -129,10 +130,18 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
         })
     }
     
+    func editPost(post: Post) {
+        self.performSegue(withIdentifier: "ToEditPostSegueIdentifier", sender: post)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToProfileFromHelpFeed",
             let profilePageVC = segue.destination as? ProfileVC {
             profilePageVC.user = viewUser
+        } else if segue.identifier == "ToEditPostSegueIdentifier",
+                  let editPostVC = segue.destination as? CreatePostVC {
+            let post = sender as! Post
+            editPostVC.post = post
         }
     }
 }
