@@ -112,36 +112,40 @@ class ProfileVC: UIViewController {
         present(controller, animated: true, completion: nil)
     }
     
-    // change the profile image of the user, NOT DOING ANYTHING RIGHT NOW
+    // change the profile image of the user
     @IBAction func changeProfileImage(_ sender: Any) {
-        // check that current user is authorized to change picture
-        if user?.safeEmail != publicCurrentUser?.safeEmail { return }
-        guard let uid = user?.safeEmail else { return }
-        guard let image = profileImageView.image else { return }
+        print("hit changeProfileImage")
+        present(imagePicker, animated: true)
+//
         
-        self.present(imagePicker, animated: true, completion: nil)
-        self.uploadProfileImage(image) {url in
-            if url != nil {
-                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                changeRequest?.displayName = self.nameLabel.text
-                changeRequest?.photoURL = url
-                
-                changeRequest?.commitChanges { error in
-                    if error == nil {
-                        print("User name changed")
-                        self.saveProfile(username: uid, profileImageURL: url!) { success in
-                            if success {
-                                self.navigationController?.popViewController(animated: true)
-                            }
-                        }
-                    } else {
-                        print("Error: \(error!.localizedDescription)")
-                    }
-                }
-            } else {
-                // url is nil
-            }
-        }
+//        // check that current user is authorized to change picture
+//        if user?.safeEmail != publicCurrentUser?.safeEmail { return }
+//        guard let uid = user?.safeEmail else { return }
+//
+//        self.present(imagePicker, animated: true, completion: nil)
+//        guard let image = profileImageView.image else { return }
+//        self.uploadProfileImage(image) {url in
+//            if url != nil {
+//                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+//                changeRequest?.displayName = self.nameLabel.text
+//                changeRequest?.photoURL = url
+//
+//                changeRequest?.commitChanges { error in
+//                    if error == nil {
+//                        print("User name changed")
+//                        self.saveProfile(username: uid, profileImageURL: url!) { success in
+//                            if success {
+//                                self.navigationController?.popViewController(animated: true)
+//                            }
+//                        }
+//                    } else {
+//                        print("Error: \(error!.localizedDescription)")
+//                    }
+//                }
+//            } else {
+//                // url is nil
+//            }
+//        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -168,9 +172,36 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            self.profileImageView.image = pickedImage
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+            return
         }
+        guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
+        profileImageView.image = image
+        
+        guard let uid = user?.safeEmail else { return }
+        let storageRef = Storage.storage().reference().child("user/\(uid)")
+        let metaData = StorageMetadata()
+        metaData.contentType = "image/jpg"
+        storageRef.putData(imageData, metadata: metaData, completion: { _, error in
+            guard error == nil else {
+                print("Failed to upload")
+                return
+            }
+            
+            storageRef.downloadURL(completion: {url, error in
+                guard let url = url, error == nil else {
+                    return
+                }
+                
+                let urlString = url.absoluteString
+                print("downloadURL: \(urlString)")
+                self.user?.profilePicUrl = urlString
+            })
+        })
+//        if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+//            self.profileImageView.image = pickedImage
+//        }
+        print("profilePicURL set to : \(String(describing: user?.profilePicUrl))")
         picker.dismiss(animated: true, completion: nil)
     }
     
@@ -207,6 +238,8 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
         self.nameLabel.text = "\(user!.firstName!) \(user!.lastName!)"
         self.locationLabel.text = "\(user!.city!), \(user!.state!)"
         self.aboutMeLabel.text = user!.userDescription
+        let sanity = user!.profilePicUrl
+        print("In displayinfo, profilePicUrl is : \(sanity)")
         
         // retrieve url from firebase
         ImageService.downloadImage(withURL: URL(string: user!.profilePicUrl)!) { image in
