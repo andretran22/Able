@@ -32,7 +32,6 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
 //        var observableList = filteredUserList as NSObject
         userTableView.delegate = self
         userTableView.dataSource = self
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -68,11 +67,5 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
             profilePageVC.user = user
         }
     }
-    
-    
-//    func getUsersFromDatabase() {
-//        ref = Database.database().reference()
-//        let email = "app"
-//    }
     
 }

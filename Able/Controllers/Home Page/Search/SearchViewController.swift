@@ -17,19 +17,29 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     let ref: DatabaseReference! = Database.database().reference()
     var searchUserVC: SearchUsersViewController!
     var searchPostVC: SearchPostsViewController!
+    var post: Bool = true
+    var help: Bool = true
     var userList:[AbleUser] = []
     var filteredUserList1:[AbleUser] = []
+    var helpPostList:[Post] = []
+    var filteredHelpPostList1:[Post] = []
+    var helperPostList:[Post] = []
+    var filteredHelperPostList1:[Post] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setView(view: searchPostsView, hidden: false)
         setView(view: searchUsersView, hidden: true)
         searchbarEditText.delegate = self
-        //get all the users and put them in the userList
+        fetchUsers()
+        fetchPosts(type: "helpPosts")
+        fetchPosts(type: "helperPosts")
+    }
+    
+    func fetchUsers(){
         let getUsers = ref.child("users")
         getUsers.observe(.value, with: {snapshot in
             for child in snapshot.children{
-                
                 if let childSnapshot = child as? DataSnapshot,
                    let userData = childSnapshot.value as? [String:Any],
                    let firstName = userData["first_name"] as? String,
@@ -48,15 +58,74 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         })
     }
     
+    func fetchPosts(type: String) {
+        let helperPostsRef = Database.database().reference().child("posts").child(type)
+        
+        helperPostsRef.observe(.value, with: { snapshot in
+            
+            var tempPosts = [Post]()
+            
+            for child in snapshot.children {
+                if let childSnapshot = child as? DataSnapshot,
+                   let dict = childSnapshot.value as? [String: Any],
+                   let userKey = dict["userKey"] as? String,
+                   let authorName = dict["authorName"] as? String,
+                   let location = dict["location"] as? String,
+                   let tags = dict["tags"] as? [String],
+                   let text = dict["text"] as? String,
+                   let timestamp = dict["timestamp"] as? Double {
+                    
+                    var numComments = 0
+                    if let anyComments = dict["comments"] as? [String: Any] {
+                        numComments = anyComments.count
+                    }
+                    let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
+                    tempPosts.append(post)
+                }
+            }
+            if(type == "helpPosts"){
+                self.helpPostList = tempPosts
+            }else if(type == "helperPosts"){
+                self.helperPostList = tempPosts
+            }
+            
+        })
+    }
+    
     @IBAction func switchSearchViews(_ sender: UISegmentedControl) {
+        //0 is post
+        //1 is user
         if sender.selectedSegmentIndex == 0 {
             setView(view: searchPostsView, hidden: false)
             setView(view: searchUsersView, hidden: true)
+            post = true
         }
-        else{
+        else if(sender.selectedSegmentIndex == 1){
             setView(view: searchPostsView, hidden: true)
             setView(view: searchUsersView, hidden: false)
+            post = false
         }
+        print("post is: \(post)")
+    }
+    
+    @IBAction func helpHelperSegmentView(_ sender: UISegmentedControl){
+        //0 is help
+        //1 is helper
+        if(sender.selectedSegmentIndex == 0){
+            //help
+            print("help")
+            help = true
+            searchPostVC.help1 = true
+            searchPostVC.filteredPostList = filteredHelpPostList1
+        
+        }else if(sender.selectedSegmentIndex == 1){
+            //helper
+            print("helper")
+            help = false
+            searchPostVC.help1 = false
+            searchPostVC.filteredPostList = filteredHelperPostList1
+        }
+        searchPostVC.updateTableView()
     }
     
     // animation helper function to hide/show views
@@ -67,18 +136,39 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("change in search bar")
         filteredUserList1 = []
-        print("before \(searchUserVC.filteredUserList.count)")
+        filteredHelpPostList1 = []
+        filteredHelperPostList1 = []
+        
         for user in userList{
             let fullName = "\(user.firstName!) \(user.lastName!)"
             if(fullName.lowercased().contains(searchText.lowercased()) || user.username!.lowercased().contains(searchText.lowercased())){
                 filteredUserList1.append(user)
             }
         }
+        
+        for helperPost in helperPostList{
+            let postText = helperPost.text.lowercased()
+            if(postText.contains(searchText.lowercased())){
+                filteredHelperPostList1.append(helperPost)
+            }
+        }
+        
+        for helpPost in helpPostList{
+            let postText = helpPost.text.lowercased()
+            if(postText.contains(searchText.lowercased())){
+                filteredHelpPostList1.append(helpPost)
+            }
+        }
+        
         searchUserVC.filteredUserList = filteredUserList1
-        print("after \(searchUserVC.filteredUserList.count)")
         searchUserVC.updateTableView()
+        if(help){
+            searchPostVC.filteredPostList = filteredHelpPostList1
+        }else{
+            searchPostVC.filteredPostList = filteredHelperPostList1
+        }
+        searchPostVC.updateTableView()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

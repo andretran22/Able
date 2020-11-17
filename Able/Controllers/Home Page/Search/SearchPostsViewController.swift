@@ -6,24 +6,55 @@
 //
 
 import UIKit
+import Firebase
+import Foundation
 
-class SearchPostsViewController: UIViewController {
-
+class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    @IBOutlet weak var postsTableView: UITableView!
+    public var filteredPostList:[Post] = []
+    public var help1 = true
+    let postsCellIdentifier = "PostCellIdentifier"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        postsTableView.delegate = self
+        postsTableView.dataSource = self
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return filteredPostList.count
     }
-    */
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: postsCellIdentifier, for: indexPath as IndexPath) as! PostCell
+        cell.post = filteredPostList[indexPath.row]        
+        return cell
+    }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //this function gets executed when you tap a row
+        tableView.deselectRow(at: indexPath, animated: true)
+        let post = filteredPostList[indexPath.row]
+        self.performSegue(withIdentifier: "searchPostToPost", sender: post)
+    }
+    
+    public func updateTableView(){
+        postsTableView.reloadData()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "searchPostToPost",
+            let postPage = segue.destination as? PostViewController {
+            let post = sender as! Post
+            postPage.post = post
+            if(help1){
+                postPage.whichFeed = "helpPosts"
+            }else{
+                postPage.whichFeed = "helperPosts"
+            }
+        }
+    }
+    
 }
