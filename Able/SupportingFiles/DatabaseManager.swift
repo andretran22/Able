@@ -108,6 +108,16 @@ extension DatabaseManager {
                                           state: state,
                                           profilePicURL: url)
             publicCurrentUser?.printInfo()
+            
+            guard let savedPostsFromDB = dict["saved_posts"] as? [String: Any] else {
+                print("User has no saved posts")
+                return
+            }
+            var savedPosts = [String]()
+            for postID in savedPostsFromDB.keys {
+                savedPosts.append(postID)
+            }
+            publicCurrentUser?.storeSavedPosts(savedPosts: savedPosts)
         }
     }
 }

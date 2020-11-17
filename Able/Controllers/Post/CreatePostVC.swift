@@ -21,6 +21,7 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
                     ApplyTags, ChangeLocation {
 
     @IBOutlet weak var collectionViewTags: UICollectionView!
+    @IBOutlet weak var profilePicImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var segCtrlFeed: UISegmentedControl!
@@ -66,6 +67,11 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
     }
     
     func stylePage() {
+        
+        ImageService.downloadImage(withURL: URL(string: publicCurrentUser!.profilePicUrl)!) { image in
+            self.profilePicImage.image = image
+        }
+        
         // textViewStyle
         postTextView.layer.cornerRadius = 10
         
@@ -141,7 +147,8 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
             "location": location,
             "tags": tags,
             "text": postTextView.text!,
-            "timestamp": [".sv": "timestamp"]
+            "timestamp": [".sv": "timestamp"],
+            "completed": false
         ] as [String: Any]
         
         postRef.setValue(postObject, withCompletionBlock: { error, ref in
