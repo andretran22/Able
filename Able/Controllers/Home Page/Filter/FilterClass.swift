@@ -44,13 +44,17 @@ class CurrentFilters {
         //filter
         if !isDefaultState(){
             for post in posts {
-                if post.location.lowercased().contains(location.lowercased()) ||
-                    arrayContainsString(filter: filterTags, postWords: post.tags ?? []) {
-                    tempPosts.append(post)
-//                    print("Author: \(post.authorName)")
-//                    print("Text: \(post.text)")
-//                    print()
+                if location.isEmpty{
+                    if arrayContainsString(filter: filterTags, postWords: post.tags ?? []) {
+                        tempPosts.append(post)
+                    }
+                }else{
+                    if post.location.lowercased().contains(location.lowercased()) &&
+                        arrayContainsString(filter: filterTags, postWords: post.tags ?? []) {
+                        tempPosts.append(post)
+                    }
                 }
+                
             }
         }else{
             tempPosts = posts
@@ -66,6 +70,7 @@ class CurrentFilters {
         return tempPosts
     }
     
+    // check if any word in filter is in poseWords
     func arrayContainsString(filter:[String], postWords:[String]) -> Bool{
         for filterWord in filter {
             for postWord in postWords {

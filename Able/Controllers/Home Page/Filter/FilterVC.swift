@@ -24,7 +24,7 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     @IBOutlet weak var furnitureButton: SelectionButton!
     @IBOutlet weak var techButton: SelectionButton!
     @IBOutlet weak var otherButton: SelectionButton!
-    
+
     // display collection of tags
     @IBOutlet weak var collectionTags: UICollectionView!
     let tagIdentifier = "TagCellId"
@@ -37,16 +37,20 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     //track selected "Quick categories"
     var categoriesSelected = Set<String>()
     
-    // delegate to send filter properties back to home page
-//    var returnDelegate: ReturnFilterDelegate!
+    //map name of button to button objects
+    var buttonMap = [String: SelectionButton]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         createPickerView()
         dismissPickerView()
-        sortField.text = "Most Recent"
-        locationField.text = ""
         
+        sortField.text = globalFilterState?.sort 
+        locationField.text = globalFilterState?.location
+        searchTags = globalFilterState?.tags ?? []
+        categoriesSelected =  Set ( globalFilterState?.categories ?? [])
+        
+
         foodButton.selectDelegate = self
         waterButton.selectDelegate = self
         toysButtons.selectDelegate = self
@@ -57,10 +61,33 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         techButton.selectDelegate = self
         otherButton.selectDelegate = self
         
+        buttonMap = [
+            "Food" : foodButton,
+            "Water": waterButton,
+            "Toys": toysButtons,
+            "Clothes": clothesButton,
+            "Toiletries": toiletriesButton,
+            "Medicine": medicineButton,
+            "Furniture": furnitureButton,
+            "Tech": techButton,
+            "Other": otherButton
+        ]
+        setPrevState()
+
         collectionTags.delegate = self
         collectionTags.dataSource = self
         self.tagsField.delegate = self
         self.locationField.delegate = self
+    }
+    
+  
+    func setPrevState() {
+        for category in categoriesSelected {
+            buttonMap[category]?.active = true
+            buttonMap[category]?.setSelected()
+        }
+        
+        collectionTags.reloadData()
     }
     
     
