@@ -95,7 +95,8 @@ extension DatabaseManager {
                   let username = dict["user_name"] as? String,
                   let city = dict["city"] as? String,
                   let url = dict["photoURL"] as? String,
-                  let state = dict["state"] as? String else {
+                  let state = dict["state"] as? String,
+                  let userDescription = dict["user_description"] as? String else {
                 print("Could not retrive user data from Firebase")
                 return
             }
@@ -106,7 +107,8 @@ extension DatabaseManager {
                                           username: username,
                                           city: city,
                                           state: state,
-                                          profilePicURL: url)
+                                          profilePicURL: url,
+                                          userDescription: userDescription)
             publicCurrentUser?.printInfo()
             
             guard let savedPostsFromDB = dict["saved_posts"] as? [String: Any] else {
