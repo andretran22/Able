@@ -17,6 +17,7 @@ class CommentTableViewCell: UITableViewCell {
     
     var post: Post! {
         didSet {
+            getUserProfilePic()
             updateUI()
         }
     }
@@ -27,11 +28,28 @@ class CommentTableViewCell: UITableViewCell {
         timestampLabel.text = post.createdAt.calenderTimeSinceNow()
 //        locationLabel.text = post.location
     }
+    
+    func getUserProfilePic() {
+        let userKey = post.userKey
+        
+        let usersRef = Database.database().reference()
+        
+        usersRef.child("users").child(userKey).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let userData = snapshot.value as? [String:Any],
+               let profileURL = userData["photoURL"] as? String {
+                // retrieve url from firebase
+                ImageService.downloadImage(withURL: URL(string: profileURL)!) { image in
+                    self.profilePicImageView.image = image
+                }
+            }
+        })
+    }
 }
 
 
 class PostViewController: UIViewController,
                           UICollectionViewDelegate, UICollectionViewDataSource,
+                          UICollectionViewDelegateFlowLayout,
                           UITableViewDelegate, UITableViewDataSource {
         
     @IBOutlet weak var nameButtonLabel: UIButton!
@@ -59,11 +77,28 @@ class PostViewController: UIViewController,
         textLabel.text = post?.text
         commentsTableView.delegate = self
         commentsTableView.dataSource = self
+        getUserProfilePic()
         self.fetchComments()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         fetchComments()
+    }
+    
+    func getUserProfilePic() {
+        let userKey = post!.userKey
+        
+        let usersRef = Database.database().reference()
+        
+        usersRef.child("users").child(userKey).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let userData = snapshot.value as? [String:Any],
+               let profileURL = userData["photoURL"] as? String {
+                // retrieve url from firebase
+                ImageService.downloadImage(withURL: URL(string: profileURL)!) { image in
+                    self.profilePicImageView.image = image
+                }
+            }
+        })
     }
     
     // TAGS
@@ -82,6 +117,19 @@ class PostViewController: UIViewController,
         cell.backgroundColor = DEFAULT_COLOR_TAGS[row % 9] // make cell more visible in our example project
         cell.layer.cornerRadius = 8
         return cell
+    }
+    
+    // if there is only one cell, align it to the top left of the collectionview
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        if collectionView.numberOfItems(inSection: section) == 1 {
+            
+            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+            
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: collectionView.frame.width - flowLayout.itemSize.width)
+
+        }
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     // COMMENTS

@@ -16,7 +16,8 @@ protocol EditPost {
 }
 
 class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate,
-                UITableViewDelegate, UITableViewDataSource{
+                UICollectionViewDelegateFlowLayout,
+                UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameButton: UIButton!
@@ -55,11 +56,15 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
         
         // for help and helper posts
         if (post.tags != nil) {
-            tags = post.tags!
             tagsCollectionView?.delegate = self
             tagsCollectionView?.dataSource = self
+            
+            tags = post.tags!
+            tagsCollectionView?.reloadData()
+            
             optionsTableView?.delegate = self
             optionsTableView?.dataSource = self
+            optionsTableView?.layer.cornerRadius = 10
             
             if publicCurrentUser != nil {
                 // options logic
@@ -135,6 +140,19 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
         return cell
     }
     
+    // if there is only one cell, align it to the top left of the collectionview
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        if collectionView.numberOfItems(inSection: section) == 1 {
+            
+            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+            
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: collectionView.frame.width - flowLayout.itemSize.width)
+
+        }
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return options.count
     }
@@ -160,6 +178,13 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
                 UIView.animate(withDuration: 0.1) {
                     sender.transform = CGAffineTransform.identity
                     self.optionsTableView!.isHidden = !self.optionsTableView!.isHidden
+                    if (self.optionsTableView!.isHidden) {
+                        self.contentView.backgroundColor = UIColor.white
+                        self.tagsCollectionView?.backgroundColor = UIColor.white
+                    } else {
+                        self.contentView.backgroundColor = UIColor.lightGray
+                        self.tagsCollectionView?.backgroundColor = UIColor.lightGray
+                    }
                 }
             })
     }

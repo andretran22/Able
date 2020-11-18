@@ -31,6 +31,20 @@ class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableV
         let cell = tableView.dequeueReusableCell(withIdentifier: postsCellIdentifier, for: indexPath as IndexPath) as! PostCell
         cell.post = filteredPostList[indexPath.row]
         cell.delegate = self
+        cell.usernameButton.tag = indexPath.row
+        
+        // add shadow on cell
+        cell.backgroundColor = .clear // very important
+        cell.layer.masksToBounds = false
+        cell.layer.shadowOpacity = 0.23
+        cell.layer.shadowRadius = 3
+        cell.layer.shadowOffset = CGSize(width: 0, height: 0)
+        cell.layer.shadowColor = UIColor.black.cgColor
+
+        // add corner radius on `contentView`
+        cell.contentView.backgroundColor = .white
+        cell.contentView.layer.cornerRadius = 8
+        
         return cell
     }
 
@@ -49,6 +63,29 @@ class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableV
         self.performSegue(withIdentifier: "ToEditPostSegueIdentifier", sender: post)
     }
     
+    @IBAction func nameClicked(_ sender: UIButton) {
+        let postIndex = IndexPath(row: sender.tag, section: 0)
+        let userKey = filteredPostList[postIndex.row].userKey
+        
+        let usersRef = Database.database().reference()
+        
+        usersRef.child("users").child(userKey).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let userData = snapshot.value as? [String:Any],
+               let firstName = userData["first_name"] as? String,
+               let lastName = userData["last_name"] as? String,
+               let username = userData["user_name"] as? String,
+               let city = userData["city"] as? String,
+               let state = userData["state"] as? String,
+               let url = userData["photoURL"] as? String,
+               let user_description = userData["user_description"] as? String
+               {
+                let viewUser = AbleUser(firstName: firstName, lastName: lastName,
+                                    emailAddress: snapshot.key, username: username, city: city, state: state, profilePicURL: url, userDescription: user_description)
+                self.performSegue(withIdentifier: "ToProfileFromSearchFeed", sender: viewUser)
+            }
+        })
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "searchPostToPost",
             let postPage = segue.destination as? PostViewController {
@@ -63,6 +100,10 @@ class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableV
                   let editPostVC = segue.destination as? CreatePostVC {
             let post = sender as! Post
             editPostVC.post = post
+        } else if segue.identifier == "ToProfileFromSearchFeed",
+                  let profilePageVC = segue.destination as? ProfileVC {
+            let viewUser = sender as! AbleUser
+            profilePageVC.user = viewUser
         }
     }
     

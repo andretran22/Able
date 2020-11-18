@@ -113,12 +113,14 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="aboutMeLabel" destination="txc-EC-eGm" id="qh3-JF-fY6"/>
+                        <outlet property="feedsSegCtrl" destination="WLe-2m-Sxv" id="TP7-Nt-5Ye"/>
                         <outlet property="helpFeedContainer" destination="42s-Um-GOm" id="3U8-Ah-czi"/>
                         <outlet property="helperFeedContainer" destination="LHs-w5-Tuf" id="yls-DX-ZKS"/>
                         <outlet property="locationLabel" destination="X7q-MS-kpB" id="Hey-nL-bJQ"/>
                         <outlet property="nameLabel" destination="G0a-vU-41t" id="aIJ-kf-RBd"/>
                         <outlet property="profileImageView" destination="hlw-Tf-14H" id="RBH-fW-JkJ"/>
                         <outlet property="ratingButton" destination="sOh-CY-wtg" id="9Ng-oI-2It"/>
+                        <outlet property="settingsButton" destination="nAh-Qh-eE2" id="6v8-eQ-sfb"/>
                         <outlet property="tapToChangeProfileButton" destination="PGD-BY-avD" id="94y-iN-Gx4"/>
                     </connections>
                 </viewController>
@@ -250,6 +252,16 @@
             </objects>
             <point key="canvasLocation" x="105.79710144927537" y="94.419642857142847"/>
         </scene>
+        <!--SinglePostVC-->
+        <scene sceneID="M8E-RR-2z2">
+            <objects>
+                <viewControllerPlaceholder storyboardName="HomePage" referencedIdentifier="SinglePostVC" id="sjB-yl-pWR" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="0zO-2f-Up6"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lu7-Mr-pk2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1302" y="1198"/>
+        </scene>
         <!--EditPostVC-->
         <scene sceneID="3yZ-VD-EqC">
             <objects>
@@ -268,7 +280,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="381" height="395"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OKw-Im-W2g">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="220" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OKw-Im-W2g">
                                 <rect key="frame" x="16" y="44" width="349" height="351"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
@@ -324,7 +336,7 @@
                                                     <rect key="frame" x="149" y="32" width="160" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                    <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vgy-Yx-yZ8">
+                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="5" minimumInteritemSpacing="5" id="vgy-Yx-yZ8">
                                                         <size key="itemSize" width="50" height="15"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -332,7 +344,7 @@
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PostTagsCollectionCell" id="Mfk-zn-NYS" customClass="TagCollectionViewCell" customModule="Able" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="15"/>
+                                                            <rect key="frame" x="0.0" y="0.5" width="50" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="5n5-IC-w1u">
                                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="15"/>
@@ -369,7 +381,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTG-GS-wgZ" userLabel="Options Button">
                                                     <rect key="frame" x="310" y="32" width="19" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <state key="normal" image="ellipsis" catalog="system"/>
                                                     <connections>
                                                         <action selector="optionsButtonClicked:" destination="drS-gd-PbW" eventType="touchUpInside" id="dtL-1i-dff"/>
@@ -434,6 +446,7 @@
                     <connections>
                         <outlet property="tableView" destination="OKw-Im-W2g" id="w8a-ro-KFp"/>
                         <segue destination="yA5-Rh-VN4" kind="show" identifier="ToEditPostSegueIdentifier" id="C7G-bh-LLa"/>
+                        <segue destination="sjB-yl-pWR" kind="show" identifier="ToSinglePostSegue" id="1Fo-Y8-Zkn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J9Y-Nf-H1S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -524,7 +537,7 @@
                     </prototypes>
                 </tableView>
             </objects>
-            <point key="canvasLocation" x="2266" y="885"/>
+            <point key="canvasLocation" x="2250" y="868"/>
         </scene>
         <!--Personal Helper FeedVC-->
         <scene sceneID="AH1-kD-DTi">
@@ -534,7 +547,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="381" height="395"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ePe-BZ-cLy">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="220" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ePe-BZ-cLy">
                                 <rect key="frame" x="16" y="44" width="349" height="351"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
@@ -590,7 +603,7 @@
                                                     <rect key="frame" x="149" y="32" width="160" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                    <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="IIo-e1-yNA">
+                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="5" minimumInteritemSpacing="5" id="IIo-e1-yNA">
                                                         <size key="itemSize" width="50" height="15"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -598,7 +611,7 @@
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PostTagsCollectionCell" id="dcU-MV-gOb" customClass="TagCollectionViewCell" customModule="Able" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="15"/>
+                                                            <rect key="frame" x="0.0" y="0.5" width="50" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="6BA-vn-wMb">
                                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="15"/>
@@ -635,7 +648,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PHm-PQ-In8" userLabel="Options Button">
                                                     <rect key="frame" x="310" y="32" width="19" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <state key="normal" image="ellipsis" catalog="system"/>
                                                     <connections>
                                                         <action selector="optionsButtonClicked:" destination="Uys-3U-HyT" eventType="touchUpInside" id="LFb-A0-hyy"/>
@@ -700,6 +713,7 @@
                     <connections>
                         <outlet property="tableView" destination="ePe-BZ-cLy" id="zrA-Na-PT5"/>
                         <segue destination="yA5-Rh-VN4" kind="show" identifier="ToEditPostSegueIdentifier" id="3YY-ez-XJY"/>
+                        <segue destination="sjB-yl-pWR" kind="show" identifier="ToSinglePostSegue" id="MKJ-wu-hp8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UzQ-CS-FgR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -714,7 +728,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="374" height="533"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OAs-UH-FUV">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="220" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OAs-UH-FUV">
                                 <rect key="frame" x="16" y="44" width="342" height="489"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
@@ -813,6 +827,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="C7G-bh-LLa"/>
+        <segue reference="1Fo-Y8-Zkn"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="RatingStarFilled" width="55" height="51"/>

@@ -25,7 +25,8 @@ let DEFAULT_COLOR_TAGS = [UIColor(red: 0/255, green: 203/255, blue: 255/255, alp
                           UIColor(red: 109/255, green: 242/255, blue: 255/255, alpha: 1.0)  /* #6df2ff, cyan */
                         ]
 
-class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
+class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,
+                  UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var helpFeedContainer: UIView!
     @IBOutlet weak var helperFeedContainer: UIView!
@@ -131,8 +132,20 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
         self.helperFeedVC.setFeedToCategory()
         
     }
+    
+    // if there is only one cell, align it to the top left of the collectionview
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        if collectionView.numberOfItems(inSection: section) == 1 {
+            
+            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+            
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: collectionView.frame.width - flowLayout.itemSize.width)
 
-
+        }
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? HelpFeedVC,
                segue.identifier == "helpEmbedSegue" {
@@ -145,5 +158,30 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
            }
     }
     
+    @IBAction func searchButtonClicked(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.1,
+            animations: {
+                sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            },
+            completion: { _ in
+                UIView.animate(withDuration: 0.1) {
+                    sender.transform = CGAffineTransform.identity
+                    self.performSegue(withIdentifier: "ToSearchVC", sender: nil)
+                }
+            })
+    }
+    
+    @IBAction func filterButtonClicked(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.1,
+            animations: {
+                sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            },
+            completion: { _ in
+                UIView.animate(withDuration: 0.1) {
+                    sender.transform = CGAffineTransform.identity
+                    self.performSegue(withIdentifier: "segueFilter", sender: nil)
+                }
+            })
+    }
 }
 

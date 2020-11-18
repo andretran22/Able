@@ -19,9 +19,6 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
         self.fetchPosts()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorStyle = .none
-        tableView.estimatedRowHeight = tableView.rowHeight
-        tableView.rowHeight = UITableView.automaticDimension
         
         let pCurrentUser = publicCurrentUser
         
@@ -76,6 +73,7 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
     // animation to deselect cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        self.performSegue(withIdentifier: "ToSinglePostSegue", sender: helpPosts[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -104,10 +102,6 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         // this will turn on `masksToBounds` just before showing the cell
         cell.contentView.layer.masksToBounds = true
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 220
     }
     
     @IBAction func nameClicked(_ sender: UIButton) {
@@ -144,6 +138,11 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
                   let editPostVC = segue.destination as? CreatePostVC {
             let post = sender as! Post
             editPostVC.post = post
+        } else if segue.identifier == "ToSinglePostSegue",
+                  let postVC = segue.destination as? PostViewController {
+            let viewPost = sender as! Post
+            postVC.post = viewPost
+            postVC.whichFeed = "helpPosts"
         }
     }
 }

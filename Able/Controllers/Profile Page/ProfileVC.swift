@@ -17,6 +17,8 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var ratingButton: UIButton!
     @IBOutlet weak var helpFeedContainer: UIView!
     @IBOutlet weak var helperFeedContainer: UIView!
+    @IBOutlet weak var settingsButton: UIButton!
+    @IBOutlet weak var feedsSegCtrl: UISegmentedControl!
     
     
     var ref: DatabaseReference!
@@ -44,13 +46,13 @@ class ProfileVC: UIViewController {
         profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
         
         // if user is nil, then use publicCurrentUser
+        // else, hide the settings button and saved posts
         if (user == nil) {
             user = publicCurrentUser
+        } else {
+            settingsButton.isHidden = true
+            feedsSegCtrl.removeSegment(at: 2, animated: false)
         }
-//        print("CURRENTLY VIEWING THIS USER PROFILE")
-//        user?.printInfo()
-//        print("THIS USER IS VIEWING THIS PROFILE")
-//        publicCurrentUser?.printInfo()
 
         displayInfo()
         setRating(uid: user!.safeEmail)
