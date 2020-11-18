@@ -42,6 +42,7 @@ class SignupVC: UITableViewController {
         cityField.text = ""
         stateField.text = ""
         displayError.text = ""
+        displayError.isHidden = true
     }
     
     // sign up with Firebase
