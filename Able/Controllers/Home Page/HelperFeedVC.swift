@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 
 class HelperFeedVC: UITableViewController {
+    
 
     var helperPosts = [Post]()
     
@@ -58,6 +59,13 @@ class HelperFeedVC: UITableViewController {
             self.helperPosts = tempPosts
             self.tableView.reloadData()
         })
+    }
+    
+    // Called from Home Page when Quick Categories are pressed.
+    func setFeedToCategory(catgoryName:String) {
+        print("Inside Helper Feed: \(catgoryName)")
+        globalFilterState?.printInfo()
+        fetchPosts()
     }
     
     // animation to deselect cell

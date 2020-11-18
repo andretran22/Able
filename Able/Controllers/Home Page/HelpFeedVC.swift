@@ -55,16 +55,16 @@ class HelpFeedVC: UITableViewController {
             //filter tempPosts and sort them
             tempPosts = (globalFilterState?.sortAndFilter(postType: "helpPosts", posts: tempPosts))!
             
-            for tempPost in tempPosts{
-//                print("Author: \(tempPost.authorName)")
-//                print("Text: \(tempPost.text)")
-//                print("Tags: \(tempPost.tags!)")
-//                print()
-            }
-            
             self.helpPosts = tempPosts
             self.tableView.reloadData()
         })
+    }
+    
+    // Called from Home Page when Quick Categories are pressed.
+    func setFeedToCategory(catgoryName: String) {
+        print("Inside Help Feed: \(catgoryName)")
+        globalFilterState?.printInfo()
+        fetchPosts()
     }
     
     // animation to deselect cell
@@ -80,10 +80,6 @@ class HelpFeedVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HelpPostCell", for: indexPath) as! PostCell
         cell.post = helpPosts[indexPath.row]
-        
-//        print("author at row: \(helpPosts[indexPath.row].authorName)")
-//        print("text at row: \(helpPosts[indexPath.row].text)")
-//        print("tags at row: \(helpPosts[indexPath.row].tags)")
         
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell

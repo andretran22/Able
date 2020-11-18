@@ -31,11 +31,13 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
     @IBOutlet weak var helperFeedContainer: UIView!
     @IBOutlet weak var collectionViewTags: UICollectionView!
     
+    var helpFeedVC: HelpFeedVC!
+    var helperFeedVC: HelperFeedVC!
+    
     let tagIdentifier = "TagCellIdentifier"
     var tags = DEFAULT_TAGS
     var tagColors = DEFAULT_COLOR_TAGS
-    
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionViewTags.delegate = self
@@ -89,12 +91,31 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.backgroundColor = cell?.backgroundColor!.adjust(by: -30)
+        
+        // when category button click reset global filter and notify feed what to filter by
+        let categoryName = tags[indexPath.row]
+        globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: [categoryName])
+        self.helpFeedVC.setFeedToCategory(catgoryName: categoryName)
+        self.helperFeedVC.setFeedToCategory(catgoryName: categoryName)
+
     }
 
     // change background color back when user releases touch
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.backgroundColor = self.tagColors[indexPath.row]
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? HelpFeedVC,
+               segue.identifier == "helpEmbedSegue" {
+               self.helpFeedVC = vc
+           }
+
+           if let vc = segue.destination as? HelperFeedVC,
+               segue.identifier == "helperEmbedSegue" {
+               self.helperFeedVC = vc
+           }
     }
     
 }

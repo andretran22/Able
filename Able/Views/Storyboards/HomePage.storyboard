@@ -258,14 +258,14 @@
                                 <rect key="frame" x="20" y="211" width="374" height="699"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <connections>
-                                    <segue destination="HoB-2B-dWj" kind="embed" id="qUu-LY-NIf"/>
+                                    <segue destination="HoB-2B-dWj" kind="embed" identifier="helpEmbedSegue" id="qUu-LY-NIf"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JWg-Ki-ihC" userLabel="Helper Container">
                                 <rect key="frame" x="20" y="211" width="374" height="602"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <connections>
-                                    <segue destination="L2c-HM-0Zh" kind="embed" id="bF2-hq-q1s"/>
+                                    <segue destination="L2c-HM-0Zh" kind="embed" identifier="helperEmbedSegue" id="bF2-hq-q1s"/>
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tqD-0L-zjl" userLabel="Search Button">
