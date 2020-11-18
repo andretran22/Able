@@ -41,15 +41,32 @@ class CurrentFilters {
         var tempPosts = [Post]()
         let filterTags = tags + categories
         
+        let separators = CharacterSet(charactersIn: ", ")
+        var locationQuery = location.components(separatedBy: separators)
+        locationQuery.removeAll { $0 == "" }
+        
         //filter
         if !isDefaultState(){
             for post in posts {
+                
+                var postLocation = post.location.components(separatedBy: separators)
+                postLocation.removeAll { $0 == "" }
+                
+                // if only tags/categories are specified
                 if location.isEmpty{
                     if arrayContainsString(filter: filterTags, postWords: post.tags ?? []) {
                         tempPosts.append(post)
                     }
+                    
+                // if only location is specified
+                }else if filterTags.count == 0{
+                    if arrayContainsString(filter: postLocation, postWords: locationQuery){
+                        tempPosts.append(post)
+                    }
+                    
+                // both location and tags/categories are specifiec
                 }else{
-                    if post.location.lowercased().contains(location.lowercased()) &&
+                    if arrayContainsString(filter: postLocation, postWords: locationQuery) &&
                         arrayContainsString(filter: filterTags, postWords: post.tags ?? []) {
                         tempPosts.append(post)
                     }
@@ -69,11 +86,12 @@ class CurrentFilters {
         return tempPosts
     }
     
+ 
     // check if any word in filter is in poseWords
     func arrayContainsString(filter:[String], postWords:[String]) -> Bool{
         for filterWord in filter {
             for postWord in postWords {
-                if filterWord.lowercased() == postWord.lowercased() {
+                if filterWord.lowercased() == postWord.lowercased(){
                     print("true, found word")
                     return true
                 }
