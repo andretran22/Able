@@ -29,7 +29,7 @@ class HelpFeedVC: UITableViewController, EditPost {
     func fetchPosts() {
         let helpPostsRef = Database.database().reference().child("posts").child("helpPosts")
         
-        helpPostsRef.observe(.value, with: { snapshot in
+        helpPostsRef.observeSingleEvent(of: .value, with: { (snapshot) in
             
             var tempPosts = [Post]()
             
@@ -54,9 +54,19 @@ class HelpFeedVC: UITableViewController, EditPost {
                     tempPosts.append(post)
                 }
             }
+            
+            //filter tempPosts and sort them
+            tempPosts = (globalFilterState?.sortAndFilter(postType: "helpPosts", posts: tempPosts))!
+            
             self.helpPosts = tempPosts
             self.tableView.reloadData()
         })
+    }
+    
+    // Called from Home Page when Quick Categories are pressed.
+    func setFeedToCategory() {
+        globalFilterState?.printInfo()
+        fetchPosts()
     }
     
     // animation to deselect cell
@@ -73,6 +83,7 @@ class HelpFeedVC: UITableViewController, EditPost {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HelpPostCell", for: indexPath) as! PostCell
         cell.delegate = self
         cell.post = helpPosts[indexPath.row]
+        
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell
         cell.backgroundColor = .clear // very important

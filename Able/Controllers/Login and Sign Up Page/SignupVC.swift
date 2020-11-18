@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class SignupVC: UIViewController {
+class SignupVC: UITableViewController {
     var ref: DatabaseReference!
     @IBOutlet weak var displayError: UILabel!
     
@@ -118,13 +118,6 @@ class SignupVC: UIViewController {
         self.present(nextViewController, animated:true, completion:nil)
     }
     
-    // save information to Firebase
-//    func saveInfo() {
-//        ref = Database.database().reference()
-//        let newUser = ref.child("user").child(emailField.text!)
-//        newUser.child("reviews").child("numReviews").setValue(0)
-//    }
-//
     func saveToDatabase() {
         DatabaseManager.shared.insertUser(with: AbleUser(
             firstName: firstnameField.text!,
@@ -136,6 +129,10 @@ class SignupVC: UIViewController {
             profilePicURL: defaultProfilePicURL
         )
         )
+    }
+    
+    @IBAction func done (sender: UITextField){
+        sender.resignFirstResponder()
     }
     // This closes the keyboard when touch is detected outside of the keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -75,6 +75,7 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
                 replaceOption(origString: "Save", newString: "Unsave")
             }
             optionsTableView?.reloadData()
+            //tagsCollectionView?.reloadData()
         }
         
         if (post.numComments != nil) {

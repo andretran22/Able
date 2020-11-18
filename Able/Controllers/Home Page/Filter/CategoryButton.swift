@@ -27,7 +27,6 @@ class SelectionButton: UIButton {
     // Custom Border to the UIButton
     private let border = CAShapeLayer()
     
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.backColor = backgroundColor

@@ -15,6 +15,7 @@
 		0A44BBE3254AA59A00DB247C /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A44BBE2254AA59A00DB247C /* Onboarding.storyboard */; };
 		0A64F8B4254AABFB00C1204C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64F8B3254AABFB00C1204C /* OnboardingViewController.swift */; };
 		0A64F923254CFA9700C1204C /* AbleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64F922254CFA9700C1204C /* AbleUser.swift */; };
+		0A8700B325610B16003FE900 /* FilterClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8700B225610B16003FE900 /* FilterClass.swift */; };
 		0A95849D255155B9009DE2DB /* FilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A95849C255155B9009DE2DB /* FilterVC.swift */; };
 		0A983B9C2530EFF900F45A5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A983B9B2530EFF900F45A5F /* AppDelegate.swift */; };
 		0A983B9E2530EFF900F45A5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A983B9D2530EFF900F45A5F /* SceneDelegate.swift */; };
@@ -64,6 +65,7 @@
 		0A44BBE2254AA59A00DB247C /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		0A64F8B3254AABFB00C1204C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		0A64F922254CFA9700C1204C /* AbleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbleUser.swift; sourceTree = "<group>"; };
+		0A8700B225610B16003FE900 /* FilterClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterClass.swift; sourceTree = "<group>"; };
 		0A95849C255155B9009DE2DB /* FilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterVC.swift; sourceTree = "<group>"; };
 		0A983B982530EFF900F45A5F /* Able.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Able.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A983B9B2530EFF900F45A5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				0A95849C255155B9009DE2DB /* FilterVC.swift */,
 				0A9AC6F925525BE700A27DEC /* CategoryButton.swift */,
 				0ABBA20725536C8D00D31D97 /* CustomFilterCell.swift */,
+				0A8700B225610B16003FE900 /* FilterClass.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 				0A64F923254CFA9700C1204C /* AbleUser.swift in Sources */,
 				D1A3AFA12542242A00CA7FDA /* SettingsViewController.swift in Sources */,
 				7C9E790F2541F71600595A8E /* ReviewVC.swift in Sources */,
+				0A8700B325610B16003FE900 /* FilterClass.swift in Sources */,
 				0A64F8B4254AABFB00C1204C /* OnboardingViewController.swift in Sources */,
 				7C6CFE8D25507718002E8B17 /* PersonalHelpFeedVC.swift in Sources */,
 				0A983BA62530EFF900F45A5F /* Able.xcdatamodeld in Sources */,

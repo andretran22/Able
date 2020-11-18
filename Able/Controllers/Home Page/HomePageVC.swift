@@ -25,17 +25,21 @@ let DEFAULT_COLOR_TAGS = [UIColor(red: 0/255, green: 203/255, blue: 255/255, alp
                           UIColor(red: 109/255, green: 242/255, blue: 255/255, alpha: 1.0)  /* #6df2ff, cyan */
                         ]
 
-class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ReturnFilterDelegate {
+class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
     
     @IBOutlet weak var helpFeedContainer: UIView!
     @IBOutlet weak var helperFeedContainer: UIView!
     @IBOutlet weak var collectionViewTags: UICollectionView!
     
+    var helpFeedVC: HelpFeedVC!
+    var helperFeedVC: HelperFeedVC!
+    
     let tagIdentifier = "TagCellIdentifier"
     var tags = DEFAULT_TAGS
     var tagColors = DEFAULT_COLOR_TAGS
     
-    
+    var activeTagIndex = -1
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionViewTags.delegate = self
@@ -43,6 +47,9 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
         
         // create global user for reference once signed up or logged in
         DatabaseManager.shared.setPublicUser()
+        
+        // create global filter state with default sort by Most Recent
+        globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: [])
         
         setView(view: helpFeedContainer, hidden: false)
         setView(view: helperFeedContainer, hidden: true)
@@ -84,26 +91,54 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     // change background color when user touches cell
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = cell?.backgroundColor!.adjust(by: -30)
+        
+        // unhighlight current active cell
+        if activeTagIndex != -1 {
+            let activeCell = collectionView.cellForItem(at: IndexPath(row: activeTagIndex, section: 0))
+            activeCell?.backgroundColor = self.tagColors[activeTagIndex]
+        }
+        
+        var categoryToFilterBy = [String]()
+        
+        if indexPath.row == activeTagIndex {
+
+            //reset active tag index and global filter
+            activeTagIndex = -1
+            categoryToFilterBy = []
+            globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: [])
+           
+        }else{
+            
+            // set active index and set category to filter by
+            activeTagIndex = indexPath.row
+            let categoryName = tags[indexPath.row]
+            categoryToFilterBy = [categoryName]
+
+            // darken cell
+            let cell = collectionView.cellForItem(at: indexPath)
+            cell?.backgroundColor = cell?.backgroundColor!.adjust(by: -30)
+            
+        }
+            
+        // reset global filter to either caterory name or []
+        globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: categoryToFilterBy)
+        self.helpFeedVC.setFeedToCategory()
+        self.helperFeedVC.setFeedToCategory()
+        
     }
 
-    // change background color back when user releases touch
-    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = self.tagColors[indexPath.row]
-    }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueFilter",
-           let filterVC = segue.destination as? FilterVC{
-            filterVC.returnDelegate = self
-        }
+        if let vc = segue.destination as? HelpFeedVC,
+               segue.identifier == "helpEmbedSegue" {
+               self.helpFeedVC = vc
+           }
+
+           if let vc = segue.destination as? HelperFeedVC,
+               segue.identifier == "helperEmbedSegue" {
+               self.helperFeedVC = vc
+           }
     }
     
-    func returnFilterProperties(properties: Dictionary<String, Any>) {
-        print("Recieved Filter properties: ")
-        print(properties)
-    }
 }
 
