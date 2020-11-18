@@ -39,14 +39,19 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
     var tagColors = DEFAULT_COLOR_TAGS
     
     var activeTagIndex = -1
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // create global user for reference once signed up or logged in
+        DatabaseManager.shared.setPublicUser()
+        publicCurrentUser?.printInfo()
+    }
         
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionViewTags.delegate = self
         collectionViewTags.dataSource = self
         
-        // create global user for reference once signed up or logged in
-        DatabaseManager.shared.setPublicUser()
+        
         
         // create global filter state with default sort by Most Recent
         globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: [])

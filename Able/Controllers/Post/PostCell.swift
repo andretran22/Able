@@ -61,21 +61,24 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
             optionsTableView?.delegate = self
             optionsTableView?.dataSource = self
             
-            // options logic
-            if (post.userKey == publicCurrentUser!.safeEmail) {
-                options = MY_POST_OPTIONS
-                if (post.completed!) {
-                    replaceOption(origString: "Mark Complete", newString: "Make Active")
+            if publicCurrentUser != nil {
+                // options logic
+                if (post.userKey == publicCurrentUser!.safeEmail) {
+                    options = MY_POST_OPTIONS
+                    if (post.completed!) {
+                        replaceOption(origString: "Mark Complete", newString: "Make Active")
+                    }
+                } else {
+                    options = DEFAULT_POST_OPTIONS
                 }
-            } else {
-                options = DEFAULT_POST_OPTIONS
+                
+                if (publicCurrentUser!.savedPosts.contains(post.id)) {
+                    replaceOption(origString: "Save", newString: "Unsave")
+                }
+                optionsTableView?.reloadData()
+                //tagsCollectionView?.reloadData()
             }
             
-            if (publicCurrentUser!.savedPosts.contains(post.id)) {
-                replaceOption(origString: "Save", newString: "Unsave")
-            }
-            optionsTableView?.reloadData()
-            //tagsCollectionView?.reloadData()
         }
         
         if (post.numComments != nil) {
