@@ -17,6 +17,7 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var ratingButton: UIButton!
     @IBOutlet weak var helpFeedContainer: UIView!
     @IBOutlet weak var helperFeedContainer: UIView!
+    @IBOutlet weak var savedFeedContainer: UIView!
     
     
     var ref: DatabaseReference!
@@ -32,6 +33,7 @@ class ProfileVC: UIViewController {
         super.viewDidLoad()
         
         setView(view: helpFeedContainer, hidden: false)
+        setView(view: savedFeedContainer, hidden: true)
         setView(view: helperFeedContainer, hidden: true)
         
         // Setup imagePicker to change the profile image
@@ -61,16 +63,29 @@ class ProfileVC: UIViewController {
         setRating(uid: user!.safeEmail)
     }
     
+    // switches between the help, helper, and saved container views
     @IBAction func switchViews(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            setView(view: helpFeedContainer, hidden: false)
-            setView(view: helperFeedContainer, hidden: true)
-            print("In helperFeedContainer")
-        }
-        else{
-            setView(view: helpFeedContainer, hidden: true)
-            setView(view: helperFeedContainer, hidden: false)
-            print("In helpFeedContainer")
+        switch sender.selectedSegmentIndex {
+            case 0:
+                setView(view: helpFeedContainer, hidden: false)
+                setView(view: helperFeedContainer, hidden: true)
+                setView(view: savedFeedContainer, hidden: true)
+                print("In helpFeedContainer")
+            case 1:
+                setView(view: helpFeedContainer, hidden: true)
+                setView(view: helperFeedContainer, hidden: false)
+                setView(view: savedFeedContainer, hidden: true)
+                print("In helperFeedContainer")
+            case 2:
+                setView(view: helpFeedContainer, hidden: true)
+                setView(view: helperFeedContainer, hidden: true)
+                setView(view: savedFeedContainer, hidden: false)
+                print("In savedFeedContainer")
+            default:
+                setView(view: helpFeedContainer, hidden: false)
+                setView(view: helperFeedContainer, hidden: true)
+                setView(view: savedFeedContainer, hidden: true)
+                print("Should not hit here, default case of switchViews")
         }
     }
     // animation helper function to hide/show views
@@ -127,6 +142,11 @@ class ProfileVC: UIViewController {
            profilePageVC.viewUser = user
        }
         
+        if segue.identifier == "savedSegue",
+           let profilePageVC = segue.destination as? SavedFeedVC {
+           profilePageVC.viewUser = user
+       }
+        
         if segue.identifier == "reviewSegue",
            let profilePageVC = segue.destination as? ReviewVC {
            profilePageVC.viewUser = user
@@ -135,10 +155,13 @@ class ProfileVC: UIViewController {
 }
 
 extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    // dismiss imagePicker when cancel is pressed
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
     
+    // gets image from imagePicker and updates/uploads new image to profile picture and Firebase
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // get the image from photolibrary
         guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
@@ -162,6 +185,7 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
                 return
             }
             
+            // get the created url
             storageRef.downloadURL(completion: {url, error in
                 guard let url = url, error == nil else {
                     return
@@ -220,8 +244,8 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
         self.nameLabel.text = "\(user!.firstName!) \(user!.lastName!)"
         self.locationLabel.text = "\(user!.city!), \(user!.state!)"
         self.aboutMeLabel.text = user!.userDescription
-        let sanity = user!.profilePicUrl
-        print("In displayinfo, profilePicUrl is : \(sanity)")
+//        let sanity = user!.profilePicUrl
+//        print("In displayinfo, profilePicUrl is : \(sanity)")
         
         // retrieve url from firebase
         ImageService.downloadImage(withURL: URL(string: user!.profilePicUrl)!) { image in

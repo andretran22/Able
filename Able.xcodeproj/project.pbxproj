@@ -25,6 +25,7 @@
 		0A9AC6FA25525BE700A27DEC /* CategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9AC6F925525BE700A27DEC /* CategoryButton.swift */; };
 		0ABBA20825536C8D00D31D97 /* CustomFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABBA20725536C8D00D31D97 /* CustomFilterCell.swift */; };
 		0AC31EB2253969D50084E927 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AC31EB1253969D50084E927 /* GoogleService-Info.plist */; };
+		7C37C4A82564C4CE009BDE23 /* SavedFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C37C4A72564C4CE009BDE23 /* SavedFeedVC.swift */; };
 		7C6CFE8D25507718002E8B17 /* PersonalHelpFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6CFE8C25507718002E8B17 /* PersonalHelpFeedVC.swift */; };
 		7C6CFE9625508916002E8B17 /* PersonalHelperFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6CFE9525508916002E8B17 /* PersonalHelperFeedVC.swift */; };
 		7C6CFE992550A3AB002E8B17 /* ReviewTableViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6CFE982550A3AB002E8B17 /* ReviewTableViewVC.swift */; };
@@ -77,6 +78,7 @@
 		0ABBA20725536C8D00D31D97 /* CustomFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFilterCell.swift; sourceTree = "<group>"; };
 		0AC31EB1253969D50084E927 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0E2A666DE14DB870C80B13A8 /* Pods-Able.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Able.release.xcconfig"; path = "Target Support Files/Pods-Able/Pods-Able.release.xcconfig"; sourceTree = "<group>"; };
+		7C37C4A72564C4CE009BDE23 /* SavedFeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedFeedVC.swift; sourceTree = "<group>"; };
 		7C6CFE8C25507718002E8B17 /* PersonalHelpFeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PersonalHelpFeedVC.swift; path = "Able/Controllers/Profile Page/PersonalHelpFeedVC.swift"; sourceTree = SOURCE_ROOT; };
 		7C6CFE9525508916002E8B17 /* PersonalHelperFeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PersonalHelperFeedVC.swift; path = Able/Views/Storyboards/PersonalHelperFeedVC.swift; sourceTree = SOURCE_ROOT; };
 		7C6CFE982550A3AB002E8B17 /* ReviewTableViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReviewTableViewVC.swift; path = Able/Views/Storyboards/ReviewTableViewVC.swift; sourceTree = SOURCE_ROOT; };
@@ -290,6 +292,7 @@
 			children = (
 				7C6CFE9525508916002E8B17 /* PersonalHelperFeedVC.swift */,
 				7C6CFE8C25507718002E8B17 /* PersonalHelpFeedVC.swift */,
+				7C37C4A72564C4CE009BDE23 /* SavedFeedVC.swift */,
 				7C9E790A2541F6E700595A8E /* ProfileVC.swift */,
 			);
 			path = "Profile Page";
@@ -483,6 +486,7 @@
 				0A64F8B4254AABFB00C1204C /* OnboardingViewController.swift in Sources */,
 				7C6CFE8D25507718002E8B17 /* PersonalHelpFeedVC.swift in Sources */,
 				0A983BA62530EFF900F45A5F /* Able.xcdatamodeld in Sources */,
+				7C37C4A82564C4CE009BDE23 /* SavedFeedVC.swift in Sources */,
 				D17077F4254C2DC1009BA136 /* PostViewController.swift in Sources */,
 				0A983B9C2530EFF900F45A5F /* AppDelegate.swift in Sources */,
 				0A37D81D253147D200B94D82 /* LoginMainViewController.swift in Sources */,
