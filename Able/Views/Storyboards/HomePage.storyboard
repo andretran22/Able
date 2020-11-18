@@ -478,7 +478,7 @@
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="nameClicked:" destination="HoB-2B-dWj" eventType="touchUpInside" id="dmf-PQ-MsB"/>
+                                                        <action selector="nameClicked:" destination="XMP-Nj-YQV" eventType="touchUpInside" id="8ZJ-ya-3O1"/>
                                                     </connections>
                                                 </button>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fHO-kV-VBK">
@@ -1374,7 +1374,7 @@
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
                                             <connections>
-                                                <action selector="nameClicked:" destination="HoB-2B-dWj" eventType="touchUpInside" id="8U6-WB-pEr"/>
+                                                <action selector="nameClicked:" destination="L2c-HM-0Zh" eventType="touchUpInside" id="4gT-aj-f4X"/>
                                             </connections>
                                         </button>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="W3M-vv-JVc">

@@ -104,28 +104,6 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
         cell.contentView.layer.masksToBounds = true
     }
     
-    @IBAction func nameClicked(_ sender: UIButton) {
-        let postIndex = IndexPath(row: sender.tag, section: 0)
-        let userKey = helpPosts[postIndex.row].userKey
-        
-        let usersRef = Database.database().reference()
-        
-        usersRef.child("users").child(userKey).observeSingleEvent(of: .value, with: { (snapshot) in
-            if let userData = snapshot.value as? [String:Any],
-               let firstName = userData["first_name"] as? String,
-               let lastName = userData["last_name"] as? String,
-               let username = userData["user_name"] as? String,
-               let city = userData["city"] as? String,
-               let url = userData["photoURL"] as? String,
-               let state = userData["state"] as? String
-               {
-                self.viewUser = AbleUser(firstName: firstName, lastName: lastName,
-                                    emailAddress: snapshot.key, username: username, city: city, state: state, profilePicURL: url)
-            }
-            self.performSegue(withIdentifier: "ToProfileFromHelpFeed", sender: nil)
-        })
-    }
-    
     func editPost(post: Post) {
         self.performSegue(withIdentifier: "ToEditPostSegueIdentifier", sender: post)
     }
@@ -164,10 +142,7 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ToProfileFromHelpFeed",
-            let profilePageVC = segue.destination as? ProfileVC {
-            profilePageVC.user = viewUser
-        } else if segue.identifier == "ToEditPostSegueIdentifier",
+        if segue.identifier == "ToEditPostSegueIdentifier",
                   let editPostVC = segue.destination as? CreatePostVC {
             let post = sender as! Post
             editPostVC.post = post
