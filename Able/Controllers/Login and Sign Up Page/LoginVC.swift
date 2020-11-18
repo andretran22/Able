@@ -45,6 +45,16 @@ class LoginVC: UIViewController, LoginButtonDelegate, GIDSignInDelegate  {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        clearFields()
+    }
+    
+    func clearFields() {
+        usernameField.text = ""
+        passwordField.text = ""
+        displayError.text = ""
+    }
+    
     // Facebook button action
     @IBAction func facebookButtonAction(_ sender: Any) {
         FBSDKLoginKit.LoginManager().logOut()

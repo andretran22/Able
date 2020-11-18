@@ -28,6 +28,22 @@ class SignupVC: UITableViewController {
         confirmPassField.textContentType = .oneTimeCode
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        clearFields()
+    }
+    
+    func clearFields() {
+        lastnameField.text = ""
+        firstnameField.text = ""
+        usernameField.text = ""
+        emailField.text = ""
+        passwordField.text = ""
+        confirmPassField.text = ""
+        cityField.text = ""
+        stateField.text = ""
+        displayError.text = ""
+    }
+    
     // sign up with Firebase
     @IBAction func signUpButton(_ sender: Any) {
         if checkEmptyFields(){
