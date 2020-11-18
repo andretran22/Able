@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, EditPost {
+class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, EditPost, DeletePost {
 
     @IBOutlet weak var tableView: UITableView!
     var helpPosts = [Post]()
@@ -65,7 +65,7 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
                     }
                 }
             }
-            self.helpPosts = tempPosts
+            self.helpPosts = tempPosts.reversed()
             self.tableView.reloadData()
         })
     }
@@ -128,6 +128,39 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
     
     func editPost(post: Post) {
         self.performSegue(withIdentifier: "ToEditPostSegueIdentifier", sender: post)
+    }
+    
+    func deletePost(post: Post) {
+        let controller = UIAlertController(title: "Post Deletion",
+                                           message: "Are you sure you want to delete this post?",
+                                           preferredStyle: .alert)
+        
+        controller.addAction(UIAlertAction(title: "Cancel",
+                                           style: .cancel,
+                                           handler: nil))
+        
+        controller.addAction(UIAlertAction(title: "Delete",
+                                           style: .destructive,
+                                           handler: { (action) in
+                                            print("DELETING THE POST WITH ID: \(post.id)")
+                                            
+                                            let ref = Database.database().reference()
+                                            // NEED TO POP UP AN ALERT TO CONFIRM DELETION
+                                            // Remove the post from the DB
+                                            ref.child("posts").child(post.whichFeed!).child(post.id).removeValue { error, ref in
+                                                if error != nil {
+                                                    print("error \(String(describing: error))")
+                                                } else {
+                                                    print("\(post.id) IS DELETED")
+                                                    if let index = self.helpPosts.firstIndex(of: post) {
+                                                        self.helpPosts.remove(at: index)
+                                                        self.tableView.reloadData()
+                                                    }
+                                                }
+                                            }
+                                           }))
+        
+        present(controller, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -15,6 +15,10 @@ protocol EditPost {
     func editPost(post: Post)
 }
 
+protocol DeletePost {
+    func deletePost(post: Post)
+}
+
 class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate,
                 UICollectionViewDelegateFlowLayout,
                 UITableViewDelegate, UITableViewDataSource {
@@ -224,17 +228,8 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
             let VC = delegate as! EditPost
             VC.editPost(post: post)
         case "Delete":
-            print("DELETING THE POST WITH ID: \(post.id)")
-            
-            // NEED TO POP UP AN ALERT TO CONFIRM DELETION
-            // Remove the post from the DB
-            ref.child("posts").child(post.whichFeed!).child(post.id).removeValue { error, ref in
-                if error != nil {
-                    print("error \(String(describing: error))")
-                } else {
-                    print("\(self.post.id) IS DELETED")
-                }
-            }
+            let VC = delegate as! DeletePost
+            VC.deletePost(post: post)
         case "Unsave":
             print("UNSAVE THIS POST: \(post.id)")
             
@@ -258,6 +253,9 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
         }
         
         // TODO ANIMATE THIS
+        
         optionsTableView?.isHidden = true
+        contentView.backgroundColor = UIColor.white
+        tagsCollectionView?.backgroundColor = UIColor.white
     }
 }
