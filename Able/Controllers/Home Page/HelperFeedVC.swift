@@ -62,8 +62,7 @@ class HelperFeedVC: UITableViewController {
     }
     
     // Called from Home Page when Quick Categories are pressed.
-    func setFeedToCategory(catgoryName:String) {
-        print("Inside Helper Feed: \(catgoryName)")
+    func setFeedToCategory() {
         globalFilterState?.printInfo()
         fetchPosts()
     }

@@ -37,6 +37,8 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
     let tagIdentifier = "TagCellIdentifier"
     var tags = DEFAULT_TAGS
     var tagColors = DEFAULT_COLOR_TAGS
+    
+    var activeTagIndex = -1
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,23 +91,43 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     // change background color when user touches cell
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = cell?.backgroundColor!.adjust(by: -30)
         
-        // when category button click reset global filter and notify feed what to filter by
-        let categoryName = tags[indexPath.row]
-        globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: [categoryName])
-        self.helpFeedVC.setFeedToCategory(catgoryName: categoryName)
-        self.helperFeedVC.setFeedToCategory(catgoryName: categoryName)
+        // unhighlight current active cell
+        if activeTagIndex != -1 {
+            let activeCell = collectionView.cellForItem(at: IndexPath(row: activeTagIndex, section: 0))
+            activeCell?.backgroundColor = self.tagColors[activeTagIndex]
+        }
+        
+        var categoryToFilterBy = [String]()
+        
+        if indexPath.row == activeTagIndex {
 
+            //reset active tag index and global filter
+            activeTagIndex = -1
+            categoryToFilterBy = []
+            globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: [])
+           
+        }else{
+            
+            // set active index and set category to filter by
+            activeTagIndex = indexPath.row
+            let categoryName = tags[indexPath.row]
+            categoryToFilterBy = [categoryName]
+
+            // darken cell
+            let cell = collectionView.cellForItem(at: indexPath)
+            cell?.backgroundColor = cell?.backgroundColor!.adjust(by: -30)
+            
+        }
+            
+        // reset global filter to either caterory name or []
+        globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: categoryToFilterBy)
+        self.helpFeedVC.setFeedToCategory()
+        self.helperFeedVC.setFeedToCategory()
+        
     }
 
-    // change background color back when user releases touch
-    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = self.tagColors[indexPath.row]
-    }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? HelpFeedVC,
                segue.identifier == "helpEmbedSegue" {
