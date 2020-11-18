@@ -18,6 +18,7 @@ protocol ChangeLocation {
 
 class CreatePostVC: UIViewController, UITextViewDelegate,
                     UICollectionViewDataSource, UICollectionViewDelegate,
+                    UICollectionViewDelegateFlowLayout,
                     ApplyTags, ChangeLocation {
 
     @IBOutlet weak var collectionViewTags: UICollectionView!
@@ -136,6 +137,19 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
         cell.backgroundColor = DEFAULT_COLOR_TAGS[row % 9]// make cell more visible in our example project
         cell.layer.cornerRadius = 8
         return cell
+    }
+    
+    // if there is only one cell, align it to the top left of the collectionview
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        if collectionView.numberOfItems(inSection: section) == 1 {
+            
+            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+            
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: collectionView.frame.width - flowLayout.itemSize.width)
+
+        }
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     // checks if fields are filled out properly first and then uploads post

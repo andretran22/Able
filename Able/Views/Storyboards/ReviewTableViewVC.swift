@@ -19,9 +19,6 @@ class ReviewTableViewVC: UIViewController, UITableViewDelegate, UITableViewDataS
         self.fetchPosts()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorStyle = .none
-        tableView.estimatedRowHeight = tableView.rowHeight
-        tableView.rowHeight = UITableView.automaticDimension
         
         if (viewUser == nil) {
             print("this should not happen, passed in user should not be nil (ReviewTableViewVC)")
@@ -95,10 +92,6 @@ class ReviewTableViewVC: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         // this will turn on `masksToBounds` just before showing the cell
         cell.contentView.layer.masksToBounds = true
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 220
     }
     
     @IBAction func nameClicked(_ sender: UIButton) {

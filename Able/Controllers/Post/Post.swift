@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Post
+class Post: Equatable
 {
     // basic post info
     var id: String
@@ -27,6 +27,11 @@ class Post
     // for reviews
     var rating: Double?
     // timestamp for helper
+    
+    // comparison for Equatable
+    static func == (lhs: Post, rhs: Post) -> Bool {
+        return lhs.id == rhs.id
+    }
     
     // for help and helper posts
     init(id: String, userKey: String, authorName: String, location: String,

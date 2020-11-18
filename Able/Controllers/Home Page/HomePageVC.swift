@@ -25,24 +25,37 @@ let DEFAULT_COLOR_TAGS = [UIColor(red: 0/255, green: 203/255, blue: 255/255, alp
                           UIColor(red: 109/255, green: 242/255, blue: 255/255, alpha: 1.0)  /* #6df2ff, cyan */
                         ]
 
-class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ReturnFilterDelegate {
+class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,
+                  UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var helpFeedContainer: UIView!
     @IBOutlet weak var helperFeedContainer: UIView!
     @IBOutlet weak var collectionViewTags: UICollectionView!
     
+    var helpFeedVC: HelpFeedVC!
+    var helperFeedVC: HelperFeedVC!
+    
     let tagIdentifier = "TagCellIdentifier"
     var tags = DEFAULT_TAGS
     var tagColors = DEFAULT_COLOR_TAGS
     
+    var activeTagIndex = -1
     
+    override func viewWillAppear(_ animated: Bool) {
+        // create global user for reference once signed up or logged in
+        DatabaseManager.shared.setPublicUser()
+        publicCurrentUser?.printInfo()
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionViewTags.delegate = self
         collectionViewTags.dataSource = self
         
-        // create global user for reference once signed up or logged in
-        DatabaseManager.shared.setPublicUser()
+        
+        
+        // create global filter state with default sort by Most Recent
+        globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: [])
         
         setView(view: helpFeedContainer, hidden: false)
         setView(view: helperFeedContainer, hidden: true)
@@ -84,26 +97,91 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     // change background color when user touches cell
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = cell?.backgroundColor!.adjust(by: -30)
-    }
+        
+        // unhighlight current active cell
+        if activeTagIndex != -1 {
+            let activeCell = collectionView.cellForItem(at: IndexPath(row: activeTagIndex, section: 0))
+            activeCell?.backgroundColor = self.tagColors[activeTagIndex]
+        }
+        
+        var categoryToFilterBy = [String]()
+        
+        if indexPath.row == activeTagIndex {
 
-    // change background color back when user releases touch
-    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = self.tagColors[indexPath.row]
+            //reset active tag index and global filter
+            activeTagIndex = -1
+            categoryToFilterBy = []
+            globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: [])
+           
+        }else{
+            
+            // set active index and set category to filter by
+            activeTagIndex = indexPath.row
+            let categoryName = tags[indexPath.row]
+            categoryToFilterBy = [categoryName]
+
+            // darken cell
+            let cell = collectionView.cellForItem(at: indexPath)
+            cell?.backgroundColor = cell?.backgroundColor!.adjust(by: -30)
+            
+        }
+            
+        // reset global filter to either caterory name or []
+        globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: categoryToFilterBy)
+        self.helpFeedVC.setFeedToCategory()
+        self.helperFeedVC.setFeedToCategory()
+        
+    }
+    
+    // if there is only one cell, align it to the top left of the collectionview
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        if collectionView.numberOfItems(inSection: section) == 1 {
+            
+            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+            
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: collectionView.frame.width - flowLayout.itemSize.width)
+
+        }
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueFilter",
-           let filterVC = segue.destination as? FilterVC{
-            filterVC.returnDelegate = self
-        }
+        if let vc = segue.destination as? HelpFeedVC,
+               segue.identifier == "helpEmbedSegue" {
+               self.helpFeedVC = vc
+           }
+
+           if let vc = segue.destination as? HelperFeedVC,
+               segue.identifier == "helperEmbedSegue" {
+               self.helperFeedVC = vc
+           }
     }
     
-    func returnFilterProperties(properties: Dictionary<String, Any>) {
-        print("Recieved Filter properties: ")
-        print(properties)
+    @IBAction func searchButtonClicked(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.1,
+            animations: {
+                sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            },
+            completion: { _ in
+                UIView.animate(withDuration: 0.1) {
+                    sender.transform = CGAffineTransform.identity
+                    self.performSegue(withIdentifier: "ToSearchVC", sender: nil)
+                }
+            })
+    }
+    
+    @IBAction func filterButtonClicked(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.1,
+            animations: {
+                sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            },
+            completion: { _ in
+                UIView.animate(withDuration: 0.1) {
+                    sender.transform = CGAffineTransform.identity
+                    self.performSegue(withIdentifier: "segueFilter", sender: nil)
+                }
+            })
     }
 }
 

@@ -13,6 +13,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var searchPostsView: UIView!
     @IBOutlet weak var searchUsersView: UIView!
     @IBOutlet weak var searchbarEditText: UISearchBar!
+    @IBOutlet weak var helpHelperSegCtrl: UISegmentedControl!
     
     let ref: DatabaseReference! = Database.database().reference()
     var searchUserVC: SearchUsersViewController!
@@ -106,11 +107,13 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
             setView(view: searchPostsView, hidden: false)
             setView(view: searchUsersView, hidden: true)
             post = true
+            helpHelperSegCtrl.isHidden = false
         }
         else if(sender.selectedSegmentIndex == 1){
             setView(view: searchPostsView, hidden: true)
             setView(view: searchUsersView, hidden: false)
             post = false
+            helpHelperSegCtrl.isHidden = true
         }
         print("post is: \(post)")
     }

@@ -15,6 +15,7 @@
 		0A44BBE3254AA59A00DB247C /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A44BBE2254AA59A00DB247C /* Onboarding.storyboard */; };
 		0A64F8B4254AABFB00C1204C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64F8B3254AABFB00C1204C /* OnboardingViewController.swift */; };
 		0A64F923254CFA9700C1204C /* AbleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64F922254CFA9700C1204C /* AbleUser.swift */; };
+		0A8700B325610B16003FE900 /* FilterClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8700B225610B16003FE900 /* FilterClass.swift */; };
 		0A95849D255155B9009DE2DB /* FilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A95849C255155B9009DE2DB /* FilterVC.swift */; };
 		0A983B9C2530EFF900F45A5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A983B9B2530EFF900F45A5F /* AppDelegate.swift */; };
 		0A983B9E2530EFF900F45A5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A983B9D2530EFF900F45A5F /* SceneDelegate.swift */; };
@@ -35,6 +36,7 @@
 		7C9E79122541F73700595A8E /* AddReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E79112541F73700595A8E /* AddReviewVC.swift */; };
 		7C9E79152541F75200595A8E /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E79142541F75200595A8E /* Profile.storyboard */; };
 		C6F8ADE4BDD85D6AE5AD3C02 /* Pods_Able.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B56148F9F650324A0C3258D7 /* Pods_Able.framework */; };
+		D1296509256565F30063C84B /* CustomTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1296508256565F30063C84B /* CustomTabBarViewController.swift */; };
 		D13CE22C2562A82700A934AD /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13CE22B2562A82700A934AD /* LocationViewController.swift */; };
 		D167FE922551B27D00FF34F8 /* AddTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D167FE912551B27D00FF34F8 /* AddTagsViewController.swift */; };
 		D17077E3254B44E8009BA136 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17077E2254B44E8009BA136 /* CustomSegmentedControl.swift */; };
@@ -65,6 +67,7 @@
 		0A44BBE2254AA59A00DB247C /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		0A64F8B3254AABFB00C1204C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		0A64F922254CFA9700C1204C /* AbleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbleUser.swift; sourceTree = "<group>"; };
+		0A8700B225610B16003FE900 /* FilterClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterClass.swift; sourceTree = "<group>"; };
 		0A95849C255155B9009DE2DB /* FilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterVC.swift; sourceTree = "<group>"; };
 		0A983B982530EFF900F45A5F /* Able.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Able.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A983B9B2530EFF900F45A5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +91,7 @@
 		7C9E79112541F73700595A8E /* AddReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewVC.swift; sourceTree = "<group>"; };
 		7C9E79142541F75200595A8E /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		B56148F9F650324A0C3258D7 /* Pods_Able.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Able.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1296508256565F30063C84B /* CustomTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarViewController.swift; sourceTree = "<group>"; };
 		D13CE22B2562A82700A934AD /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		D167FE912551B27D00FF34F8 /* AddTagsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagsViewController.swift; sourceTree = "<group>"; };
 		D17077E2254B44E8009BA136 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
@@ -187,6 +191,7 @@
 				0A95849C255155B9009DE2DB /* FilterVC.swift */,
 				0A9AC6F925525BE700A27DEC /* CategoryButton.swift */,
 				0ABBA20725536C8D00D31D97 /* CustomFilterCell.swift */,
+				0A8700B225610B16003FE900 /* FilterClass.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -263,6 +268,7 @@
 		D1A3AFEA25423BDF00CA7FDA /* Home Page */ = {
 			isa = PBXGroup;
 			children = (
+				D1296508256565F30063C84B /* CustomTabBarViewController.swift */,
 				D17077E7254BDCA2009BA136 /* Search */,
 				0A37D85C2531A6F900B94D82 /* HomePageVC.swift */,
 				D1A3AFE025422A6100CA7FDA /* HelpFeedVC.swift */,
@@ -483,6 +489,8 @@
 				0A64F923254CFA9700C1204C /* AbleUser.swift in Sources */,
 				D1A3AFA12542242A00CA7FDA /* SettingsViewController.swift in Sources */,
 				7C9E790F2541F71600595A8E /* ReviewVC.swift in Sources */,
+				D1296509256565F30063C84B /* CustomTabBarViewController.swift in Sources */,
+				0A8700B325610B16003FE900 /* FilterClass.swift in Sources */,
 				0A64F8B4254AABFB00C1204C /* OnboardingViewController.swift in Sources */,
 				7C6CFE8D25507718002E8B17 /* PersonalHelpFeedVC.swift in Sources */,
 				0A983BA62530EFF900F45A5F /* Able.xcdatamodeld in Sources */,

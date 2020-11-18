@@ -81,7 +81,7 @@ extension DatabaseManager {
         database.child("users").child(user.safeEmail).child("reviews").child("numReviews").setValue(0)
     }
     
-    
+    /// sets public user to whoever is currenlty logged in and gets all data about that user from firebase
     public func setPublicUser(){
         guard let email = publicCurrentUserEmail else {
             print("Public email not set")
@@ -120,22 +120,24 @@ extension DatabaseManager {
             publicCurrentUser?.storeSavedPosts(savedPosts: savedPosts)
         }
     }
-}
-
-
-//struct AbleUser {
-//    let firstName: String
-//    let lastName: String
-//    let emailAddress: String
-//    let username: String
-//    let city: String
-//    let state: String
-//    //    let profilePicUrl: String
-//    
-//    var safeEmail: String {
-//        var safeEmail = emailAddress.replacingOccurrences(of: ".", with: "-")
-//        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-//        return safeEmail
+    
+    
+    ///
+//    public func sortBy(query: String, postType:String){
+//        print()
+//        print("Database Sort \(postType) by \(query) ")
+//        print()
+//
+//        let sortByRecent = query == "Most Recent"
+//
+//        database.child("posts")
+//            .child(postType)
+//            .queryOrdered(byChild: "timestamp")
+//            .observeSingleEvent(of: .value) { (snapshot) in
+//
+//                let orderedPosts = [Post]()
+//
+//        }
+//        print()
 //    }
-//    
-//}
+}

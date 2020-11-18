@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class HelpFeedVC: UITableViewController, EditPost {
+class HelpFeedVC: UITableViewController, EditPost, DeletePost {
     
     var helpPosts = [Post]()
     
@@ -17,9 +17,6 @@ class HelpFeedVC: UITableViewController, EditPost {
         self.fetchPosts()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorStyle = .none
-        tableView.estimatedRowHeight = tableView.rowHeight
-        tableView.rowHeight = UITableView.automaticDimension
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -29,7 +26,7 @@ class HelpFeedVC: UITableViewController, EditPost {
     func fetchPosts() {
         let helpPostsRef = Database.database().reference().child("posts").child("helpPosts")
         
-        helpPostsRef.observe(.value, with: { snapshot in
+        helpPostsRef.observeSingleEvent(of: .value, with: { (snapshot) in
             
             var tempPosts = [Post]()
             
@@ -54,9 +51,19 @@ class HelpFeedVC: UITableViewController, EditPost {
                     tempPosts.append(post)
                 }
             }
+            
+            //filter tempPosts and sort them
+            tempPosts = (globalFilterState?.sortAndFilter(postType: "helpPosts", posts: tempPosts))!
+            
             self.helpPosts = tempPosts
             self.tableView.reloadData()
         })
+    }
+    
+    // Called from Home Page when Quick Categories are pressed.
+    func setFeedToCategory() {
+        globalFilterState?.printInfo()
+        fetchPosts()
     }
     
     // animation to deselect cell
@@ -73,6 +80,7 @@ class HelpFeedVC: UITableViewController, EditPost {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HelpPostCell", for: indexPath) as! PostCell
         cell.delegate = self
         cell.post = helpPosts[indexPath.row]
+        
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell
         cell.backgroundColor = .clear // very important
@@ -91,10 +99,6 @@ class HelpFeedVC: UITableViewController, EditPost {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         // this will turn on `masksToBounds` just before showing the cell
         cell.contentView.layer.masksToBounds = true
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 220
     }
     
     @IBAction func nameClicked(_ sender: UIButton) {
@@ -123,6 +127,39 @@ class HelpFeedVC: UITableViewController, EditPost {
     
     func editPost(post: Post) {
         self.performSegue(withIdentifier: "ToEditPostSegueIdentifier", sender: post)
+    }
+    
+    func deletePost(post: Post) {
+        let controller = UIAlertController(title: "Post Deletion",
+                                           message: "Are you sure you want to delete this post?",
+                                           preferredStyle: .alert)
+        
+        controller.addAction(UIAlertAction(title: "Cancel",
+                                           style: .cancel,
+                                           handler: nil))
+        
+        controller.addAction(UIAlertAction(title: "Delete",
+                                           style: .destructive,
+                                           handler: { (action) in
+                                            print("DELETING THE POST WITH ID: \(post.id)")
+                                            
+                                            let ref = Database.database().reference()
+                                            // NEED TO POP UP AN ALERT TO CONFIRM DELETION
+                                            // Remove the post from the DB
+                                            ref.child("posts").child(post.whichFeed!).child(post.id).removeValue { error, ref in
+                                                if error != nil {
+                                                    print("error \(String(describing: error))")
+                                                } else {
+                                                    print("\(post.id) IS DELETED")
+                                                    if let index = self.helpPosts.firstIndex(of: post) {
+                                                        self.helpPosts.remove(at: index)
+                                                        self.tableView.reloadData()
+                                                    }
+                                                }
+                                            }
+                                           }))
+        
+        present(controller, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

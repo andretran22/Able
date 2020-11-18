@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, EditPost {
+class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, EditPost, DeletePost {
     
     @IBOutlet weak var tableView: UITableView!
     var helperPosts = [Post]()
@@ -19,9 +19,6 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
         self.fetchPosts()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorStyle = .none
-        tableView.estimatedRowHeight = tableView.rowHeight
-        tableView.rowHeight = UITableView.automaticDimension
         
         if (viewUser == nil) {
             viewUser = publicCurrentUser
@@ -66,7 +63,7 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
                     }
                 }
             }
-            self.helperPosts = tempPosts
+            self.helperPosts = tempPosts.reversed()
             self.tableView.reloadData()
         })
     }
@@ -74,6 +71,7 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
     // animation to deselect cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        self.performSegue(withIdentifier: "ToSinglePostSegue", sender: helperPosts[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -104,44 +102,53 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
         cell.contentView.layer.masksToBounds = true
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 220
-    }
-    
-    @IBAction func nameClicked(_ sender: UIButton) {
-        let postIndex = IndexPath(row: sender.tag, section: 0)
-        let userKey = helperPosts[postIndex.row].userKey
-        
-        let usersRef = Database.database().reference()
-        
-        usersRef.child("users").child(userKey).observeSingleEvent(of: .value, with: { (snapshot) in
-            if let userData = snapshot.value as? [String:Any],
-               let firstName = userData["first_name"] as? String,
-               let lastName = userData["last_name"] as? String,
-               let username = userData["user_name"] as? String,
-               let city = userData["city"] as? String,
-               let url = userData["photoURL"] as? String,
-               let state = userData["state"] as? String
-               {
-                self.viewUser = AbleUser(firstName: firstName, lastName: lastName,
-                                    emailAddress: snapshot.key, username: username, city: city, state: state, profilePicURL: url)
-            }
-            self.performSegue(withIdentifier: "ToProfileFromHelpFeed", sender: nil)
-        })
-    }
-    
     func editPost(post: Post) {
         self.performSegue(withIdentifier: "ToEditPostSegueIdentifier", sender: post)
     }
     
+    func deletePost(post: Post) {
+        let controller = UIAlertController(title: "Post Deletion",
+                                           message: "Are you sure you want to delete this post?",
+                                           preferredStyle: .alert)
+        
+        controller.addAction(UIAlertAction(title: "Cancel",
+                                           style: .cancel,
+                                           handler: nil))
+        
+        controller.addAction(UIAlertAction(title: "Delete",
+                                           style: .destructive,
+                                           handler: { (action) in
+                                            print("DELETING THE POST WITH ID: \(post.id)")
+                                            
+                                            let ref = Database.database().reference()
+                                            // NEED TO POP UP AN ALERT TO CONFIRM DELETION
+                                            // Remove the post from the DB
+                                            ref.child("posts").child(post.whichFeed!).child(post.id).removeValue { error, ref in
+                                                if error != nil {
+                                                    print("error \(String(describing: error))")
+                                                } else {
+                                                    print("\(post.id) IS DELETED")
+                                                    if let index = self.helperPosts.firstIndex(of: post) {
+                                                        self.helperPosts.remove(at: index)
+                                                        self.tableView.reloadData()
+                                                    }
+                                                }
+                                            }
+                                           }))
+        
+        present(controller, animated: true, completion: nil)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ToProfileFromHelpFeed",
-            let profilePageVC = segue.destination as? ProfileVC {
-            profilePageVC.user = viewUser
-        } else if segue.identifier == "ToEditPostSegueIdentifier",
+        if segue.identifier == "ToEditPostSegueIdentifier",
                   let editPostVC = segue.destination as? CreatePostVC {
             let post = sender as! Post
             editPostVC.post = post
+        } else if segue.identifier == "ToSinglePostSegue",
+                  let postVC = segue.destination as? PostViewController {
+            let viewPost = sender as! Post
+            postVC.post = viewPost
+            postVC.whichFeed = "helperPosts"
         }
     }
 }

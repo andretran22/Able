@@ -7,7 +7,9 @@
 
 import UIKit
 
-class AddTagsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class AddTagsViewController: UIViewController,
+                             UICollectionViewDataSource, UICollectionViewDelegate,
+                             UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var yourTagsCollectionView: UICollectionView!
     @IBOutlet weak var defaultTagsCollectionView: UICollectionView!
@@ -77,6 +79,19 @@ class AddTagsViewController: UIViewController, UICollectionViewDataSource, UICol
         }
         yourTagsCollectionView.reloadData()
         defaultTagsCollectionView.reloadData()
+    }
+    
+    // if there is only one cell, align it to the top left of the collectionview
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        if collectionView.numberOfItems(inSection: section) == 1 {
+            
+            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+            
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: collectionView.frame.width - flowLayout.itemSize.width)
+
+        }
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     // adds the custom tag into the user's used tags

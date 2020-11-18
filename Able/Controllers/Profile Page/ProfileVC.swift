@@ -20,6 +20,7 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var savedFeedContainer: UIView!
     @IBOutlet weak var segmentedControlWithSaved: UISegmentedControl!
     @IBOutlet weak var segmentedControlWithoutSaved: UISegmentedControl!
+    @IBOutlet weak var settingsButton: UIButton!
     
     
     var ref: DatabaseReference!
@@ -279,6 +280,7 @@ extension ProfileVC {
             // visiting user is not the public user
             segmentedControlWithSaved.isHidden = true
             segmentedControlWithoutSaved.isHidden = false
+            settingsButton.isHidden = true
         }
     }
     

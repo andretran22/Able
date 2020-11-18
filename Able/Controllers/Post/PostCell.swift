@@ -15,8 +15,17 @@ protocol EditPost {
     func editPost(post: Post)
 }
 
+protocol DeletePost {
+    func deletePost(post: Post)
+}
+
+protocol UnsavePost {
+    func unsavePost(post: Post)
+}
+
 class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate,
-                UITableViewDelegate, UITableViewDataSource{
+                UICollectionViewDelegateFlowLayout,
+                UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameButton: UIButton!
@@ -55,26 +64,34 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
         
         // for help and helper posts
         if (post.tags != nil) {
-            tags = post.tags!
             tagsCollectionView?.delegate = self
             tagsCollectionView?.dataSource = self
+            
+            tags = post.tags!
+            tagsCollectionView?.reloadData()
+            
             optionsTableView?.delegate = self
             optionsTableView?.dataSource = self
+            optionsTableView?.layer.cornerRadius = 10
             
-            // options logic
-            if (post.userKey == publicCurrentUser!.safeEmail) {
-                options = MY_POST_OPTIONS
-                if (post.completed!) {
-                    replaceOption(origString: "Mark Complete", newString: "Make Active")
+            if publicCurrentUser != nil {
+                // options logic
+                if (post.userKey == publicCurrentUser!.safeEmail) {
+                    options = MY_POST_OPTIONS
+                    if (post.completed!) {
+                        replaceOption(origString: "Mark Complete", newString: "Make Active")
+                    }
+                } else {
+                    options = DEFAULT_POST_OPTIONS
                 }
-            } else {
-                options = DEFAULT_POST_OPTIONS
+                
+                if (publicCurrentUser!.savedPosts.contains(post.id)) {
+                    replaceOption(origString: "Save", newString: "Unsave")
+                }
+                optionsTableView?.reloadData()
+                //tagsCollectionView?.reloadData()
             }
             
-            if (publicCurrentUser!.savedPosts.contains(post.id)) {
-                replaceOption(origString: "Save", newString: "Unsave")
-            }
-            optionsTableView?.reloadData()
         }
         
         if (post.numComments != nil) {
@@ -131,6 +148,19 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
         return cell
     }
     
+    // if there is only one cell, align it to the top left of the collectionview
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        if collectionView.numberOfItems(inSection: section) == 1 {
+            
+            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+            
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: collectionView.frame.width - flowLayout.itemSize.width)
+
+        }
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return options.count
     }
@@ -156,6 +186,13 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
                 UIView.animate(withDuration: 0.1) {
                     sender.transform = CGAffineTransform.identity
                     self.optionsTableView!.isHidden = !self.optionsTableView!.isHidden
+                    if (self.optionsTableView!.isHidden) {
+                        self.contentView.backgroundColor = UIColor.white
+                        self.tagsCollectionView?.backgroundColor = UIColor.white
+                    } else {
+                        self.contentView.backgroundColor = UIColor.lightGray
+                        self.tagsCollectionView?.backgroundColor = UIColor.lightGray
+                    }
                 }
             })
     }
@@ -195,17 +232,8 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
             let VC = delegate as! EditPost
             VC.editPost(post: post)
         case "Delete":
-            print("DELETING THE POST WITH ID: \(post.id)")
-            
-            // NEED TO POP UP AN ALERT TO CONFIRM DELETION
-            // Remove the post from the DB
-            ref.child("posts").child(post.whichFeed!).child(post.id).removeValue { error, ref in
-                if error != nil {
-                    print("error \(String(describing: error))")
-                } else {
-                    print("\(self.post.id) IS DELETED")
-                }
-            }
+            let VC = delegate as! DeletePost
+            VC.deletePost(post: post)
         case "Unsave":
             print("UNSAVE THIS POST: \(post.id)")
             
@@ -214,12 +242,19 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
                     if error != nil {
                         print("error \(String(describing: error))")
                     } else {
-                        print("\(self.post.id) IS DELETED")
+                        print("\(self.post.id) IS DELETED FROM SAVED POSTS")
                         self.replaceOption(origString: "Unsave", newString: "Save")
+                        if let index = publicCurrentUser?.savedPosts.firstIndex(of: self.post.id) {
+                            publicCurrentUser?.savedPosts.remove(at: index)
+                            let VC = self.delegate as! UnsavePost
+                            VC.unsavePost(post: self.post) // reloads the table view data
+                        }
                     }
                 }
         default:
             print("SAVE THIS POST: \(post.id)")
+            
+            publicCurrentUser?.savedPosts.append(post.id)
             
             // update saved posts DB
             ref.child("users").child(publicCurrentUser!.safeEmail)
@@ -229,6 +264,9 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
         }
         
         // TODO ANIMATE THIS
+        
         optionsTableView?.isHidden = true
+        contentView.backgroundColor = UIColor.white
+        tagsCollectionView?.backgroundColor = UIColor.white
     }
 }
