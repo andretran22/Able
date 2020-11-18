@@ -36,50 +36,104 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         fetchPosts()
     }
     
+    func containsPost(posts: [Post], target: Post) -> Bool {
+        for post in posts {
+            if post.id == target.id {
+                print("Post is already in array\n\n_________________________")
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     func fetchPosts() {
         //Database.database().reference().child(“posts”).child(“helpPosts or helperPosts”).child(postID)
-//        viewUser = publicCurrentUser
+        viewUser = publicCurrentUser
         let helperPostsRef = Database.database().reference().child("posts").child("helperPosts")
+        let helpPostsRef = Database.database().reference().child("posts").child("helpPosts")
 //        let helpPostRef = Database.database().reference().child("posts").child("helpPosts").child("troll")
         
 //        print("sanity: reference is \(helpPostRef)")
         guard let posts = viewUser?.savedPosts else { return }
+        var tempPosts = [Post]()
+        var sanity = -1
         for uid in posts {
             print("savedPost uid: \(uid)")
-        }
-        
-        helperPostsRef.observe(.value, with: { snapshot in
             
-            var tempPosts = [Post]()
             
-            for child in snapshot.children {
-                if let childSnapshot = child as? DataSnapshot,
-                   let dict = childSnapshot.value as? [String: Any],
-                   let userKey = dict["userKey"] as? String,
-                   let authorName = dict["authorName"] as? String,
-                   let location = dict["location"] as? String,
-                   let tags = dict["tags"] as? [String],
-                   let text = dict["text"] as? String,
-                   let timestamp = dict["timestamp"] as? Double,
-                   let completed = dict["completed"] as? Bool {
-                    print("email is " + userKey + " viewUser safe email is " + self.viewUser!.safeEmail)
-                    if userKey == self.viewUser?.safeEmail {
-                        print("adding post to tempPosts")
-                        
-                        var numComments = 0
-                        if let anyComments = dict["comments"] as? [String: Any] {
-                            numComments = anyComments.count
-                        }
-                        let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
-                        post.completed = completed
-                        post.whichFeed = "helperPosts"
-                        tempPosts.append(post)
+            let check = Database.database().reference().child("posts").child("helpPosts").child(uid)
+            
+            check.observeSingleEvent(of: .value, with: { [self] snapshot in
+                if let dict = snapshot.value as? [String: Any],
+                let userKey = dict["userKey"] as? String,
+                let authorName = dict["authorName"] as? String,
+                let location = dict["location"] as? String,
+                let tags = dict["tags"] as? [String],
+                let text = dict["text"] as? String,
+                let timestamp = dict["timestamp"] as? Double,
+                let completed = dict["completed"] as? Bool {
+                    print("userkey \(userKey)")
+                    print("author \(authorName)")
+                    print("location \(location)")
+                    print("tags \(tags)")
+                    print("text \(text)")
+                    print("timestamp \(timestamp)")
+                    print("completed \(completed)")
+
+                    print("adding post to tempPosts")
+
+                    var numComments = 0
+                    if let anyComments = dict["comments"] as? [String: Any] {
+                        numComments = anyComments.count
+                    }
+                    let post = Post(id: uid, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
+                    post.completed = completed
+                    post.whichFeed = "helperPosts"
+                    tempPosts.append(post)
+                    if !containsPost(posts: self.helperPosts, target: post) {
+                        self.helperPosts.append(post)
                     }
                 }
-            }
-            self.helperPosts = tempPosts
-            self.tableView.reloadData()
-        })
+                self.tableView.reloadData()
+            })
+        }
+
+//        helperPosts = tempPosts
+//        tableView.reloadData()
+        
+//        helperPostsRef.observe(.value, with: { snapshot in
+//
+//            var tempPosts = [Post]()
+//
+//            for child in snapshot.children {
+//                if let childSnapshot = child as? DataSnapshot,
+//                   let dict = childSnapshot.value as? [String: Any],
+//                   let userKey = dict["userKey"] as? String,
+//                   let authorName = dict["authorName"] as? String,
+//                   let location = dict["location"] as? String,
+//                   let tags = dict["tags"] as? [String],
+//                   let text = dict["text"] as? String,
+//                   let timestamp = dict["timestamp"] as? Double,
+//                   let completed = dict["completed"] as? Bool {
+//                    print("email is " + userKey + " viewUser safe email is " + self.viewUser!.safeEmail)
+//                    if userKey == self.viewUser?.safeEmail {
+//                        print("adding post to tempPosts")
+//
+//                        var numComments = 0
+//                        if let anyComments = dict["comments"] as? [String: Any] {
+//                            numComments = anyComments.count
+//                        }
+//                        let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
+//                        post.completed = completed
+//                        post.whichFeed = "helperPosts"
+//                        tempPosts.append(post)
+//                    }
+//                }
+//            }
+//            self.helperPosts = tempPosts
+//            self.tableView.reloadData()
+//        })
     }
     
     // animation to deselect cell
