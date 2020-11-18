@@ -180,7 +180,6 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         collectionTags.reloadData()
     }
     
-
     
     // MARK: - Delegate Methods for the "Quick Category" buttons
     

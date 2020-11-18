@@ -54,7 +54,6 @@ class CurrentFilters {
                         tempPosts.append(post)
                     }
                 }
-                
             }
         }else{
             tempPosts = posts
