@@ -10,7 +10,7 @@ import Firebase
 
 class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, EditPost  {
     @IBOutlet weak var tableView: UITableView!
-    var helperPosts = [Post]()
+    var savedPosts = [Post]()
     var viewUser: AbleUser?
     
     override func viewDidLoad() {
@@ -30,9 +30,7 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if (viewUser == nil) {
-            viewUser = publicCurrentUser
-        }
+        savedPosts = [Post]()
         fetchPosts()
     }
     
@@ -48,23 +46,18 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func fetchPosts() {
-        //Database.database().reference().child(“posts”).child(“helpPosts or helperPosts”).child(postID)
         viewUser = publicCurrentUser
-        let helperPostsRef = Database.database().reference().child("posts").child("helperPosts")
-        let helpPostsRef = Database.database().reference().child("posts").child("helpPosts")
-//        let helpPostRef = Database.database().reference().child("posts").child("helpPosts").child("troll")
-        
-//        print("sanity: reference is \(helpPostRef)")
+
         guard let posts = viewUser?.savedPosts else { return }
         var tempPosts = [Post]()
-        var sanity = -1
         for uid in posts {
             print("savedPost uid: \(uid)")
             
             
-            let check = Database.database().reference().child("posts").child("helpPosts").child(uid)
+            let help = Database.database().reference().child("posts").child("helpPosts").child(uid)
+            let helper = Database.database().reference().child("posts").child("helperPosts").child(uid)
             
-            check.observeSingleEvent(of: .value, with: { [self] snapshot in
+            help.observeSingleEvent(of: .value, with: { [self] snapshot in
                 if let dict = snapshot.value as? [String: Any],
                 let userKey = dict["userKey"] as? String,
                 let authorName = dict["authorName"] as? String,
@@ -73,15 +66,7 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
                 let text = dict["text"] as? String,
                 let timestamp = dict["timestamp"] as? Double,
                 let completed = dict["completed"] as? Bool {
-                    print("userkey \(userKey)")
-                    print("author \(authorName)")
-                    print("location \(location)")
-                    print("tags \(tags)")
-                    print("text \(text)")
-                    print("timestamp \(timestamp)")
-                    print("completed \(completed)")
-
-                    print("adding post to tempPosts")
+                    print("adding help post to savedPosts")
 
                     var numComments = 0
                     if let anyComments = dict["comments"] as? [String: Any] {
@@ -89,14 +74,42 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
                     }
                     let post = Post(id: uid, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
                     post.completed = completed
-                    post.whichFeed = "helperPosts"
+                    post.whichFeed = "savedPosts"
                     tempPosts.append(post)
-                    if !containsPost(posts: self.helperPosts, target: post) {
-                        self.helperPosts.append(post)
+                    if !containsPost(posts: self.savedPosts, target: post) {
+                        self.savedPosts.append(post)
                     }
                 }
                 self.tableView.reloadData()
             })
+            
+            helper.observeSingleEvent(of: .value, with: { [self] snapshot in
+                if let dict = snapshot.value as? [String: Any],
+                let userKey = dict["userKey"] as? String,
+                let authorName = dict["authorName"] as? String,
+                let location = dict["location"] as? String,
+                let tags = dict["tags"] as? [String],
+                let text = dict["text"] as? String,
+                let timestamp = dict["timestamp"] as? Double,
+                let completed = dict["completed"] as? Bool {
+                    print("adding helper post to savedPosts")
+
+                    var numComments = 0
+                    if let anyComments = dict["comments"] as? [String: Any] {
+                        numComments = anyComments.count
+                    }
+                    let post = Post(id: uid, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
+                    post.completed = completed
+                    post.whichFeed = "savedPosts"
+                    tempPosts.append(post)
+                    if !containsPost(posts: self.savedPosts, target: post) {
+                        self.savedPosts.append(post)
+                    }
+                }
+                self.tableView.reloadData()
+            })
+            
+            
         }
 
 //        helperPosts = tempPosts
@@ -142,12 +155,12 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return helperPosts.count
+        return savedPosts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SavedPostCell", for: indexPath) as! PostCell
-        cell.post = helperPosts[indexPath.row]
+        cell.post = savedPosts[indexPath.row]
         cell.delegate = self
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell
@@ -175,7 +188,7 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     @IBAction func nameClicked(_ sender: UIButton) {
         let postIndex = IndexPath(row: sender.tag, section: 0)
-        let userKey = helperPosts[postIndex.row].userKey
+        let userKey = savedPosts[postIndex.row].userKey
         
         let usersRef = Database.database().reference()
         
