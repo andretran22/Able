@@ -18,6 +18,8 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var helpFeedContainer: UIView!
     @IBOutlet weak var helperFeedContainer: UIView!
     @IBOutlet weak var savedFeedContainer: UIView!
+    @IBOutlet weak var segmentedControlWithSaved: UISegmentedControl!
+    @IBOutlet weak var segmentedControlWithoutSaved: UISegmentedControl!
     
     
     var ref: DatabaseReference!
@@ -32,29 +34,19 @@ class ProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setView(view: helpFeedContainer, hidden: false)
-        setView(view: savedFeedContainer, hidden: true)
-        setView(view: helperFeedContainer, hidden: true)
+        // display help feed upon loading, hide the other feeds
+        helpFeedView()
         
-        // Setup imagePicker to change the profile image
-        imagePicker = UIImagePickerController()
-        imagePicker.allowsEditing = true
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.delegate = self
+        // Setup imagePicker to change the profile image, profileImage crop
+        initializeProfilePhotoElements()
         
-        profileImageView.layer.masksToBounds = true
-        profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
+        // set up appropriate segmentedControl depending on who's visiting
+        setSegmentedControlView()
         
-        // if user is nil, then use publicCurrentUser
-        if (user == nil) {
-            user = publicCurrentUser
-        }
-//        print("CURRENTLY VIEWING THIS USER PROFILE")
-//        user?.printInfo()
-//        print("THIS USER IS VIEWING THIS PROFILE")
-//        publicCurrentUser?.printInfo()
-
+        // fetch and display user info from Firebase
         displayInfo()
+        
+        // set the user's rating
         setRating(uid: user!.safeEmail)
     }
     
@@ -67,33 +59,21 @@ class ProfileVC: UIViewController {
     @IBAction func switchViews(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
             case 0:
-                setView(view: helpFeedContainer, hidden: false)
-                setView(view: helperFeedContainer, hidden: true)
-                setView(view: savedFeedContainer, hidden: true)
+                helpFeedView()
                 print("In helpFeedContainer")
             case 1:
-                setView(view: helpFeedContainer, hidden: true)
-                setView(view: helperFeedContainer, hidden: false)
-                setView(view: savedFeedContainer, hidden: true)
+                helperFeedView()
                 print("In helperFeedContainer")
             case 2:
-                setView(view: helpFeedContainer, hidden: true)
-                setView(view: helperFeedContainer, hidden: true)
-                setView(view: savedFeedContainer, hidden: false)
+                savedFeedView()
                 print("In savedFeedContainer")
             default:
-                setView(view: helpFeedContainer, hidden: false)
-                setView(view: helperFeedContainer, hidden: true)
-                setView(view: savedFeedContainer, hidden: true)
+                helpFeedView()
                 print("Should not hit here, default case of switchViews")
         }
     }
-    // animation helper function to hide/show views
-    func setView(view: UIView, hidden: Bool) {
-        UIView.transition(with: view, duration: 0.3, options: .transitionCrossDissolve, animations: {
-            view.isHidden = hidden
-        })
-    }
+    
+    
     
     // button that changes the aboutMeLabel text when the aboutMeButton is pressed
     @IBAction func editAboutMe(_ sender: Any) {
@@ -251,5 +231,61 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
         ImageService.downloadImage(withURL: URL(string: user!.profilePicUrl)!) { image in
             self.profileImageView.image = image
         }
+    }
+}
+
+extension ProfileVC {
+    func helpFeedView() {
+        setView(view: helpFeedContainer, hidden: false)
+        setView(view: savedFeedContainer, hidden: true)
+        setView(view: helperFeedContainer, hidden: true)
+    }
+    
+    func helperFeedView() {
+        setView(view: helpFeedContainer, hidden: true)
+        setView(view: helperFeedContainer, hidden: false)
+        setView(view: savedFeedContainer, hidden: true)
+    }
+    
+    func savedFeedView() {
+        setView(view: helpFeedContainer, hidden: true)
+        setView(view: helperFeedContainer, hidden: true)
+        setView(view: savedFeedContainer, hidden: false)
+    }
+    
+    func initializeProfilePhotoElements() {
+        // initialize imagePicker
+        imagePicker = UIImagePickerController()
+        imagePicker.allowsEditing = true
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        
+        // format profile image display
+        profileImageView.layer.masksToBounds = true
+        profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
+    }
+    
+    func setSegmentedControlView() {
+        if (user == nil) {
+            // if user is nil, then use publicCurrentUser
+            user = publicCurrentUser
+            segmentedControlWithSaved.isHidden = false
+            segmentedControlWithoutSaved.isHidden = true
+        } else if user?.safeEmail == publicCurrentUser?.safeEmail {
+            // visiting user is the public user
+            segmentedControlWithSaved.isHidden = false
+            segmentedControlWithoutSaved.isHidden = true
+        } else {
+            // visiting user is not the public user
+            segmentedControlWithSaved.isHidden = true
+            segmentedControlWithoutSaved.isHidden = false
+        }
+    }
+    
+    // animation helper function to hide/show views
+    func setView(view: UIView, hidden: Bool) {
+        UIView.transition(with: view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            view.isHidden = hidden
+        })
     }
 }

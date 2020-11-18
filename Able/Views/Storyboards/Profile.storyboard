@@ -57,6 +57,17 @@
                                     <action selector="editAboutMe:" destination="508-UB-5ro" eventType="touchUpInside" id="yXz-Fo-omJ"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dWO-7H-D8A" userLabel="Help, Helper">
+                                <rect key="frame" x="20" y="363" width="240" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Help"/>
+                                    <segment title="Helper"/>
+                                </segments>
+                                <connections>
+                                    <action selector="switchViews:" destination="508-UB-5ro" eventType="valueChanged" id="dCH-8L-hqT"/>
+                                </connections>
+                            </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WLe-2m-Sxv">
                                 <rect key="frame" x="20" y="363" width="240" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -127,6 +138,8 @@
                         <outlet property="profileImageView" destination="hlw-Tf-14H" id="RBH-fW-JkJ"/>
                         <outlet property="ratingButton" destination="sOh-CY-wtg" id="9Ng-oI-2It"/>
                         <outlet property="savedFeedContainer" destination="koO-is-Hc1" id="2GI-Vd-hzM"/>
+                        <outlet property="segmentedControlWithSaved" destination="WLe-2m-Sxv" id="xXt-Ga-VLx"/>
+                        <outlet property="segmentedControlWithoutSaved" destination="dWO-7H-D8A" id="FsC-ee-Fwd"/>
                         <outlet property="tapToChangeProfileButton" destination="PGD-BY-avD" id="94y-iN-Gx4"/>
                     </connections>
                 </viewController>
