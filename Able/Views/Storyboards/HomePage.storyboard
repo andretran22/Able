@@ -482,7 +482,7 @@
                                                     </connections>
                                                 </button>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fHO-kV-VBK">
-                                                    <rect key="frame" x="149" y="32" width="160" height="16"/>
+                                                    <rect key="frame" x="167" y="32" width="142" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="5" minimumInteritemSpacing="5" id="2QD-P3-t8P">
@@ -1021,7 +1021,7 @@
                                             </connections>
                                         </button>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="zKi-4h-I2p">
-                                            <rect key="frame" x="149" y="32" width="160" height="16"/>
+                                            <rect key="frame" x="167" y="32" width="142" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="5" minimumInteritemSpacing="5" id="Nyk-ow-ZMW">
@@ -1301,7 +1301,7 @@
                             <constraint firstItem="E4X-Yt-zKs" firstAttribute="top" secondItem="Shw-Tu-VGf" secondAttribute="top" constant="11" id="vew-pX-W8H"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="AP2-wo-LRn"/>
+                    <navigationItem key="navigationItem" title="Create Post" id="AP2-wo-LRn"/>
                     <connections>
                         <outlet property="collectionViewTags" destination="VT7-BR-DLw" id="VGg-o1-WPx"/>
                         <outlet property="errorStatusLabel" destination="STV-BN-N19" id="aYn-Nw-3BN"/>
@@ -1377,45 +1377,6 @@
                                                 <action selector="nameClicked:" destination="L2c-HM-0Zh" eventType="touchUpInside" id="4gT-aj-f4X"/>
                                             </connections>
                                         </button>
-                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="W3M-vv-JVc">
-                                            <rect key="frame" x="149" y="32" width="160" height="16"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="5" minimumInteritemSpacing="5" id="MMx-Mk-4HD">
-                                                <size key="itemSize" width="50" height="15"/>
-                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                            </collectionViewFlowLayout>
-                                            <cells>
-                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PostTagsCollectionCell" id="Eye-Iq-Z6T" customClass="TagCollectionViewCell" customModule="Able" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.66666666666666663" width="50" height="15"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="glr-Gb-izH">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="15"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="75I-I7-2FT">
-                                                                <rect key="frame" x="17" y="3" width="17" height="8"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="6"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                        </subviews>
-                                                        <constraints>
-                                                            <constraint firstItem="75I-I7-2FT" firstAttribute="top" secondItem="glr-Gb-izH" secondAttribute="top" constant="3" id="39B-5v-gdG"/>
-                                                            <constraint firstItem="75I-I7-2FT" firstAttribute="leading" secondItem="glr-Gb-izH" secondAttribute="leading" constant="17" id="POt-rT-zZp"/>
-                                                            <constraint firstAttribute="bottom" secondItem="75I-I7-2FT" secondAttribute="bottom" constant="4" id="fHS-Bw-nhN"/>
-                                                            <constraint firstAttribute="trailing" secondItem="75I-I7-2FT" secondAttribute="trailing" constant="16" id="i6w-JC-Qy0"/>
-                                                        </constraints>
-                                                    </collectionViewCellContentView>
-                                                    <size key="customSize" width="50" height="15"/>
-                                                    <connections>
-                                                        <outlet property="tagLabel" destination="75I-I7-2FT" id="472-9a-3g7"/>
-                                                    </connections>
-                                                </collectionViewCell>
-                                            </cells>
-                                        </collectionView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Austin, TX" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ho0-AH-5En" userLabel="Location Label">
                                             <rect key="frame" x="222" y="15" width="106" height="15"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1456,6 +1417,45 @@
                                                 </tableViewCell>
                                             </prototypes>
                                         </tableView>
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="W3M-vv-JVc">
+                                            <rect key="frame" x="167" y="32" width="142" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="5" minimumInteritemSpacing="5" id="MMx-Mk-4HD">
+                                                <size key="itemSize" width="50" height="15"/>
+                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            </collectionViewFlowLayout>
+                                            <cells>
+                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PostTagsCollectionCell" id="Eye-Iq-Z6T" customClass="TagCollectionViewCell" customModule="Able" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.66666666666666663" width="50" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="glr-Gb-izH">
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="15"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="75I-I7-2FT">
+                                                                <rect key="frame" x="17" y="3" width="17" height="8"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="6"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="75I-I7-2FT" firstAttribute="top" secondItem="glr-Gb-izH" secondAttribute="top" constant="3" id="39B-5v-gdG"/>
+                                                            <constraint firstItem="75I-I7-2FT" firstAttribute="leading" secondItem="glr-Gb-izH" secondAttribute="leading" constant="17" id="POt-rT-zZp"/>
+                                                            <constraint firstAttribute="bottom" secondItem="75I-I7-2FT" secondAttribute="bottom" constant="4" id="fHS-Bw-nhN"/>
+                                                            <constraint firstAttribute="trailing" secondItem="75I-I7-2FT" secondAttribute="trailing" constant="16" id="i6w-JC-Qy0"/>
+                                                        </constraints>
+                                                    </collectionViewCellContentView>
+                                                    <size key="customSize" width="50" height="15"/>
+                                                    <connections>
+                                                        <outlet property="tagLabel" destination="75I-I7-2FT" id="472-9a-3g7"/>
+                                                    </connections>
+                                                </collectionViewCell>
+                                            </cells>
+                                        </collectionView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="TEG-KJ-tWu" secondAttribute="trailing" constant="20" symbolic="YES" id="0Yn-oF-iVW"/>
@@ -1792,7 +1792,7 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="21h-eK-qDe" customClass="LocationViewController" customModule="Able" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eCz-Gt-MBT">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="602"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="532"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="Lxp-sn-BO7">
@@ -1843,7 +1843,7 @@
             <objects>
                 <viewController id="HKf-BB-dXP" customClass="AddTagsViewController" customModule="Able" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Iyv-sC-vcE">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="478"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add Tags" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0b-3Y-Nrk">
@@ -2002,7 +2002,7 @@
             <objects>
                 <viewController storyboardIdentifier="EditPostVC" id="3lm-Rs-Cdp" userLabel="Create a Post" customClass="CreatePostVC" customModule="Able" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xfO-cH-i9C">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="478"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="BV0-44-qW4">
@@ -2167,9 +2167,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="QQz-co-V0y"/>
-        <segue reference="Eej-nd-oWx"/>
-        <segue reference="cQK-Rs-DGP"/>
+        <segue reference="Xfe-tU-fz1"/>
+        <segue reference="z6E-oE-xWI"/>
+        <segue reference="2in-Td-o9b"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
