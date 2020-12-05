@@ -204,6 +204,14 @@ class SettingsViewController: UIViewController {
         publicCurrentUser?.lastName = lastNameEditText.text!
         publicCurrentUser?.city = cityEditText.text!
         publicCurrentUser?.state = stateEditText.text!
+        
+        viewUser?.username = usernameEditText.text!
+        viewUser?.firstName = firstNameEditText.text!
+        viewUser?.lastName = lastNameEditText.text!
+        viewUser?.city = cityEditText.text!
+        viewUser?.state = stateEditText.text!
+        
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func notificationSwitchChanged(_ sender: Any) {
