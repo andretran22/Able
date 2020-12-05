@@ -235,8 +235,6 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
         self.nameLabel.text = "\(user!.firstName!) \(user!.lastName!)"
         self.locationLabel.text = "\(user!.city!), \(user!.state!)"
         self.aboutMeLabel.text = user!.userDescription
-//        let sanity = user!.profilePicUrl
-//        print("In displayinfo, profilePicUrl is : \(sanity)")
         
         // retrieve url from firebase
         ImageService.downloadImage(withURL: URL(string: user!.profilePicUrl)!) { image in
