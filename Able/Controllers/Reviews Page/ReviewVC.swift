@@ -19,6 +19,7 @@ class ReviewVC: UIViewController {
 
         // retrieve rating from Firebase realtime database
         setRating(uid: viewUser!.safeEmail)
+        reviewButton.layer.cornerRadius = 4
     }
     
     override func viewWillAppear(_ animated: Bool) {

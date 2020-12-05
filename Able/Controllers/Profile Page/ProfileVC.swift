@@ -15,6 +15,7 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var tapToChangeProfileButton: UIButton!
     @IBOutlet weak var aboutMeLabel: UILabel!
     @IBOutlet weak var ratingButton: UIButton!
+    @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var helpFeedContainer: UIView!
     @IBOutlet weak var helperFeedContainer: UIView!
     @IBOutlet weak var savedFeedContainer: UIView!
@@ -34,6 +35,7 @@ class ProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ratingButton.layer.cornerRadius = 4
         
         // display help feed upon loading, hide the other feeds
         helpFeedView()
@@ -208,12 +210,15 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
                     rating = rating / Double(numReviews)
                     let formattedRating = String(format: "%.1f", rating)
                     let finalRating = "\(formattedRating) (\(numReviews))"
-                    self.ratingButton.setTitle(finalRating, for: .normal)
+//                    self.ratingButton.setTitle(finalRating, for: .normal)
+                    self.ratingLabel.text = finalRating
                 } else {
-                    self.ratingButton.setTitle("No rating", for: .normal)
+//                    self.ratingButton.setTitle("Leave a Review", for: .normal)
+                    self.ratingLabel.text = "No reviews"
                 }
             } else {
-                self.ratingButton.setTitle("No rating", for: .normal)
+//                self.ratingButton.setTitle("Leave a Review", for: .normal)
+                self.ratingLabel.text = "No reviews"
             }
           }) { (error) in
             print(error.localizedDescription)
@@ -272,15 +277,18 @@ extension ProfileVC {
             user = publicCurrentUser
             segmentedControlWithSaved.isHidden = false
             segmentedControlWithoutSaved.isHidden = true
+            ratingButton.setTitle("Reviews", for: .normal)
         } else if user?.safeEmail == publicCurrentUser?.safeEmail {
             // visiting user is the public user
             segmentedControlWithSaved.isHidden = false
             segmentedControlWithoutSaved.isHidden = true
+            ratingButton.setTitle("Reviews", for: .normal)
         } else {
             // visiting user is not the public user
             segmentedControlWithSaved.isHidden = true
             segmentedControlWithoutSaved.isHidden = false
             settingsButton.isHidden = true
+            ratingButton.setTitle("Review Me", for: .normal)
         }
     }
     
