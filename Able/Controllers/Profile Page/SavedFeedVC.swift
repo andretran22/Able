@@ -24,7 +24,6 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
             viewUser = publicCurrentUser
         }
         print("CURRENTLY VIEWING THIS USER Saved Feed")
-//        print(viewUser!.safeEmail)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,6 +31,7 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         fetchPosts()
     }
     
+    // check if a post is present in the list of posts
     func containsPost(posts: [Post], target: Post) -> Bool {
         for post in posts {
             if post.id == target.id {
@@ -42,6 +42,7 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         return false
     }
     
+    // fetch the saved posts from firebase database
     func fetchPosts() {
         viewUser = publicCurrentUser
 

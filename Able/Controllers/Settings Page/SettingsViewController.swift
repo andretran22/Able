@@ -29,6 +29,10 @@ class SettingsViewController: UIViewController {
     var city = ""
     var state = ""
     
+    // use this to retrieve the current user's saved posts (see SavedFeedVC for reference)
+    var viewUser: AbleUser?
+    var savedPosts = [Post]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -134,6 +134,11 @@ class ProfileVC: UIViewController {
            let profilePageVC = segue.destination as? ReviewVC {
            profilePageVC.viewUser = user
        }
+        
+        if segue.identifier == "settingsSegue",
+           let profilePageVC = segue.destination as? SettingsViewController {
+           profilePageVC.viewUser = user
+       }
     }
 }
 

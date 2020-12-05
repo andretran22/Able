@@ -131,7 +131,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="gearshape.fill" catalog="system"/>
                                 <connections>
-                                    <segue destination="FLg-xt-fxY" kind="show" id="NAe-mV-dwC"/>
+                                    <segue destination="FLg-xt-fxY" kind="show" identifier="settingsSegue" id="NAe-mV-dwC"/>
                                 </connections>
                             </button>
                         </barButtonItem>
