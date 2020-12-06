@@ -13,6 +13,7 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var tableView: UITableView!
     var helpPosts = [Post]()
     var viewUser: AbleUser?
+    var delegate: UIViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +67,8 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
             self.helpPosts = tempPosts.reversed()
+            let profileVC = self.delegate as! PassTheHelpPosts
+            profileVC.passHelpPosts(post: self.helpPosts)
             self.tableView.reloadData()
         })
     }
