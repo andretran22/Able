@@ -3,6 +3,7 @@
 //  Able
 //
 //  Created by Tim Nguyen on 10/30/20.
+//  Fully Implemented by Ban-Jian Pan
 //
 
 import UIKit
@@ -26,7 +27,7 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
 //        getUsersFromDatabase()
-        print("showing users")
+//        print("showing users")
         // Do any additional setup after loading the view.
         //observe the filteredUserList
 //        var observableList = filteredUserList as NSObject
