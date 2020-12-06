@@ -122,24 +122,4 @@ extension DatabaseManager {
             publicCurrentUser?.storeSavedPosts(savedPosts: savedPosts)
         }
     }
-    
-    
-    ///
-//    public func sortBy(query: String, postType:String){
-//        print()
-//        print("Database Sort \(postType) by \(query) ")
-//        print()
-//
-//        let sortByRecent = query == "Most Recent"
-//
-//        database.child("posts")
-//            .child(postType)
-//            .queryOrdered(byChild: "timestamp")
-//            .observeSingleEvent(of: .value) { (snapshot) in
-//
-//                let orderedPosts = [Post]()
-//
-//        }
-//        print()
-//    }
 }

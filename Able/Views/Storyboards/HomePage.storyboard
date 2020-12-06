@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AGI-UP-A8D">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AGI-UP-A8D">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -12,7 +12,7 @@
         <!--Select a Location-->
         <scene sceneID="QYx-mN-rWF">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="2qj-9s-m9f" customClass="LocationViewController" customModule="Able" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LocationStoryboard" modalPresentationStyle="fullScreen" id="2qj-9s-m9f" customClass="LocationViewController" customModule="Able" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lci-1v-7Q9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -600,6 +600,7 @@
         <!--FilterVC-->
         <scene sceneID="sy0-U9-Z38">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ya0-Mi-xtT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController id="cjt-it-qQc" customClass="FilterVC" customModule="Able" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NRj-4d-afS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -639,12 +640,6 @@
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ovg-xq-jTx">
-                                <rect key="frame" x="39" y="317" width="336" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a tag to search" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xZ1-Tz-Mo6">
                                 <rect key="frame" x="39" y="403" width="336" height="34"/>
@@ -933,6 +928,24 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Nj-nw-eFr">
+                                <rect key="frame" x="39" y="313" width="281" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Choose a Location"/>
+                                <connections>
+                                    <action selector="changeLocation:" destination="cjt-it-qQc" eventType="touchUpInside" id="gYX-sj-6hG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CAg-mf-LYN">
+                                <rect key="frame" x="334" y="313" width="36" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Clear">
+                                    <color key="titleColor" systemColor="secondaryLabelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearLocation:" destination="cjt-it-qQc" eventType="touchUpInside" id="uaS-Kc-ixc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="jcI-mb-Zjb"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -945,7 +958,7 @@
                         <outlet property="collectionTags" destination="9zm-2z-haP" id="1p5-0N-ti2"/>
                         <outlet property="foodButton" destination="0In-GX-xw7" id="Wg6-kN-ZP7"/>
                         <outlet property="furnitureButton" destination="K9w-JI-LO3" id="xb7-cj-s4E"/>
-                        <outlet property="locationField" destination="Ovg-xq-jTx" id="atr-iN-xI5"/>
+                        <outlet property="locationButton" destination="6Nj-nw-eFr" id="mtO-SN-lPR"/>
                         <outlet property="medicineButton" destination="Jei-vy-f5T" id="7Iq-OP-nxb"/>
                         <outlet property="otherButton" destination="gQa-sF-cwK" id="qr5-xf-DVh"/>
                         <outlet property="sortField" destination="4cD-I4-tXt" id="9og-7N-ThJ"/>
@@ -954,11 +967,11 @@
                         <outlet property="toiletriesButton" destination="bjr-2X-jgx" id="Tme-TA-T7k"/>
                         <outlet property="toysButtons" destination="NXg-rH-mOl" id="lWu-9c-ncN"/>
                         <outlet property="waterButton" destination="qB2-rB-oW4" id="Vwu-Bd-SKu"/>
+                        <segue destination="2qj-9s-m9f" kind="show" identifier="filterLocation" id="kts-rm-wLT"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ya0-Mi-xtT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6563.7681159420299" y="784.82142857142856"/>
+            <point key="canvasLocation" x="6607" y="1064"/>
         </scene>
         <!--Help FeedVC-->
         <scene sceneID="eMp-Mj-wQv">
@@ -1135,7 +1148,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TYC-aS-YFA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7476.0869565217399" y="1645.9821428571429"/>
+            <point key="canvasLocation" x="7476" y="1594"/>
         </scene>
         <!--MessagesEntryVC-->
         <scene sceneID="MpE-zc-nF5">
@@ -1792,7 +1805,7 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="21h-eK-qDe" customClass="LocationViewController" customModule="Able" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eCz-Gt-MBT">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="532"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="602"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="Lxp-sn-BO7">
@@ -1843,7 +1856,7 @@
             <objects>
                 <viewController id="HKf-BB-dXP" customClass="AddTagsViewController" customModule="Able" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Iyv-sC-vcE">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="478"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add Tags" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0b-3Y-Nrk">
@@ -2002,7 +2015,7 @@
             <objects>
                 <viewController storyboardIdentifier="EditPostVC" id="3lm-Rs-Cdp" userLabel="Create a Post" customClass="CreatePostVC" customModule="Able" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xfO-cH-i9C">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="478"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="BV0-44-qW4">
@@ -2163,13 +2176,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XFj-Xj-DVw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10076.8115942029" y="1691.5178571428571"/>
+            <point key="canvasLocation" x="9628" y="1301"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Xfe-tU-fz1"/>
-        <segue reference="z6E-oE-xWI"/>
-        <segue reference="2in-Td-o9b"/>
+        <segue reference="UdC-xj-5js"/>
+        <segue reference="5NA-sf-WHZ"/>
+        <segue reference="Isg-Jh-C3a"/>
+        <segue reference="kts-rm-wLT"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
@@ -2181,6 +2195,9 @@
         <image name="x.circle" catalog="system" width="128" height="121"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

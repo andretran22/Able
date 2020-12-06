@@ -8,29 +8,31 @@
 import UIKit
 import Firebase
 
-class SignupVC: UITableViewController {
-    var ref: DatabaseReference!
-    @IBOutlet weak var displayError: UILabel!
+class SignupVC: UITableViewController, ChangeLocation{
     
+    var ref: DatabaseReference!
+    
+    @IBOutlet weak var displayError: UILabel!
     @IBOutlet weak var lastnameField: UITextField!
     @IBOutlet weak var firstnameField: UITextField!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmPassField: UITextField!
-    @IBOutlet weak var cityField: UITextField!
-    @IBOutlet weak var stateField: UITextField!
-        
+    @IBOutlet weak var locationButton: UIButton!
+    var location:String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         displayError.textColor = .red
         passwordField.textContentType = .oneTimeCode
         confirmPassField.textContentType = .oneTimeCode
+        displayError.isHidden = false
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        clearFields()
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        clearFields()
+//    }
     
     func clearFields() {
         lastnameField.text = ""
@@ -39,10 +41,27 @@ class SignupVC: UITableViewController {
         emailField.text = ""
         passwordField.text = ""
         confirmPassField.text = ""
-        cityField.text = ""
-        stateField.text = ""
         displayError.text = ""
         displayError.isHidden = true
+    }
+    
+    // segue to location view controller to select list of default locations
+    @IBAction func locationButtonAction(_ sender: Any) {
+        performSegue(withIdentifier: "goToLocation", sender: self)
+    }
+    
+    //change location protocol stub
+    func changeLocation(location: String) {
+        displayMessage(text: "")
+        self.location = location
+        self.locationButton.setTitle(location, for: .normal)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToLocation",
+           let locationVC = segue.destination as? LocationViewController{
+            locationVC.delegate = self
+        }
     }
     
     // sign up with Firebase
@@ -109,12 +128,8 @@ class SignupVC: UITableViewController {
             displayMessage(text: "Passwords do not match")
             return false
         }
-        guard let city = cityField.text, !city.isEmpty else {
-            displayMessage(text: "Please enter a city")
-            return false
-        }
-        guard let state = stateField.text, !state.isEmpty else {
-            displayMessage(text: "Please enter a state")
+        guard location != "" else {
+            displayMessage(text: "Please choose a location")
             return false
         }
         
@@ -129,6 +144,7 @@ class SignupVC: UITableViewController {
     
     // go to home screen after successful sign up
     func goHomeScreen(){
+        clearFields()
         let storyBoard: UIStoryboard = UIStoryboard(name: "HomePage", bundle: nil)
         let nextViewController = storyBoard.instantiateViewController(withIdentifier: "HomePageVC")
         nextViewController.modalPresentationStyle = .fullScreen
@@ -136,17 +152,31 @@ class SignupVC: UITableViewController {
     }
     
     func saveToDatabase() {
+        
+        let separators = CharacterSet(charactersIn: ",")
+        var locationQuery = location.components(separatedBy: separators)
+        
+        //remove any elements that are just spaces
+        locationQuery.removeAll { $0 == "" }
+        
+        //removes leading/trailing spaces in the U.S State, not middle spaces
+        locationQuery[1] = locationQuery[1].trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        let cityLocation = locationQuery[0]
+        let stateLocation = locationQuery[1]
+        
         DatabaseManager.shared.insertUser(with: AbleUser(
             firstName: firstnameField.text!,
             lastName: lastnameField.text!,
             emailAddress: emailField.text!,
             username: usernameField.text!,
-            city: cityField.text!,
-            state: stateField.text!,
+            city: cityLocation,
+            state: stateLocation,
             profilePicURL: defaultProfilePicURL
         )
         )
     }
+    
     
     @IBAction func done (sender: UITextField){
         sender.resignFirstResponder()

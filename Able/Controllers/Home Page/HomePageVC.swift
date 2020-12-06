@@ -52,8 +52,6 @@ class HomePageVC: UIViewController, UICollectionViewDataSource, UICollectionView
         collectionViewTags.delegate = self
         collectionViewTags.dataSource = self
         
-        
-        
         // create global filter state with default sort by Most Recent
         globalFilterState = CurrentFilters(sort: "Most Recent", location: "", tags: [], categories: [])
         

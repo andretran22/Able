@@ -7,12 +7,14 @@
 
 import UIKit
 
-class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegate, SelectedButtonDelegate, CustomTagDelegate {
+class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegate, SelectedButtonDelegate, CustomTagDelegate, ChangeLocation {
+    
     
     //text fields
     @IBOutlet weak var sortField: UITextField!
-    @IBOutlet weak var locationField: UITextField!
+//    @IBOutlet weak var locationField: UITextField!
     @IBOutlet weak var tagsField: UITextField!
+    var location:String = ""
     
     //buttons
     @IBOutlet weak var foodButton: SelectionButton!
@@ -24,7 +26,8 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     @IBOutlet weak var furnitureButton: SelectionButton!
     @IBOutlet weak var techButton: SelectionButton!
     @IBOutlet weak var otherButton: SelectionButton!
-
+    @IBOutlet weak var locationButton: UIButton!
+    
     // display collection of tags
     @IBOutlet weak var collectionTags: UICollectionView!
     let tagIdentifier = "TagCellId"
@@ -46,7 +49,7 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         dismissPickerView()
         
         sortField.text = globalFilterState?.sort 
-        locationField.text = globalFilterState?.location
+        changeLocation(location: globalFilterState!.location)
         searchTags = globalFilterState?.tags ?? []
         categoriesSelected =  Set ( globalFilterState?.categories ?? [])
         
@@ -77,7 +80,6 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         collectionTags.delegate = self
         collectionTags.dataSource = self
         self.tagsField.delegate = self
-        self.locationField.delegate = self
     }
     
   
@@ -89,7 +91,6 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         
         collectionTags.reloadData()
     }
-    
     
     
     //MARK: - Next 7 methods for drop down menu for "Sort By" field
@@ -162,9 +163,7 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
             textField.resignFirstResponder()
             return false
         }
-        if textField == locationField {
-            textField.resignFirstResponder()
-        }
+
         return true
     }
     
@@ -194,8 +193,27 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     }
     
     
+    // MARK: - Delegate Methods for the "Quick Category" buttons
+    
+    func changeLocation(location: String) {
+        if location == "" {
+            self.location = ""
+            self.locationButton.setTitle("Choose a Location", for: .normal)
+        }else{
+            self.location = location
+            self.locationButton.setTitle(location, for: .normal)
+        }
+    }
+    
+    // clear location button
+    @IBAction func clearLocation(_ sender: Any) {
+        changeLocation(location: "")
+    }
     
     //MARK: - Helper functions
+    @IBAction func changeLocation(_ sender: Any) {
+        performSegue(withIdentifier: "filterLocation", sender: self)
+    }
     
     // dismiss keyboard when touched outside of it
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -206,10 +224,19 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     // set global filter state right before view disappears
     override func viewWillDisappear(_ animated: Bool) {
         globalFilterState = CurrentFilters(sort: sortField.text!,
-                                           location: locationField.text!,
+                                           location: location,
                                            tags: Array(searchTags),
                                            categories: Array(categoriesSelected))
                 
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "filterLocation",
+           let changeLocationVC = segue.destination as? LocationViewController {
+            changeLocationVC.delegate = self
+            print("Filter Location")
+
+        }
     }
 
 }
