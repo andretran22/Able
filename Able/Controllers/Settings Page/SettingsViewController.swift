@@ -213,6 +213,7 @@ class SettingsViewController: UIViewController {
         viewUser?.city = cityEditText.text!
         viewUser?.state = stateEditText.text!
         
+        changeNameInPosts()
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -232,5 +233,28 @@ class SettingsViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, with: event)
+    }
+}
+
+extension SettingsViewController {
+    func changeNameInPosts() {
+        viewUser = publicCurrentUser
+        let newName = (viewUser?.firstName)! + " " + (viewUser?.lastName)!
+        print("newName is \(newName)")
+        // change name in help posts
+        for post in helpPosts {
+            let uid = post.id
+            print("helpPost uid is \(uid)")
+            
+            Database.database().reference().child("posts/helpPosts/\(uid)/authorName").setValue(newName)
+        }
+        
+        // change name in helper posts
+        for post in helperPosts {
+            let uid = post.id
+            print("helperPost uid is \(uid)")
+            
+            Database.database().reference().child("posts/helperPosts/\(uid)/authorName").setValue(newName)
+        }
     }
 }
