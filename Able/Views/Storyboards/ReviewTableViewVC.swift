@@ -56,7 +56,7 @@ class ReviewTableViewVC: UIViewController, UITableViewDelegate, UITableViewDataS
                 
                 }
             }
-            self.reviews = tempPosts
+            self.reviews = tempPosts.reversed()
             self.tableView.reloadData()
         })
     }
