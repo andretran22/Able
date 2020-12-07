@@ -219,6 +219,7 @@ class PostViewController: UIViewController,
         let notificationObject = [
             "commenterKey": publicCurrentUser!.safeEmail,
             "fullname": "\(publicCurrentUser!.firstName!) \(publicCurrentUser!.lastName!)",
+            "whichFeed": post!.whichFeed!,
             "postId": post!.id,
             "pictureUrl": publicCurrentUser!.profilePicUrl,
             "timestamp": [".sv": "timestamp"],
