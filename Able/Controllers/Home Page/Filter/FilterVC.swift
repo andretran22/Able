@@ -194,7 +194,6 @@ class FilterVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     
     
     // MARK: - Delegate Methods for the "Quick Category" buttons
-    
     func changeLocation(location: String) {
         if location == "" {
             self.location = ""

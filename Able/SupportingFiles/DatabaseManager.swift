@@ -79,6 +79,7 @@ extension DatabaseManager {
             "photoURL" : user.profilePicUrl
         ])
         database.child("users").child(user.safeEmail).child("reviews").child("numReviews").setValue(0)
+        database.child("users").child(user.safeEmail).child("notifications").child("default").setValue(0)
     }
     
     /// sets public user to whoever is currenlty logged in and gets all data about that user from firebase

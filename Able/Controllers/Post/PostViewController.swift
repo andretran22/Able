@@ -207,6 +207,42 @@ class PostViewController: UIViewController,
                 // handle the error
             }
         })
+        
+        // add a notificaiton to the author of post that was just commented on
+        updateAuthorPostNotification()
+    }
+    
+    func updateAuthorPostNotification(){
+        let authorSafeEmail = post!.userKey
+        
+        // Make notification object to store in post author's notification array
+        let notificationObject = [
+            "commenterKey": publicCurrentUser!.safeEmail,
+            "fullname": "\(publicCurrentUser!.firstName!) \(publicCurrentUser!.lastName!)",
+            "postId": post!.id,
+            "pictureUrl": publicCurrentUser!.profilePicUrl,
+            "timestamp": [".sv": "timestamp"],
+            "text": commentTextField.text!,
+            "type": "comment"
+            
+        ] as [String : Any]
+        
+        // Find the author of the post from database
+        let findRef = Database.database().reference().child("users")
+        findRef.observeSingleEvent(of: .value) { snapshot in
+            for email in snapshot.children{
+                if let emailSnapshot = email as? DataSnapshot{
+                    
+                    //found author of post, give them notification object in firebase
+                    if emailSnapshot.key == authorSafeEmail{
+                        findRef.child(emailSnapshot.key)
+                            .child("notifications")
+                            .childByAutoId()
+                            .setValue(notificationObject)
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func nameClicked(_ sender: Any) {

@@ -13,6 +13,8 @@
 		0A37D85D2531A6F900B94D82 /* HomePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A37D85C2531A6F900B94D82 /* HomePageVC.swift */; };
 		0A44BBE0254A819F00DB247C /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A44BBDF254A819F00DB247C /* DatabaseManager.swift */; };
 		0A44BBE3254AA59A00DB247C /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A44BBE2254AA59A00DB247C /* Onboarding.storyboard */; };
+		0A566FC3257D93EB0039D06A /* NotificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A566FC2257D93EB0039D06A /* NotificationVC.swift */; };
+		0A566FC7257DA9AE0039D06A /* NotificationClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A566FC6257DA9AE0039D06A /* NotificationClass.swift */; };
 		0A64F8B4254AABFB00C1204C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64F8B3254AABFB00C1204C /* OnboardingViewController.swift */; };
 		0A64F923254CFA9700C1204C /* AbleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A64F922254CFA9700C1204C /* AbleUser.swift */; };
 		0A8700B325610B16003FE900 /* FilterClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8700B225610B16003FE900 /* FilterClass.swift */; };
@@ -65,6 +67,8 @@
 		0A37D85C2531A6F900B94D82 /* HomePageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageVC.swift; sourceTree = "<group>"; };
 		0A44BBDF254A819F00DB247C /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		0A44BBE2254AA59A00DB247C /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
+		0A566FC2257D93EB0039D06A /* NotificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationVC.swift; path = "Able/Controllers/Home Page/Filter/NotificationVC.swift"; sourceTree = SOURCE_ROOT; };
+		0A566FC6257DA9AE0039D06A /* NotificationClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationClass.swift; path = "Able/Controllers/Home Page/Filter/NotificationClass.swift"; sourceTree = SOURCE_ROOT; };
 		0A64F8B3254AABFB00C1204C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		0A64F922254CFA9700C1204C /* AbleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbleUser.swift; sourceTree = "<group>"; };
 		0A8700B225610B16003FE900 /* FilterClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterClass.swift; sourceTree = "<group>"; };
@@ -325,6 +329,8 @@
 		D1FAFE7F2548EE820086F074 /* Notifications Page */ = {
 			isa = PBXGroup;
 			children = (
+				0A566FC2257D93EB0039D06A /* NotificationVC.swift */,
+				0A566FC6257DA9AE0039D06A /* NotificationClass.swift */,
 			);
 			path = "Notifications Page";
 			sourceTree = "<group>";
@@ -475,6 +481,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A566FC7257DA9AE0039D06A /* NotificationClass.swift in Sources */,
 				7C6CFE992550A3AB002E8B17 /* ReviewTableViewVC.swift in Sources */,
 				7C9E79122541F73700595A8E /* AddReviewVC.swift in Sources */,
 				D1A3AFE525422A6100CA7FDA /* HelpFeedVC.swift in Sources */,
@@ -511,6 +518,7 @@
 				0A983B9E2530EFF900F45A5F /* SceneDelegate.swift in Sources */,
 				D1A3AFE325422A6100CA7FDA /* HelperFeedVC.swift in Sources */,
 				0A37D829253152FE00B94D82 /* LoginVC.swift in Sources */,
+				0A566FC3257D93EB0039D06A /* NotificationVC.swift in Sources */,
 				D1A3AFE725422A6100CA7FDA /* PostCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
