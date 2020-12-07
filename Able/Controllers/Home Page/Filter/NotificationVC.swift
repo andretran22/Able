@@ -40,7 +40,9 @@ class NotificationCell: UITableViewCell {
 class NotificationVC:  UIViewController,UITableViewDelegate, UITableViewDataSource{
     
     @IBOutlet weak var notificationTableView: UITableView!
+    @IBOutlet weak var sortButtonLabel: UIButton!
     var fetchedNotifications = [NotificationObj]()
+    var sortState:String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +51,32 @@ class NotificationVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.sortState = "Most Recent"
         self.fetchNotifications()
+    }
+    
+    // MARK:- Sort Functions
+    
+    @IBAction func sortButton(_ sender: Any) {
+        // toggle state
+        if sortState == "Most Recent" {
+            sortState = "Oldest First"
+        }else{
+            sortState = "Most Recent"
+        }
+        
+        sortNotifications()
+    }
+    
+    func sortNotifications(){        
+        if self.sortState == "Most Recent" {
+            print("ELLOOO")
+            fetchedNotifications = fetchedNotifications.sorted(by: { $0.timestamp! > $1.timestamp! })
+        }else{
+            fetchedNotifications = fetchedNotifications.sorted(by: { $0.timestamp! < $1.timestamp! })
+        }
+        self.sortButtonLabel.setTitle(self.sortState, for: .normal)
+        self.notificationTableView.reloadData()
     }
     
     // MARK:- Table View Functions
@@ -111,6 +138,7 @@ class NotificationVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
                 }
             }
             self.fetchedNotifications = tempNotifications
+            self.sortNotifications()
             self.notificationTableView.reloadData()
         }
     }
