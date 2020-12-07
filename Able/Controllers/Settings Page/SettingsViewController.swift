@@ -2,7 +2,8 @@
 //  SettingsViewController.swift
 //  Able
 //
-//  Created by XCodeClub on 2020-10-16.
+//  Created by Ban-Jian Pan on 2020-10-16.
+//  Fully Implemented by Ban-Jian Pan
 //
 
 import UIKit
@@ -31,17 +32,24 @@ class SettingsViewController: UIViewController {
     
     // use this to retrieve the current user's saved posts (see SavedFeedVC for reference)
     var viewUser: AbleUser?
+    var userEmail = ""
+    
     var savedPosts = [Post]()
+    var helperPosts = [Post]()
+    var helpPosts = [Post]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         
         // Do any additional setup after loading the view.
-        print("inside setting")
+//        print("inside setting")
+        userEmail = viewUser!.safeEmail
+//        print(userEmail)
+        //----------------------------------------------------------------------
         ref.child("users/\(publicCurrentUser!.safeEmail)").observeSingleEvent(of: .value, with: {(snapshot) in
             let value = snapshot.value as? NSDictionary
-            print(value!.count)
+//            print(value!.count)
 
             self.username = value!["user_name"] as! String
             self.firstName = value!["first_name"] as! String
@@ -58,6 +66,43 @@ class SettingsViewController: UIViewController {
             self.stateEditText.text = self.state
         })
         
+//        ref.child("posts/helpPosts").observeSingleEvent(of: .value, with: {(snapshot) in
+//            let value = snapshot.value as? NSDictionary
+//            for posts in value!{
+//
+//            }
+//
+//        })
+        
+//        for count in 0...5 {
+//            print(count)
+//        }
+//        print("count of help posts: ")
+        
+    }
+    
+    func deleteSavedPost(folderKey: String){
+        self.ref.child("users").observeSingleEvent(of: .value) { snapshot in
+            for user in snapshot.children{
+                if let user1 = user as? DataSnapshot,
+                let dict = user1.value as? [String:Any],
+                let userKey = dict["saved_posts"] as? [String:Any]
+                {
+                    let safeEmail = user1.key
+//                    print(safeEmail)
+                    for posts in userKey{
+                        //goes through all the saved_posts and deletes them if they match the parameter "folderKey"
+                        let postKey = posts.key
+//                        print(posts.key)
+                        if(postKey == folderKey){
+                            let deleteRef = self.ref.child("users/\(safeEmail)/saved_posts/\(folderKey)")
+                            deleteRef.removeValue()
+                        }
+                        
+                    }
+                }
+            }
+        }
     }
     
     
@@ -74,6 +119,42 @@ class SettingsViewController: UIViewController {
                                            style: .destructive,
                                            handler: {
                                             (action) in
+                                            //put delete post and comment function here
+                                            //deletes all the helper posts this user may have as well as if anyone saved this user's posts
+                                            self.ref.child("posts/helperPosts").observeSingleEvent(of: .value) { snapshot in
+                                                for posts in snapshot.children{
+                                                    if let helperPosts = posts as? DataSnapshot,
+                                                    let dict = helperPosts.value as? [String:Any]{
+//                                                        print("for loop")
+                                                        let folderKey = helperPosts.key
+                                                        let userKey = dict["userKey"] as? String
+                                                        if(userKey == self.userEmail){
+//                                                            print("found it!")
+                                                            let deleteRef = self.ref.child("posts/helperPosts/\(folderKey)")
+                                                            deleteRef.removeValue()
+                                                            self.deleteSavedPost(folderKey: folderKey)
+                                                        }
+                                                        
+                                                    }
+                                                }
+                                            }
+                                            //deletes all the help posts the user may have as well as if anyone saved this user's posts
+                                            self.ref.child("posts/helpPosts").observeSingleEvent(of: .value) { snapshot in
+                                                for posts in snapshot.children{
+                                                    if let helpPosts = posts as? DataSnapshot,
+                                                    let dict = helpPosts.value as? [String:Any]{
+//                                                        print("for loop2")
+                                                        let folderKey = helpPosts.key
+                                                        let userKey = dict["userKey"] as? String
+                                                        if(userKey == self.userEmail){
+//                                                            print("found it!")
+                                                            let deleteRef = self.ref.child("posts/helpPosts/\(folderKey)")
+                                                            deleteRef.removeValue()
+                                                            self.deleteSavedPost(folderKey: folderKey)
+                                                        }
+                                                    }
+                                                }
+                                            }
                                             
                                             let user = Auth.auth().currentUser
                                             self.ref.child("users/\(publicCurrentUser!.safeEmail)").removeValue()
@@ -191,7 +272,7 @@ class SettingsViewController: UIViewController {
     
 
     @IBAction func updateInformationButtonPressed(_ sender: Any) {
-        print("inside update info")
+//        print("inside update info")
         ref.child("users/\(publicCurrentUser!.safeEmail)").updateChildValues([
             "user_name": usernameEditText.text!,
             "first_name": firstNameEditText.text!,
@@ -211,6 +292,7 @@ class SettingsViewController: UIViewController {
         viewUser?.city = cityEditText.text!
         viewUser?.state = stateEditText.text!
         
+        changeNameInPosts()
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -230,5 +312,28 @@ class SettingsViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, with: event)
+    }
+}
+
+extension SettingsViewController {
+    func changeNameInPosts() {
+        viewUser = publicCurrentUser
+        let newName = (viewUser?.firstName)! + " " + (viewUser?.lastName)!
+        print("newName is \(newName)")
+        // change name in help posts
+        for post in helpPosts {
+            let uid = post.id
+            print("helpPost uid is \(uid)")
+            
+            Database.database().reference().child("posts/helpPosts/\(uid)/authorName").setValue(newName)
+        }
+        
+        // change name in helper posts
+        for post in helperPosts {
+            let uid = post.id
+            print("helperPost uid is \(uid)")
+            
+            Database.database().reference().child("posts/helperPosts/\(uid)/authorName").setValue(newName)
+        }
     }
 }

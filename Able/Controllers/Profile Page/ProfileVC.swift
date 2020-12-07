@@ -8,7 +8,15 @@
 import UIKit
 import Firebase
 
-class ProfileVC: UIViewController {
+protocol PassTheHelperPosts {
+    func passHelperPosts(post: [Post])
+}
+
+protocol PassTheHelpPosts {
+    func passHelpPosts(post: [Post])
+}
+
+class ProfileVC: UIViewController, PassTheHelpPosts, PassTheHelperPosts{
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
@@ -23,6 +31,13 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var segmentedControlWithoutSaved: UISegmentedControl!
     @IBOutlet weak var settingsButton: UIButton!
     
+    func passHelpPosts(post: [Post]) {
+        helpPosts = post
+    }
+    
+    func passHelperPosts(post: [Post]) {
+        helperPosts = post
+    }
     
     var ref: DatabaseReference!
     var imagePicker: UIImagePickerController!
@@ -32,6 +47,8 @@ class ProfileVC: UIViewController {
     
     // user's profile
     var user: AbleUser?
+    var helpPosts = [Post]()
+    var helperPosts = [Post]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,28 +133,34 @@ class ProfileVC: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "personalHelpSegue",
-            let profilePageVC = segue.destination as? PersonalHelpFeedVC {
-            profilePageVC.viewUser = user
+            let helpPageVC = segue.destination as? PersonalHelpFeedVC {
+            helpPageVC.viewUser = user
+            helpPageVC.delegate = self
+            helpPageVC.helpPosts = helpPosts
         }
         
         if segue.identifier == "personalHelperSegue",
-           let profilePageVC = segue.destination as? PersonalHelperFeedVC {
-           profilePageVC.viewUser = user
+           let helperPageVC = segue.destination as? PersonalHelperFeedVC {
+            helperPageVC.viewUser = user
+            helperPageVC.delegate = self
+            helperPageVC.helperPosts = helperPosts
        }
         
         if segue.identifier == "savedSegue",
-           let profilePageVC = segue.destination as? SavedFeedVC {
-           profilePageVC.viewUser = user
+           let savedPageVC = segue.destination as? SavedFeedVC {
+            savedPageVC.viewUser = user
        }
         
         if segue.identifier == "reviewSegue",
-           let profilePageVC = segue.destination as? ReviewVC {
-           profilePageVC.viewUser = user
+           let reviewPageVC = segue.destination as? ReviewVC {
+            reviewPageVC.viewUser = user
        }
         
         if segue.identifier == "settingsSegue",
-           let profilePageVC = segue.destination as? SettingsViewController {
-           profilePageVC.viewUser = user
+           let settingsPageVC = segue.destination as? SettingsViewController {
+            settingsPageVC.viewUser = user
+            settingsPageVC.helpPosts = helpPosts
+            settingsPageVC.helperPosts = helperPosts
        }
     }
 }

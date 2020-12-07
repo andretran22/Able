@@ -3,6 +3,7 @@
 //  Able
 //
 //  Created by Tim Nguyen on 10/30/20.
+//  Fully Implemented by Ban-Jian Pan
 //
 
 import UIKit
@@ -115,7 +116,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
             post = false
             helpHelperSegCtrl.isHidden = true
         }
-        print("post is: \(post)")
+//        print("post is: \(post)")
     }
     
     @IBAction func helpHelperSegmentView(_ sender: UISegmentedControl){
@@ -123,14 +124,14 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         //1 is helper
         if(sender.selectedSegmentIndex == 0){
             //help
-            print("help")
+//            print("help")
             help = true
             searchPostVC.help1 = true
             searchPostVC.filteredPostList = filteredHelpPostList1
         
         }else if(sender.selectedSegmentIndex == 1){
             //helper
-            print("helper")
+//            print("helper")
             help = false
             searchPostVC.help1 = false
             searchPostVC.filteredPostList = filteredHelperPostList1
@@ -183,10 +184,10 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "searchUserSegue"){
-            print("did user segue")
+//            print("did user segue")
             self.searchUserVC = segue.destination as? SearchUsersViewController
         }else if(segue.identifier == "searchPostSegue"){
-            print("did post segue")
+//            print("did post segue")
             self.searchPostVC = segue.destination as? SearchPostsViewController
         }
     }
