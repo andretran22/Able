@@ -102,7 +102,6 @@ class NotificationVC:  UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func sortNotifications(){        
         if self.sortState == "Most Recent" {
-            print("ELLOOO")
             fetchedNotifications = fetchedNotifications.sorted(by: { $0.timestamp! > $1.timestamp! })
         }else{
             fetchedNotifications = fetchedNotifications.sorted(by: { $0.timestamp! < $1.timestamp! })

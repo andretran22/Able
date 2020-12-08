@@ -648,6 +648,10 @@
                                                         <action selector="optionsButtonClicked:" destination="MH8-ss-26e" eventType="touchUpInside" id="0Lh-HV-67c"/>
                                                     </connections>
                                                 </button>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p5O-GU-b18">
+                                                    <rect key="frame" x="125" y="145" width="125" height="125"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mqH-qe-1fQ">
                                                     <rect key="frame" x="167" y="32" width="142" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -711,10 +715,6 @@
                                                         </tableViewCell>
                                                     </prototypes>
                                                 </tableView>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p5O-GU-b18">
-                                                    <rect key="frame" x="125" y="145" width="125" height="125"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="twy-dx-G0D" firstAttribute="leading" secondItem="hUc-x1-l1X" secondAttribute="leading" constant="20" symbolic="YES" id="B74-hM-OFE"/>
@@ -1355,6 +1355,10 @@
                                                 <action selector="optionsButtonClicked:" destination="lJF-RR-Mp3" eventType="touchUpInside" id="HUp-IE-YMQ"/>
                                             </connections>
                                         </button>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gj0-DI-CbI">
+                                            <rect key="frame" x="125" y="145" width="125" height="125"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CmR-Yv-wEB">
                                             <rect key="frame" x="167" y="32" width="142" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1418,10 +1422,6 @@
                                                 </tableViewCell>
                                             </prototypes>
                                         </tableView>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gj0-DI-CbI">
-                                            <rect key="frame" x="125" y="145" width="125" height="125"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="o6d-5G-DpW" firstAttribute="leading" secondItem="XXj-Ed-nJL" secondAttribute="leading" constant="12" id="Np6-yN-Mke"/>
@@ -1892,6 +1892,10 @@
                                                 <action selector="optionsButtonClicked:" destination="2dV-lX-MKd" eventType="touchUpInside" id="WJH-4j-zd8"/>
                                             </connections>
                                         </button>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J9z-Ib-G7R">
+                                            <rect key="frame" x="125" y="145" width="125" height="125"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rDg-vh-NNM">
                                             <rect key="frame" x="167" y="32" width="142" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1955,10 +1959,6 @@
                                                 </tableViewCell>
                                             </prototypes>
                                         </tableView>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J9z-Ib-G7R">
-                                            <rect key="frame" x="125" y="145" width="125" height="125"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="bxr-qj-vT1" firstAttribute="top" secondItem="zIW-KX-LFo" secondAttribute="top" constant="12" id="6i9-qO-bbU"/>
@@ -2693,7 +2693,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="36L-oo-Qrj"/>
         <segue reference="z6E-oE-xWI"/>
-        <segue reference="cQK-Rs-DGP"/>
+        <segue reference="2in-Td-o9b"/>
         <segue reference="Ips-Rv-nWa"/>
     </inferredMetricsTieBreakers>
     <resources>
