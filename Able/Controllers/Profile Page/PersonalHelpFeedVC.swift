@@ -148,6 +148,20 @@ class PersonalHelpFeedVC: UIViewController, UITableViewDelegate, UITableViewData
                                                 if error != nil {
                                                     print("error \(String(describing: error))")
                                                 } else {
+                                                    if post.image != nil {
+                                                        // Create a reference to the file to delete
+                                                        let imageRef = Storage.storage().reference().child("posts/\(post.whichFeed!)/\(post.id)")
+
+                                                        // Delete the file
+                                                        imageRef.delete { error in
+                                                          if let error = error {
+                                                            print("error \(error)")
+                                                            // Uh-oh, an error occurred!
+                                                          } else {
+                                                            // File deleted successfully
+                                                          }
+                                                        }
+                                                    }
                                                     print("\(post.id) IS DELETED")
                                                     if let index = self.helpPosts.firstIndex(of: post) {
                                                         self.helpPosts.remove(at: index)

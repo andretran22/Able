@@ -91,6 +91,8 @@ class PostViewController: UIViewController,
                                   },
                                   completion: nil)
             }
+        } else {
+            // remove the postImageView
         }
         self.fetchComments()
     }

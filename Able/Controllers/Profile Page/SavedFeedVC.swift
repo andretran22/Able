@@ -212,6 +212,20 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
                                                 if error != nil {
                                                     print("error \(String(describing: error))")
                                                 } else {
+                                                    if post.image != nil {
+                                                        // Create a reference to the file to delete
+                                                        let imageRef = Storage.storage().reference().child("posts/\(post.whichFeed!)/\(post.id)")
+
+                                                        // Delete the file
+                                                        imageRef.delete { error in
+                                                          if let error = error {
+                                                            print("error \(error)")
+                                                            // Uh-oh, an error occurred!
+                                                          } else {
+                                                            // File deleted successfully
+                                                          }
+                                                        }
+                                                    }
                                                     print("\(post.id) IS DELETED")
                                                     if let index = self.savedPosts.firstIndex(of: post) {
                                                         self.savedPosts.remove(at: index)
