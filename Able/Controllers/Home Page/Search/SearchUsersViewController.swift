@@ -46,6 +46,8 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
         cell.nameLabel.text = "\(user.firstName!) \(user.lastName!)"
         ImageService.downloadImage(withURL: URL(string: user.profilePicUrl)!) { image in
             cell.profileImageView.image = image
+            cell.profileImageView.layer.masksToBounds = true
+            cell.profileImageView.layer.cornerRadius = cell.profileImageView.bounds.width / 2
         }
         cell.usernameLabel.text = "@\(user.username!)"
         return cell

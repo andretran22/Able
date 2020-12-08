@@ -15,12 +15,12 @@ class Post: Equatable
     var authorName: String
     var location: String
     var text: String
-    //    var images: [String]? PhotosURLS
     
     // for help posts and helper posts
     var whichFeed: String?
     var completed: Bool?
     var tags: [String]?
+    var image: String?
     var numComments: Int?
     var createdAt: Date // timestamp
     

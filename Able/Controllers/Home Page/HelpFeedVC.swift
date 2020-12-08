@@ -48,6 +48,9 @@ class HelpFeedVC: UITableViewController, EditPost, DeletePost {
                     let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
                     post.whichFeed = "helpPosts"
                     post.completed = false
+                    if let imageURL = dict["image"] as? String {
+                        post.image = imageURL
+                    }
                     tempPosts.append(post)
                 }
             }
@@ -56,7 +59,7 @@ class HelpFeedVC: UITableViewController, EditPost, DeletePost {
             tempPosts = (globalFilterState?.sortAndFilter(postType: "helpPosts", posts: tempPosts))!
             
             self.helpPosts = tempPosts
-            self.tableView.reloadData()
+            self.tableView.reloadWithAnimation()
         })
     }
     
@@ -77,10 +80,15 @@ class HelpFeedVC: UITableViewController, EditPost, DeletePost {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HelpPostCell", for: indexPath) as! PostCell
-        cell.delegate = self
-        cell.post = helpPosts[indexPath.row]
         
+        let post = helpPosts[indexPath.row]
+        var whichPostCell = "HelpPostCell"
+        if post.image != nil {
+            whichPostCell = "HelpPostCellWithImage"
+        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: whichPostCell, for: indexPath) as! PostCell
+        cell.delegate = self
+        cell.post = post
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell
         cell.backgroundColor = .clear // very important
@@ -94,6 +102,14 @@ class HelpFeedVC: UITableViewController, EditPost, DeletePost {
         cell.contentView.backgroundColor = .white
         cell.contentView.layer.cornerRadius = 8
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let post = helpPosts[indexPath.row]
+        if (post.image != nil) {
+            return 320
+        }
+        return 220
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -153,7 +169,7 @@ class HelpFeedVC: UITableViewController, EditPost, DeletePost {
                                                     print("\(post.id) IS DELETED")
                                                     if let index = self.helpPosts.firstIndex(of: post) {
                                                         self.helpPosts.remove(at: index)
-                                                        self.tableView.reloadData()
+                                                        self.tableView.reloadWithAnimation()
                                                     }
                                                 }
                                             }
@@ -176,6 +192,25 @@ class HelpFeedVC: UITableViewController, EditPost, DeletePost {
                   let editPostVC = segue.destination as? CreatePostVC {
             let post = sender as! Post
             editPostVC.post = post
+        }
+    }
+}
+
+extension UITableView {
+
+    func reloadWithAnimation() {
+        self.reloadData()
+        let tableViewHeight = self.bounds.size.height
+        let cells = self.visibleCells
+        var delayCounter = 0
+        for cell in cells {
+            cell.transform = CGAffineTransform(translationX: 0, y: tableViewHeight)
+        }
+        for cell in cells {
+            UIView.animate(withDuration: 1.6, delay: 0.08 * Double(delayCounter),usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+                cell.transform = CGAffineTransform.identity
+            }, completion: nil)
+            delayCounter += 1
         }
     }
 }

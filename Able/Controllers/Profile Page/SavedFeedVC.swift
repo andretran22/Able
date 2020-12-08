@@ -73,12 +73,15 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
                     let post = Post(id: uid, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
                     post.completed = completed
                     post.whichFeed = "helpPosts"
+                    if let imageURL = dict["image"] as? String {
+                        post.image = imageURL
+                    }
                     tempPosts.append(post)
                     if !containsPost(posts: self.savedPosts, target: post) {
                         self.savedPosts.append(post)
                     }
                 }
-                self.tableView.reloadData()
+                self.tableView.reloadWithAnimation()
             })
             
             helper.observeSingleEvent(of: .value, with: { [self] snapshot in
@@ -99,12 +102,15 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
                     let post = Post(id: uid, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
                     post.completed = completed
                     post.whichFeed = "helperPosts"
+                    if let imageURL = dict["image"] as? String {
+                        post.image = imageURL
+                    }
                     tempPosts.append(post)
                     if !containsPost(posts: self.savedPosts, target: post) {
                         self.savedPosts.append(post)
                     }
                 }
-                self.tableView.reloadData()
+                self.tableView.reloadWithAnimation()
             })
         }
     }
@@ -120,8 +126,13 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SavedPostCell", for: indexPath) as! PostCell
-        cell.post = savedPosts[indexPath.row]
+        let post = savedPosts[indexPath.row]
+        var whichPostCell = "SavedPostCell"
+        if post.image != nil {
+            whichPostCell = "SavedPostCellWithImage"
+        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: whichPostCell, for: indexPath) as! PostCell
+        cell.post = post
         cell.delegate = self
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell
@@ -136,6 +147,14 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         cell.contentView.backgroundColor = .white
         cell.contentView.layer.cornerRadius = 8
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let post = savedPosts[indexPath.row]
+        if (post.image != nil) {
+            return 320
+        }
+        return 220
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -196,7 +215,7 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
                                                     print("\(post.id) IS DELETED")
                                                     if let index = self.savedPosts.firstIndex(of: post) {
                                                         self.savedPosts.remove(at: index)
-                                                        self.tableView.reloadData()
+                                                        self.tableView.reloadWithAnimation()
                                                     }
                                                 }
                                             }
@@ -209,7 +228,7 @@ class SavedFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     func unsavePost(post: Post) {
         if let index = savedPosts.firstIndex(of: post) {
             savedPosts.remove(at: index)
-            tableView.reloadData()
+            tableView.reloadWithAnimation()
         }
     }
     

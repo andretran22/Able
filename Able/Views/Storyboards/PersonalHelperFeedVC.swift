@@ -60,6 +60,9 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
                         let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
                         post.completed = completed
                         post.whichFeed = "helperPosts"
+                        if let imageURL = dict["image"] as? String {
+                            post.image = imageURL
+                        }
                         tempPosts.append(post)
                     }
                 }
@@ -67,7 +70,7 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
             self.helperPosts = tempPosts.reversed()
             let profileVC = self.delegate as! PassTheHelperPosts
             profileVC.passHelperPosts(post: self.helperPosts)
-            self.tableView.reloadData()
+            self.tableView.reloadWithAnimation()
         })
     }
     
@@ -82,8 +85,13 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HelperPostCell", for: indexPath) as! PostCell
-        cell.post = helperPosts[indexPath.row]
+        let post = helperPosts[indexPath.row]
+        var whichPostCell = "HelperPostCell"
+        if post.image != nil {
+            whichPostCell = "HelperPostCellWithImage"
+        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: whichPostCell, for: indexPath) as! PostCell
+        cell.post = post
         cell.delegate = self
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell
@@ -98,6 +106,14 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
         cell.contentView.backgroundColor = .white
         cell.contentView.layer.cornerRadius = 8
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let post = helperPosts[indexPath.row]
+        if (post.image != nil) {
+            return 320
+        }
+        return 220
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -133,7 +149,7 @@ class PersonalHelperFeedVC: UIViewController, UITableViewDelegate, UITableViewDa
                                                     print("\(post.id) IS DELETED")
                                                     if let index = self.helperPosts.firstIndex(of: post) {
                                                         self.helperPosts.remove(at: index)
-                                                        self.tableView.reloadData()
+                                                        self.tableView.reloadWithAnimation()
                                                     }
                                                 }
                                             }

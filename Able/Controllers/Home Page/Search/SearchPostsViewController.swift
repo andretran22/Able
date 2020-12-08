@@ -15,7 +15,6 @@ class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var postsTableView: UITableView!
     public var filteredPostList:[Post] = []
     public var help1 = true
-    let postsCellIdentifier = "PostCellIdentifier"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +28,13 @@ class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: postsCellIdentifier, for: indexPath as IndexPath) as! PostCell
-        cell.post = filteredPostList[indexPath.row]
+        let post = filteredPostList[indexPath.row]
+        var whichPostCell = "PostCellIdentifier"
+        if post.image != nil {
+            whichPostCell = "PostCellIdentifierWithImage"
+        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: whichPostCell, for: indexPath as IndexPath) as! PostCell
+        cell.post = post
         cell.delegate = self
         cell.usernameButton.tag = indexPath.row
         
@@ -48,6 +52,14 @@ class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableV
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let post = filteredPostList[indexPath.row]
+        if (post.image != nil) {
+            return 320
+        }
+        return 220
+    }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //this function gets executed when you tap a row
@@ -57,7 +69,7 @@ class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     public func updateTableView(){
-        postsTableView.reloadData()
+        postsTableView.reloadWithAnimation()
     }
     
     func editPost(post: Post) {
@@ -88,7 +100,7 @@ class SearchPostsViewController: UIViewController, UITableViewDelegate, UITableV
                                                     print("\(post.id) IS DELETED")
                                                     if let index = self.filteredPostList.firstIndex(of: post) {
                                                         self.filteredPostList.remove(at: index)
-                                                        self.postsTableView.reloadData()
+                                                        self.postsTableView.reloadWithAnimation()
                                                     }
                                                 }
                                             }

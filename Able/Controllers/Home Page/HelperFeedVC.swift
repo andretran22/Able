@@ -48,6 +48,9 @@ class HelperFeedVC: UITableViewController, EditPost, DeletePost {
                     let post = Post(id: childSnapshot.key, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
                     post.whichFeed = "helperPosts"
                     post.completed = false
+                    if let imageURL = dict["image"] as? String {
+                        post.image = imageURL
+                    }
                     tempPosts.append(post)
                 }
             }
@@ -56,7 +59,7 @@ class HelperFeedVC: UITableViewController, EditPost, DeletePost {
             tempPosts = (globalFilterState?.sortAndFilter(postType: "helperPosts", posts: tempPosts))!
             
             self.helperPosts = tempPosts
-            self.tableView.reloadData()
+            self.tableView.reloadWithAnimation()
         })
     }
     
@@ -77,9 +80,16 @@ class HelperFeedVC: UITableViewController, EditPost, DeletePost {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HelperPostCell", for: indexPath) as! PostCell
+        
+        let post = helperPosts[indexPath.row]
+        var whichPostCell = "HelperPostCell"
+        if post.image != nil {
+            whichPostCell = "HelperPostCellWithImage"
+        }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: whichPostCell, for: indexPath) as! PostCell
         cell.delegate = self
-        cell.post = helperPosts[indexPath.row]
+        cell.post = post
         cell.usernameButton.tag = indexPath.row
         // add shadow on cell
         cell.backgroundColor = .clear // very important
@@ -92,7 +102,16 @@ class HelperFeedVC: UITableViewController, EditPost, DeletePost {
         // add corner radius on `contentView`
         cell.contentView.backgroundColor = .white
         cell.contentView.layer.cornerRadius = 8
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let post = helperPosts[indexPath.row]
+        if (post.image != nil) {
+            return 320
+        }
+        return 220
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -152,7 +171,7 @@ class HelperFeedVC: UITableViewController, EditPost, DeletePost {
                                                     print("\(post.id) IS DELETED")
                                                     if let index = self.helperPosts.firstIndex(of: post) {
                                                         self.helperPosts.remove(at: index)
-                                                        self.tableView.reloadData()
+                                                        self.tableView.reloadWithAnimation()
                                                     }
                                                 }
                                             }

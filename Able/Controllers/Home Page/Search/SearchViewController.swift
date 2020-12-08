@@ -89,6 +89,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
                         post.whichFeed = "helperPosts"
                     }
                     post.completed = false
+                    if let imageURL = dict["image"] as? String {
+                        post.image = imageURL
+                    }
                     tempPosts.append(post)
                 }
             }

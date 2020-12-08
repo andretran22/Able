@@ -38,6 +38,8 @@ class NotificationCell: UITableViewCell {
         comment.text = "\"\(notification.text!)\""
         ImageService.downloadImage(withURL: URL(string: notification.pictureUrl!)!) { image in
             self.commenterImage.image = image
+            self.commenterImage.layer.masksToBounds = true
+            self.commenterImage.layer.cornerRadius = self.commenterImage.bounds.width / 2
         }
     }
     
@@ -178,7 +180,9 @@ class NotificationVC:  UIViewController, UITableViewDelegate, UITableViewDataSou
                 let post = Post(id: postID, userKey: userKey, authorName: authorName, location: location, tags: tags, text: text, timestamp: timestamp, numComments: numComments)
                 post.whichFeed = whichFeed
                 post.completed = completed
-                
+                if let imageURL = dict["image"] as? String {
+                    post.image = imageURL
+                }
                 self.performSegue(withIdentifier: "ToSinglePostSegue", sender: post)
             }
         })

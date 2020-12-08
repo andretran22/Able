@@ -40,6 +40,8 @@ class CommentTableViewCell: UITableViewCell {
                 // retrieve url from firebase
                 ImageService.downloadImage(withURL: URL(string: profileURL)!) { image in
                     self.profilePicImageView.image = image
+                    self.profilePicImageView.layer.masksToBounds = true
+                    self.profilePicImageView.layer.cornerRadius = self.profilePicImageView.bounds.width / 2
                 }
             }
         })
@@ -58,6 +60,7 @@ class PostViewController: UIViewController,
     @IBOutlet weak var tagCollectionView: UICollectionView!
     @IBOutlet weak var textLabel: UILabel!
     @IBOutlet weak var profilePicImageView: UIImageView!
+    @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var commentsTableView: UITableView!
     
     @IBOutlet weak var commentTextField: UITextField!
@@ -78,6 +81,17 @@ class PostViewController: UIViewController,
         commentsTableView.delegate = self
         commentsTableView.dataSource = self
         getUserProfilePic()
+        if (post?.image != nil) {
+            ImageService.downloadImage(withURL: URL(string: post!.image!)!) { image in
+                UIView.transition(with: self.postImageView!,
+                                  duration: 0.75,
+                                  options: .transitionCrossDissolve,
+                                  animations: {
+                                    self.postImageView!.image = image
+                                  },
+                                  completion: nil)
+            }
+        }
         self.fetchComments()
     }
     
@@ -96,6 +110,8 @@ class PostViewController: UIViewController,
                 // retrieve url from firebase
                 ImageService.downloadImage(withURL: URL(string: profileURL)!) { image in
                     self.profilePicImageView.image = image
+                    self.profilePicImageView.layer.masksToBounds = true
+                    self.profilePicImageView.layer.cornerRadius = self.profilePicImageView.bounds.width / 2
                 }
             }
         })

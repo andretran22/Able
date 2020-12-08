@@ -29,6 +29,8 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
     @IBOutlet weak var postTextView: UITextView!
     @IBOutlet weak var postButton: UIButton!
     @IBOutlet weak var errorStatusLabel: UILabel!
+    @IBOutlet weak var postImageView: UIImageView!
+    @IBOutlet weak var removeImageButton: UIButton!
     
     let placeholderText = "Write something here..."
     let tagIdentifier = "CreatePostTagCell"
@@ -36,13 +38,21 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
     var ref: DatabaseReference!
     var location: String = ""
     var tags = [String]()
+    var imageData: Data?
+    var imageURL = ""
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    var imagePicker: UIImagePickerController!
+    var scrollViewOrigHeight: CGFloat = 0
     
     // for editing posts
     var post: Post?
+    var user: AbleUser?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        user = publicCurrentUser
+        scrollViewOrigHeight = scrollView.contentSize.height
         // set up text view properly
         postTextView.delegate = self
         stylePage()
@@ -56,6 +66,67 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
             resetOriginalPostParameters()
         } else {
             useExistingPostParameters()
+        }
+        
+        // Setup imagePicker to change the profile image, profileImage crop
+        initializeProfilePhotoElements()
+    }
+    
+    func initializeProfilePhotoElements() {
+        // initialize imagePicker
+        imagePicker = UIImagePickerController()
+        imagePicker.allowsEditing = true
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        
+        // format profile image display
+//        profileImageView.layer.masksToBounds = true
+//        profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
+    }
+    
+    // change the profile image of the user
+    @IBAction func addImage(_ sender: Any) {
+        present(self.imagePicker, animated: true)
+    }
+    
+    // remove image
+    @IBAction func removeImage(_ sender: Any) {
+        if post != nil && post!.image != nil {
+            let controller = UIAlertController(title: "Image Deletion",
+                                               message: "Are you sure you want to delete your image? (This action cannot be undone.)",
+                                               preferredStyle: .alert)
+            
+            controller.addAction(UIAlertAction(title: "Cancel",
+                                               style: .cancel,
+                                               handler: nil))
+            
+            controller.addAction(UIAlertAction(title: "Delete",
+                                               style: .destructive,
+                                               handler: { (action) in
+                                                // Create a reference to the file to delete
+                                                let imageRef = Storage.storage().reference().child("posts/\(self.post!.whichFeed!)/\(self.post!.id)")
+
+                                                // Delete the file
+                                                imageRef.delete { error in
+                                                  if let error = error {
+                                                    print("error \(error)")
+                                                    // Uh-oh, an error occurred!
+                                                  } else {
+                                                    // File deleted successfully
+                                                    self.removeImageButton.isHidden = true
+                                                    self.postImageView.image = nil
+                                                    self.imageData = nil
+                                                    self.imageURL = ""
+                                                    self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.scrollViewOrigHeight)
+                                                  }
+                                                }
+                                               }))
+            present(controller, animated: true, completion: nil)
+        } else {
+            removeImageButton.isHidden = true
+            postImageView.image = nil
+            imageData = nil
+            scrollView.contentSize = CGSize(width: self.view.frame.width, height: scrollViewOrigHeight)
         }
     }
     
@@ -75,6 +146,12 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
         // clear text and revert back to placeholder text
         postTextView.text = placeholderText
         postTextView.textColor = UIColor.lightGray
+        
+        removeImageButton.isHidden = true
+        postImageView.image = nil
+        
+        errorStatusLabel.isHidden = true
+        collectionViewTags.reloadData()
     }
     
     // apply existing post info to UI elements
@@ -92,12 +169,23 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
         tags = post!.tags!
         
         postTextView.text = post!.text
+        
+        if (post!.image != nil) {
+            ImageService.downloadImage(withURL: URL(string: post!.image!)!) { image in
+                self.postImageView!.image = image
+            }
+            removeImageButton.isHidden = false
+            self.imageURL = post!.image!
+            scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height+100)
+        }
     }
     
     func stylePage() {
         
         ImageService.downloadImage(withURL: URL(string: publicCurrentUser!.profilePicUrl)!) { image in
             self.profilePicImage.image = image
+            self.profilePicImage.layer.masksToBounds = true
+            self.profilePicImage.layer.cornerRadius = self.profilePicImage.bounds.width / 2
         }
         
         // textViewStyle
@@ -162,17 +250,12 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
             errorStatusLabel.text = "Post must have at least one tag"
             errorStatusLabel.isHidden = false
         } else {
-            uploadPost()
-            tags = [String]()
-            postTextView.text = placeholderText
-            postTextView.textColor = UIColor.lightGray
-            errorStatusLabel.isHidden = true
-            collectionViewTags.reloadData()
+            prepareToUploadPost()
         }
     }
     
     // uploads post to firebase in helpPosts or helperPosts
-    func uploadPost() {
+    func prepareToUploadPost() {
         var postRef = Database.database().reference().child("posts")
         
         // delete the post just in case if the user switches feeds
@@ -186,12 +269,14 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
             }
         }
         
+        var whichFeed = "helpPosts"
+        
         // check for which segCtrlFeed
-        if (segCtrlFeed.selectedSegmentIndex == 0) {
-            postRef = postRef.child("helpPosts")
-        } else {
-            postRef = postRef.child("helperPosts")
+        if (segCtrlFeed.selectedSegmentIndex == 1) {
+            whichFeed = "helperPosts"
         }
+        
+        postRef = postRef.child(whichFeed)
         
         // if post is nil, create a new post
         // else, update and overwrite existing post
@@ -201,15 +286,54 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
             postRef = postRef.child(post!.id)
         }
         
-        let postObject = [
+        if postImageView.image != nil {
+            // get storage reference, set metedata
+            guard let key = postRef.key else { return }
+            let storageRef = Storage.storage().reference().child("posts/\(whichFeed)/\(key)")
+            let metaData = StorageMetadata()
+            metaData.contentType = "image/jpg"
+            
+            // insert new image into database
+            storageRef.putData(imageData!, metadata: metaData, completion: { _, error in
+                guard error == nil else {
+                    print("Failed to upload")
+                    return
+                }
+                
+                // get the created url
+                storageRef.downloadURL(completion: {url, error in
+                    guard let url = url, error == nil else {
+                        return
+                    }
+                    
+                    // set local and firebase user url to the new url
+                    let urlString = url.absoluteString
+                    print("downloadURL: \(urlString)")
+                    
+                    self.imageURL = urlString
+                    self.uploadPost(postRef: postRef)
+                })
+            })
+        } else {
+            uploadPost(postRef: postRef)
+        }
+    }
+    
+    func uploadPost(postRef: DatabaseReference) {
+        var postObject = [
             "userKey": publicCurrentUser!.safeEmail,
             "authorName": "\(publicCurrentUser!.firstName!) \(publicCurrentUser!.lastName!)",
             "location": location,
             "tags": tags,
             "text": postTextView.text!,
             "timestamp": [".sv": "timestamp"],
-            "completed": false
+            "completed": false,
+            "image": imageURL
         ] as [String: Any]
+        
+        if imageURL == "" {
+            postObject.removeValue(forKey: "image")
+        }
         
         postRef.setValue(postObject, withCompletionBlock: { error, ref in
             if error == nil {
@@ -250,5 +374,33 @@ class CreatePostVC: UIViewController, UITextViewDelegate,
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(touches, with: event)
+    }
+}
+
+extension CreatePostVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    // dismiss imagePicker when cancel is pressed
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    // gets image from imagePicker and updates/uploads new image to profile picture and Firebase
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // get the image from photolibrary
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+            return
+        }
+        
+        guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
+        
+        // set the profile image to the new image
+        self.imageData = imageData
+        postImageView.image = image
+        
+        scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height+100)
+        
+        removeImageButton.isHidden = false
+        
+        picker.dismiss(animated: true, completion: nil)
     }
 }

@@ -39,6 +39,7 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
     @IBOutlet weak var tagsCollectionView: UICollectionView?
     @IBOutlet weak var numberOfCommentsLabel: UILabel?
     @IBOutlet weak var optionsTableView: UITableView?
+    @IBOutlet weak var postImageView: UIImageView?
     
     // only for review posts
     @IBOutlet weak var ratingLabel: UILabel?
@@ -91,7 +92,13 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
                 optionsTableView?.reloadData()
                 //tagsCollectionView?.reloadData()
             }
-            
+            if (post.image != nil) {
+                ImageService.downloadImage(withURL: URL(string: post.image!)!) { image in
+                    self.postImageView!.image = image
+                    self.postImageView!.layer.masksToBounds = true
+                    self.postImageView!.layer.cornerRadius = 10
+                }
+            }
         }
         
         if (post.numComments != nil) {
@@ -127,6 +134,8 @@ class PostCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDel
                 // retrieve url from firebase
                 ImageService.downloadImage(withURL: URL(string: profileURL)!) { image in
                     self.profileImageView.image = image
+                    self.profileImageView.layer.masksToBounds = true
+                    self.profileImageView.layer.cornerRadius = self.profileImageView.bounds.width / 2
                 }
             }
         })
