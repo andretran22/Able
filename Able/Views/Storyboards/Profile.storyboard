@@ -1369,6 +1369,9 @@
                                                     <state key="normal" title="John Doe">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="nameClicked:" destination="Ii6-lB-taa" eventType="touchUpInside" id="PNw-7I-8YH"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Austin, TX" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XDo-vi-Y1X" userLabel="Location Label">
                                                     <rect key="frame" x="222" y="15" width="106" height="15"/>
