@@ -43,6 +43,8 @@ class SignupVC: UITableViewController, ChangeLocation{
         confirmPassField.text = ""
         displayError.text = ""
         displayError.isHidden = true
+        location = ""
+        locationButton.setTitle("Choose a Location", for: .normal)
     }
     
     // segue to location view controller to select list of default locations

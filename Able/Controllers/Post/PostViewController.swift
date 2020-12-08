@@ -81,6 +81,9 @@ class PostViewController: UIViewController,
         commentsTableView.delegate = self
         commentsTableView.dataSource = self
         getUserProfilePic()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         if (post?.image != nil) {
             ImageService.downloadImage(withURL: URL(string: post!.image!)!) { image in
                 UIView.transition(with: self.postImageView!,
@@ -93,8 +96,19 @@ class PostViewController: UIViewController,
             }
         } else {
             // remove the postImageView
+            postImageView.removeFromSuperview()
+            commentsTableView.frame.origin.y = 280
+            commentsTableView.frame.size.height = 467
         }
         self.fetchComments()
+    }
+    
+    @objc func keyboardWillShow(sender: NSNotification) {
+         self.view.frame.origin.y = -250 // Move view 150 points upward
+    }
+
+    @objc func keyboardWillHide(sender: NSNotification) {
+         self.view.frame.origin.y = 0 // Move view to original position
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -201,6 +215,7 @@ class PostViewController: UIViewController,
             print("Comment cannot be empty")
         } else {
             uploadComment()
+            view.endEditing(true)
         }
     }
     
@@ -322,4 +337,5 @@ class PostViewController: UIViewController,
         view.endEditing(true)
         super.touchesBegan(touches, with: event)
     }
+    
 }

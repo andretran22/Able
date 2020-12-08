@@ -324,4 +324,10 @@ extension ProfileVC {
             view.isHidden = hidden
         })
     }
+    
+    // This closes the keyboard when touch is detected outside of the keyboard
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
+    }
 }
